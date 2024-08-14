@@ -224,55 +224,55 @@
 
     setInterval(() => {
             fetch(
-              `https://api-v2.nextcounts.com/api/instagram/user/${id2}`
+              `https://livecounts.xyz/api/instagram-live-follower-count/live/${id2}`
             )
               .then((res) => res.json())
               .then((data) => {
-                  db.subs2.push(data.followers);
+                  db.subs2.push(data.counts[0]);
                   let change2 = calcGain(db.subs2, 1);
                             if (chart2.series[0].points.length == 1500) chart2.series[0].data[0].remove();
                             chart2.series[0].addPoint([Date.now(), data.followers])
                   if (chart3.series[0].points.length == 1500) chart3.series[0].data[0].remove();
-                  chart3.series[0].addPoint([Date.now(), (data.followers - subs)])
+                  chart3.series[0].addPoint([Date.now(), (data.counts[0] - subs)])
             });
                 }, 2000);
 
     setInterval(() => {
     fetch(
-      `https://api-v2.nextcounts.com/api/instagram/user/${id5}`
+      `https://livecounts.xyz/api/instagram-live-follower-count/live/${id5}`
     )
       .then((res) => res.json())
       .then((data) => {
-            db.subs3.push(data.followers);
+            db.subs3.push(data.counts[0]);
             let change3 = calcGain(db.subs3, 1);
                     if (chart4.series[0].points.length == 1500) chart4.series[0].data[0].remove();
-                    chart4.series[0].addPoint([Date.now(), data.followers])
+                    chart4.series[0].addPoint([Date.now(), data.counts[0]])
     });
         }, 2000);
 
     setInterval(() => {
     fetch(
-      `https://api-v2.nextcounts.com/api/instagram/user/${id6}`
+      `https://livecounts.xyz/api/instagram-live-follower-count/live/${id6}`
     )
       .then((res) => res.json())
       .then((data) => {
-            db.subs4.push(data.followers);
+            db.subs4.push(data.counts[0]);
             let change4 = calcGain(db.subs4, 1);
                     if (chart5.series[0].points.length == 1500) chart5.series[0].data[0].remove();
-                    chart5.series[0].addPoint([Date.now(), data.followers])
+                    chart5.series[0].addPoint([Date.now(), data.counts[0]])
     });
         }, 2000);
 
     setInterval(() => {
     fetch(
-      `https://api-v2.nextcounts.com/api/instagram/user/${id7}`
+      `https://livecounts.xyz/api/instagram-live-follower-count/live/${id7}`
     )
       .then((res) => res.json())
       .then((data) => {
-            db.subs5.push(data.followers);
+            db.subs5.push(data.counts[0]);
             let change5 = calcGain(db.subs5, 1);
                     if (chart6.series[0].points.length == 1500) chart6.series[0].data[0].remove();
-                    chart6.series[0].addPoint([Date.now(), data.followers])
+                    chart6.series[0].addPoint([Date.now(), data.counts[0]])
     });
         }, 2000);
     
