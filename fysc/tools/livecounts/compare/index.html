@@ -1,0 +1,117 @@
+<html>
+
+<head>
+    <title>HuntingStats378 - Compare</title>
+    <link href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css" rel="stylesheet">
+    <link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+    <meta charSet="utf-8" />
+    <meta name="description" content="HuntingStats378 - Compare" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+</head>
+
+<body style="font-family: Roboto; color: var(--fg-color, #fff); background-color: var(--bg-color, #E7541E);">
+    <div style="height: auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+        <div style="padding: 0px 4px; text-align: center; background-color: var(--counter-bg-color, black);">
+            <img id="banner1" style="filter: blur(4px); border-radius: 15px; object-fit: cover; width: 100%; height: 150px; position: relative;" src="https://huntingstats378.github.io/HuntingStats378/main/images/default_banner.png">
+            <img id="image1" style="width: 125px; height: 125px; border-radius: 50%; margin-top: -5em; position: relative;" src="https://huntingstats378.github.io/HuntingStats378/main/images/default.png">
+            <h2 id="name1" onclick="search1()" style="margin-top: 1px; font-size: var(--title-font-size, 4.5vh)">Loading</h2>
+            <h2 id="subs1" style="margin-top: -20px; font-size: var(--counter-font-size, 8vh)" class="odometer">0</h2>
+            <h5 id="footer1" style="margin-top: -40px;">Subscribers (From FYSC)</h5>
+        </div>
+        <div style="height: auto; padding: 0px 4px; text-align: center; background-color: var(--counter-bg-color, black);">
+            <img id="banner2" style="filter: blur(4px); border-radius: 15px; object-fit: cover; width: 100%; height: 150px; position: relative;" src="https://huntingstats378.github.io/HuntingStats378/main/images/default_banner.png">
+            <img id="image2" style="width: 125px; height: 125px; border-radius: 50%; margin-top: -5em; position: relative;" src="https://huntingstats378.github.io/HuntingStats378/main/images/default.png">
+            <h2 id="name2" onclick="search2()" style="margin-top: 1px; font-size: var(--title-font-size, 4.5vh)">Loading</h2>
+            <h2 id="subs2" style="margin-top: -20px; font-size: var(--counter-font-size, 8vh)" class="odometer">0</h2>
+            <h5 id="footer2" style="margin-top: -40px;">Subscribers (From FYSC)</h5>
+        </div>
+    </div>
+    <center>
+        <div style="width: 100%; height: 100px; background-color: var(--counter-bg-color, black); border-radius: 20px;">
+            <h1>Gap:</h1>
+            <h1 id="gap" class="odometer" style="margin-top: -15px">0</h1>
+        </div>
+    </center>
+    <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+    <script>
+        const searchParams = new URLSearchParams(window.location.search);
+        const id1 = searchParams.get("id1") || "UCoH56JoGy1Lje2LgojRneSA";
+        const id2 = searchParams.get("id2") || "UClOyuxZvQkoHoIn15kNbkUw";
+        let num1
+        let num2
+
+        setInterval(() => {
+                    fetch(`https://api.lcedit.com/cbb90f54-7235-9fdb-b2af-51c098f0f569/${id1}/user`).then((res) => res.text()).then((data) => {
+                      const regex1 = /\b\d{1,3}(?:,\d{3})*\b/;
+                      const match1 = data.match(regex1);
+                      const num1 = match1[0].replace(/,/g, '');
+                        console.log(num1);
+
+                        document.getElementById("subs1").innerHTML = num1;
+                                        });
+                        }, 2000);
+
+        setInterval(() => {
+            fetch(`https://api.lcedit.com/cbb90f54-7235-9fdb-b2af-51c098f0f569/${id2}/user`).then((res) => res.text()).then((data) => {
+              const regex2 = /\b\d{1,3}(?:,\d{3})*\b/;
+              const match2 = data.match(regex2);
+              const num2 = match2[0].replace(/,/g, '');
+                console.log(num2);
+
+                document.getElementById("subs2").innerHTML = num2;
+                document.getElementById("gap").innerHTML =
+                            num1 - num2;
+                                });
+                }, 2000);
+
+                setInterval(() => {
+                    fetch(
+                        `https://mixerno.space/api/youtube-channel-counter/user/${id1}`
+                    )
+                    .then((res) => res.json())
+                    .then((data) => {
+                    document.getElementById("banner1").src = `https://banner.yt/${id1}`;
+                    document.getElementById("image1").src = data.user[1].count;
+                    document.getElementById("name1").textContent = data.user[0].count;
+                                            });
+                            }, 2000);
+
+                setInterval(() => {
+                        fetch(
+                            `https://mixerno.space/api/youtube-channel-counter/user/${id2}`
+                        )
+                        .then((res) => res.json())
+                        .then((data) => {
+                            document.getElementById("banner2").src = `https://banner.yt/${id2}`;
+                            document.getElementById("image2").src = data.user[1].count;
+                            document.getElementById("name2").textContent = data.user[0].count;
+                        });
+        }, 2000);
+
+        function search1() {
+            const prompt = window.prompt("Enter channel name, ID, or URL.");
+            if (prompt)
+                fetch(
+                    `https://axern.space/api/search?platform=youtube&type=channel&query=${prompt}`
+                )
+                .then((res) => res.json())
+                .then((date1) => {
+                    searchParams.set("id1", date1[0].id)
+                    window.location.href = "?" + searchParams.toString()
+                });
+        }
+
+        function search2() {
+            const prompt = window.prompt("Enter channel name, ID, or URL.");
+            if (prompt)
+                fetch(
+                    `https://axern.space/api/search?platform=youtube&type=channel&query=${prompt}`
+                )
+                .then((res) => res.json())
+                .then((date2) => {
+                    searchParams.set("id2", date2[0].id)
+                    window.location.href = "?" + searchParams.toString()
+                });
+        }
+    </script>

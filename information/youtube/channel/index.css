@@ -1,0 +1,90 @@
+body {
+    background-color: black;
+    font-family: Lato, Arial, Helvetica, sans-serif;
+    color: #FFF;
+}
+
+a {
+    color: #FFF;
+    text-decoration: none;
+}
+
+h1 {
+    background-color: #141414;
+    border: solid #E65724;
+    font-size: 2vw;
+}
+
+.options {
+    width: 100%;
+    text-align: center;
+    display: flex;
+}
+
+button {
+    font-size: 1.8vw;
+}
+
+.title {
+   font-size: 5vw; 
+}
+
+.navbar {
+  font-family: arial;
+  font-weight: 700;
+  color: white;
+  font-size: 3.5vw;
+}
+
+.navbar ul {
+  list-style-type: none;
+  background-color: #141414;
+  border: solid #E65724;
+  padding: 0px;
+  margin: 0px;
+  overflow: hidden;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: underline;
+  padding: 1vw;
+  display: block;
+  text-align: center;
+}
+
+.navbar img {
+  color: white;
+  text-decoration: none;
+  padding: 1vw;
+  display: block;
+  text-align: center;
+  width: 5vw;
+  height: 5vw;
+}
+
+.navbar a:hover {
+  background-color: white;
+  color: black;
+}
+
+.navbar li {
+  float: left;
+}
+
+#date {
+  font-size: 1.1vw;
+  text-align: center;
+}
+
+#time {
+  font-size: 3.6vw;
+  text-align: center;
+}
+
+div, .left {
+    text-align: left
+}
+h3 {
+    margin:0
+}

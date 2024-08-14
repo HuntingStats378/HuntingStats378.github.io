@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>HuntingStats378 - Channel Information</title>
+  <link rel="icon" href="../../main/images/logo.png">
+  <link rel=stylesheet href="./index.css">
+  <link rel=stylesheet href="../../../main/assets/ess/odometer1s.css">
+  <script src="../../../main/assets/ess/odometerleading.js"></script>
+  </head>
+<body>
+  <nav class="navbar">
+    <ul>
+      <li><a href="../">Back</a></li>
+    </ul>
+  </nav>
+  <h1>YouTube Channel Information</h1>
+        <div id="main" style="border: solid #E65724; padding: 12px; background-color: #141414;">
+          <h3 onclick="search()">Click To Change Channel</h3><br>
+          <li id="name">Profile Name: error</li>
+          <li id="id">Profile ID: error</li>
+          <li id="image">Profile Picture: error</li>
+          <li id="banner">Profile Banner: error</li>
+        </div>
+    </body>
+</html>
+    <script>
+        const searchParams = new URLSearchParams(window.location.search);
+        const id = searchParams.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
+
+        fetch(
+                    `https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id}`
+                )
+                .then((res) => res.json())
+                .then((data) => {
+                    document.getElementById("banner").textContent = `Profile Banner: https://banner.yt/${id}`;
+                    document.getElementById("image").textContent = `Profile Picture: ${data.snippet.thumbnails.high.url}`;
+                    document.getElementById("name").textContent = `Profile Name: ${data.snippet.title}`;
+                  document.getElementById("id").textContent = `Profile ID: ${id}`;
+                });
+        
+        function search() {
+            const prompt = window.prompt("Enter channel name, ID, or URL.");
+            if (prompt)
+                fetch(
+                    `https://axern.space/api/search?platform=youtube&type=channel&query=${prompt}`
+                )
+                .then((res) => res.json())
+                .then((date) => {
+                    searchParams.set("id", date[0].id)
+                    window.location.href = "?" + searchParams.toString()
+                });
+        }
+    </script>

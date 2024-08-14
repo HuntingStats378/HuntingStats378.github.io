@@ -1,0 +1,38 @@
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+<link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer1s.css">
+<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometerleading.js"></script>
+<body>
+  <span id="hours" class="odometer">00</span><span>:</span><span id="minutes" class="odometer">00</span><span>:</span><span id="seconds" class="odometer">00</span>
+</body>
+<style>
+  body {
+    background-color: transparent;
+    font-size: 100px;
+    font-family: Roboto;
+    text-align: center;
+    font-weight: 700;
+    color: black;
+  }
+  
+</style>
+<script>
+  const odometers = document.querySelectorAll(".odometer");
+        for (const odo of odometers) {
+          new Odometer({
+            el: odo,
+            format: "(,ddd)",
+            minIntegerLen: 2,
+          });
+        }
+
+  function clock() {
+         const d = new Date();
+         var tHour = d.getHours();
+         var tMinute = d.getMinutes();
+         var tSecond = d.getSeconds();
+    document.getElementById("hours").innerHTML = tHour;
+    document.getElementById("minutes").innerHTML = tMinute;
+    document.getElementById("seconds").innerHTML = tSecond;
+     }
+  setInterval(clock, 0);
+</script>
