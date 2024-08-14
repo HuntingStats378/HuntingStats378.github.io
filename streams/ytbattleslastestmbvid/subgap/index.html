@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+  <head>
+    <title>Counter</title>
+    <meta name="author" content="Combined_Count">
+    <script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap" rel="stylesheet">
+    <link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css">
+    <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+    <link rel="stylesheet" href="https://huntingstats378.github.io/HuntingStats378/main/assets/css/embed.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
+  <body>
+      <span id="count" style="color: white" class="odometer">0</span>
+  </body>
+    <style>
+
+      body {
+        background-color: transparent;
+        font-size: 80pt;
+        font-family: Roboto;
+        font-weight: 800;
+        text-align: right;
+      }
+    </style>
+
+        <script>
+          const params1 = new URLSearchParams(window.location.search);
+          const id1 = params1.get("id1") || "UCq-Fj5jknLsUf-MWSy4_brA";
+          const params2 = new URLSearchParams(window.location.search);
+          const id2 = params2.get("id2") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
+
+          setInterval(() => {
+            fetch(
+              `https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id1}`
+            )
+              .then((res) => res.json())
+              .then((data1) => {
+                fetch(
+                  `https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id2}`
+                )
+                  .then((res) => res.json())
+                  .then((data2) => {
+                    document.getElementById("count").innerHTML =
+                      data1.estSubCount - data2.estSubCount;
+                  });
+              });
+          }, 2000);
+        </script>

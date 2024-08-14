@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<title>Main Counters</title>
+<link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+<meta charSet="utf-8" />
+<meta name="description"
+    content="HuntingStats378's Website" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:image" content="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,600,700" rel="stylesheet">
+  <link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css">
+  <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+</head>
+<body>
+    <div><span id="subs1" class="odometer">0</span></div>
+    <div class="right"><span id="subs2" class="odometer">0</span></div>
+    <div><span id="gap" class="odometer">0</span></div>
+    <div><span id="views1" class="odometer">0</span></div>
+    <div id="v1"><span id="views2" class="odometer">0</span></div>
+    <div id="mb">
+        <div><span id="mbday" class="average odometer">0</span></div>
+        <div><span id="mbhr" class="average odometer">0</span></div>
+        <div><span id="mbmin" class="average odometer">0</span>
+        </div>
+    </div>
+    <div id="ig"><span id="igplace">#15</span>
+    </div>
+    <div><span id="subs3" class="odometer">0</span></div>
+    <div><span id="subs4" class="odometer">0</span></div>
+    <div id="img"><img id="image1" src="https://huntingstats378.github.io/HuntingStats378/main/images/default.png">
+    <img id="image2" src="https://huntingstats378.github.io/HuntingStats378/main/images/default.png"></div>
+    <div id=name><span id="name1">Loading</span><br>
+        <div id=nam><span id="name2">Loading</span></div></div>
+    <div id=username><span id="username1">@loading</span><br>
+    <div id=usernam><span id="username2">@loading</span></div></div>
+</body>
+<style>
+    body {
+        padding: 0px;
+        font-weight: 700;
+        font-family: Roboto;
+        color: white;
+        background-color: transparent;
+    }
+
+    #ape1 {
+        text-align: right;
+    }
+
+    #subs1 {
+        font-size: 90px;
+        margin-top: 95px;
+        margin-left: 15px;
+    }
+
+    #subs2 {
+        font-size: 90px;
+        margin-top: -140px;
+        margin-right: 15px;
+    }
+
+
+
+    #gap {
+        font-weight: 800;
+        font-size: 35px;
+        margin-top: 145px;
+        margin-left: 733px;
+        color: white;
+    }
+
+    #views1 {
+        font-weight: 400;
+        font-size: 20px;
+        margin-top: -695px;
+        margin-left: 140px;
+        color: white;
+    }
+
+    #views2 {
+        font-weight: 400;
+        font-size: 20px;
+        margin-top: -705px;
+        margin-left: 688px;
+        color: white;
+    }
+
+    #v1 {
+        margin-top: -14px;
+    }
+
+    #mb {
+        margin-top: -442px;
+        margin-left: 375px;
+    }
+
+    #mbday,
+    #mbmin,
+    #igplace {
+        margin-left: 15px;
+    }
+
+    #ig {
+        margin-top: -93px;
+        margin-left: 945px;
+        font-size: 78px;
+    }
+
+    #subs3 {
+        font-size: 85px;
+        margin-top: 280px;
+        margin-left: 0px;
+    }
+
+    #subs4 {
+        font-size: 23px;
+        margin-top: -7px;
+        margin-left: 207px;
+    }
+
+    #image1 {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+    }
+
+    #image2 {
+        width: 100px;
+        height: 100px;
+        margin-left: 444px;
+        border-radius: 50%;
+    }
+
+    #img {
+        margin-top: -510px;
+    }
+
+    #name {
+        margin-top: -100px;
+    }
+
+    #nam {
+        margin-top: -25px;
+    }
+    
+    #name1 {
+        margin-left: 105px;
+        font-size: 20px;
+    }
+    
+    #name2 {
+        margin-left: 653px;
+        font-size: 20px;
+    }
+
+    #username {
+        margin-top: 13px;
+    }
+
+    #usernam {
+        margin-top: -20px;
+    }
+
+    #username1 {
+        margin-left: 105px;
+        font-size: 15px;
+    }
+
+    #username2 {
+        margin-left: 653px;
+        font-size: 15px;
+    }
+    
+    .center {
+        text-align: center;
+    }
+
+    .right {
+        text-align: right;
+    }
+
+    .average {
+        color: #7ED957;
+        font-size: 23px;
+    }
+</style>
+<script>
+    const urlParams3 = new URLSearchParams(window.location.search);
+    var id3 = urlParams3.get("id3") || "UClOyuxZvQkoHoIn15kNbkUw";
+    const urlParams4 = new URLSearchParams(window.location.search);
+    var id4 = urlParams4.get("id4") || "UCVfKmfOY5SWfx_rt51oG92Q";
+
+    setInterval(() => {
+        fetch(
+            "numbers.json"
+          )
+            .then((res) => res.json())
+            .then((datr) => {
+                const id1 = datr.one
+                const id2 = datr.two
+                fetch(
+                    `https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id1}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          fetch(
+            `https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id2}`
+          )
+            .then((res) => res.json())
+            .then((date) => {
+                fetch(
+                    `https://api.communitrics.com/mrbeaststats`
+                  )
+                    .then((res) => res.json())
+                    .then((dataa) => {
+                                                document.getElementById("image1").src = data.snippet.thumbnails.high.url;
+                                                document.getElementById("image2").src = date.snippet.thumbnails.high.url;
+                                                document.getElementById("name1").textContent = data.snippet.title;
+                                        document.getElementById("name2").textContent = date.snippet.title;
+                            document.getElementById("username1").textContent = data.snippet.customUrl;
+                            document.getElementById("username2").textContent = "@nohandle";
+                        document.getElementById("igplace").textContent = `#${datr.place}`;
+          
+document.getElementById("subs1").innerHTML = data.estSubCount;
+              document.getElementById("subs2").innerHTML = date.estSubCount;
+                document.getElementById("gap").innerHTML = data.estSubCount - date.estSubCount;
+                document.getElementById("views1").innerHTML = data.estViewCount;
+                  document.getElementById("views2").innerHTML = date.estViewCount;
+                            document.getElementById("mbday").innerHTML = (dataa.averageSubscribersGainedPerDay / 1);
+                            document.getElementById("mbhr").innerHTML = (dataa.averageSubscribersGainedPerDay / 24);
+                            document.getElementById("mbmin").innerHTML = (dataa.averageSubscribersGainedPerDay / 1440);
+        });
+          });
+        });
+          });
+              }, 2000);
+
+    setInterval(() => {
+          fetch(
+            `https://api-v2.nextcounts.com/api/youtube/channel/${id3}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              fetch(
+                `https://api-v2.nextcounts.com/api/youtube/channel/${id4}`
+              )
+                .then((res) => res.json())
+                .then((date) => {
+                    document.getElementById("subs3").innerHTML = data.subcount;
+                    document.getElementById("subs4").innerHTML = date.subcount;
+            });
+              });
+                  }, 2000);
+</script>

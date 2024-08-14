@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<title>Main Counters</title>
+<link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+<meta charSet="utf-8" />
+<meta name="description"
+    content="HuntingStats378's Website" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:image" content="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css">
+  <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+</head>
+<body>
+  <div id="main1">
+    <div class="progress">
+      <div id="bar"></div>
+    </div>
+    <div id="num1">200,000,000</div>
+    <div id="num2">201,000,000</div><div id="next1"><span id="goal1" class="odometer">0</span></div><span id="api1">000</span><span id="m1">M</span> <span id="views1" class="odometer">0</span><span id="viewtext1"> views</span>
+    </div>
+  <span id="subs1" class="odometer">0</span>
+  <div id="main2"> <div class="progress2">
+    <div id="bar2"></div>
+  </div>
+    <div id="num3">200,000,000</div>
+      <div id="num4">201,000,000</div><div id="next2"><span id="goal2" class="odometer">0</span></div><span id="api2">000</span><span id="m2">M</span> <span id="views2" class="odometer">0</span><span id="viewtext2"> views</span>
+      </div>
+    <span id="subs2" class="odometer">0</span>
+  </div>
+</body>
+<style>
+  body {
+    margin: 0;
+    background-color: transparent;
+    color: white;
+  }
+
+  .progress {
+    width: 100%;
+    border-radius: 25px;
+  }
+
+  .progress2 {
+    width: 100%;
+    border-radius: 25px;
+    margin-top: 2px;
+  }
+
+  #bar,
+  #bar2 {
+    transition: width 1s;
+    width: 0%;
+    height: 5pt;
+    background-color: white;
+    border-radius: 25px;
+  }
+
+  #num1,
+  #num2,
+  #num3,
+  #num4 {
+    margin-top: 0px;
+    font-family: "Roboto", sans-serif;
+    font-size: 10px;
+    color: white;
+  }
+
+  #num1,
+  #num3 {
+    position: absolute;
+    margin-left: 80px
+  }
+
+  #num2,
+  #num4 {
+    text-align: right;
+  }
+
+  #goal1, #goal2 {
+    color: yellow;
+    text-align: left;
+    font-size: 23px;
+    font-weight: 700;
+    font-family: Roboto;
+    margin-left: 235px;
+  }
+
+  #api1, #api2 {
+    margin-left: 85px;
+  }
+  
+  #api1, #m1, #api2, #m2 {
+    text-align: left;
+    font-size: 19px;
+    font-weight: 400;
+    font-family: Roboto;
+  }
+
+#views1, #views2 {
+    color: yellow;
+    text-align: left;
+    font-size: 22px;
+    font-weight: 700;
+    font-family: Roboto;
+  }
+
+  #viewtext1, #viewtext2 {
+    text-align: left;
+    font-size: 20px;
+    font-weight: 400;
+    font-family: Roboto;
+    margin-top: 15px;
+  }
+
+  #subs1, #subs2 {
+    text-align: left;
+    font-size: 110px;
+    font-weight: 700;
+    font-family: Roboto;
+    margin-top: -5px;
+  }
+
+  #mysubs1 {
+    text-align: left;
+    font-size: 75px;
+    font-weight: 700;
+    font-family: Roboto;
+    margin-top: 2px;
+  }
+
+  #clock {
+    text-align: left;
+    font-size: 40px;
+    font-weight: 700;
+    font-family: Roboto;
+    margin-top: -99px;
+    margin-left: 278px;
+  }
+
+  #myviews1 {
+    text-align: left;
+    font-size: 30px;
+    font-weight: 400;
+    font-family: Roboto;
+    margin-top: 55px;
+    margin-left: 22px;
+  }
+
+  #mysubs2 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 400;
+    font-family: Roboto;
+    margin-top: 55px;
+    margin-left: 33px;
+  }
+
+  #mylikes {
+    text-align: left;
+    font-size: 40px;
+    font-weight: 700;
+    font-family: Roboto;
+    margin-top: -20px;
+    margin-left: 87px;
+  }
+  
+  #mysubs3 {
+    text-align: left;
+    font-size: 30px;
+    font-weight: 400;
+    font-family: Roboto;
+    margin-bottom: -130px;
+    margin-left: -285px;
+  }
+
+  #myviewers {
+    text-align: left;
+    font-size: 30px;
+    font-weight: 400;
+    font-family: Roboto;
+    margin-bottom: -130px;
+    margin-left: 127px;
+  }
+
+  #myviews2 {
+    text-align: left;
+    font-size: 40px;
+    font-weight: 700;
+    font-family: Roboto;
+    margin-bottom: -111px;
+    margin-left: 87px;
+  }
+</style>
+<script>
+  const urlParams1 = new URLSearchParams(window.location.search);
+  var id1 = urlParams1.get("id1") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
+  var elem1 = document.getElementById("bar");
+  const urlParams2 = new URLSearchParams(window.location.search);
+  var id2 = urlParams2.get("id2") || "UCq-Fj5jknLsUf-MWSy4_brA";
+  var elem2 = document.getElementById("bar2");
+  const urlParams3 = new URLSearchParams(window.location.search);
+  var id3 = urlParams3.get("id3") || "UClOyuxZvQkoHoIn15kNbkUw";
+  const urlParams4 = new URLSearchParams(window.location.search);
+  var id4 = urlParams4.get("id4") || "UCVfKmfOY5SWfx_rt51oG92Q";
+
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  function abbreviate(count) {
+		count = count.toString();
+		var first3 = count.slice(0, 3);
+		var last = count.slice(3);
+		var abbr = new Array(last.length).fill(0).join("");
+		return parseFloat(first3 + abbr);
+  }
+
+  function GetGoal2(num) {
+    var count = parseFloat(num);
+    var t = parseFloat(num);
+    if (count == null) return 0;
+    if (10 > t) return 10;
+    var e = "" + t;
+    return e.length > 6
+      ? 1e6 * (Math.floor(t / 1e6) + 1)
+      : (parseInt(e.charAt(0)) + 1) * Math.pow(10, e.length - 1);
+  }
+
+  function calcRange(count) {
+    let curMilestone = abbreviate(count);
+		let nextMilestone = GetGoal2(curMilestone);
+    let current = count - curMilestone;
+		let percent = (current / (nextMilestone - curMilestone)) * 100;
+    return percent
+  }
+  
+  function NextMillion(count2) {
+    var count = parseFloat(count2);
+    var t = parseFloat(count2);
+    if (count == null) return 0;
+    if (10 > t) return 10 - t;
+    var e = "" + t;
+    return Math.abs(
+      t -
+        (e.length > 6
+          ? 1e6 * (Math.floor(t / 1e6) + 1)
+          : (parseInt(e.charAt(0)) + 1) * Math.pow(10, e.length - 1))
+    );
+  }
+
+setInterval(() => {
+  fetch(
+    `https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id1}`
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      fetch(
+        `https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id2}`
+      )
+        .then((res) => res.json())
+        .then((date) => {
+      document.getElementById("goal1").innerHTML = NextMillion(data.estSubCount);
+      document.getElementById("api1").innerHTML = (data.apiSubCount / 1000000);
+      document.getElementById("views1").innerHTML = data.estViewCount;
+          document.getElementById("subs1").innerHTML = data.estSubCount;
+          document.getElementById("goal2").innerHTML = NextMillion(date.estSubCount);
+          document.getElementById("api2").innerHTML = (date.apiSubCount / 1000000);
+          document.getElementById("views2").innerHTML = date.estViewCount;
+              document.getElementById("subs2").innerHTML = date.estSubCount;
+      
+          elem1.style.width = calcRange(data.estSubCount) + "%";
+      document.getElementById("num1").textContent = numberWithCommas(
+        abbreviate(data.estSubCount)
+      );
+      document.getElementById("num2").textContent = numberWithCommas(
+        GetGoal2(data.estSubCount)
+      );
+
+          elem2.style.width = calcRange(date.estSubCount) + "%";
+
+          document.getElementById("num3").textContent = numberWithCommas(
+            abbreviate(date.estSubCount)
+          );
+          document.getElementById("num4").textContent = numberWithCommas(
+            GetGoal2(date.estSubCount)
+          );
+          });
+      });
+          }, 2000);
+</script>

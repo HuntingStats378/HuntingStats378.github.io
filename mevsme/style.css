@@ -1,0 +1,245 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    --background: #282828;
+    --header-background: #1f1f1f;
+    --text-primary: white;
+    --text-secondary: #aaa;
+    --font-size: 72px;
+    --digit-width: 38px;
+    --non-digit-width: 12px;
+    --digit-height: 74px;
+    --line-height: 100%;
+    --font-weight: 700;
+}
+
+::-webkit-scrollbar {
+    width: 16px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 4px solid transparent;
+    background: #606060;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #909090;
+    background-clip: content-box;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text-primary);
+}
+
+#image1,
+#image2 {
+    position: absolute;
+    top: 119px;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    border: 8px solid var(--background);
+    border-radius: 50%;
+}
+
+#name1,
+#name2 {
+    width: 100%;
+    height: 24px;
+    margin-top: 50px;
+    text-align: center;
+    font-family: "Roboto", "Noto", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+#subs1,
+#subs2 {
+    margin-top: 50px;
+    text-align: center;
+    font-family: "Roboto", "Noto", sans-serif;
+    font-weight: bold;
+    font-size: var(--font-size);
+}
+
+#footer1,
+#footer2 {
+    text-align: center;
+    font-family: "Roboto", "Noto", sans-serif;
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    font-size: 18px;
+    color: var(--text-secondary);
+}
+
+
+.chart-area {
+    position: relative;
+    width: 100%;
+    height: 40%;
+}
+
+.chart-text-area {
+    position: relative;
+    width: 70%;
+    left: 15.8%;
+}
+
+.channel-growth-label {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    font-size: 15px;
+    line-height: 24px;
+    margin-left: -20%;
+    margin-top: 66px;
+    padding-top: 12px;
+    text-align: left;
+}
+
+.last-growth-label {
+    font-family: "Roboto", "Noto", sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 0.011em;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--text-secondary);
+    padding-top: 2px;
+    margin-left: -122%;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background-color: #1f1f1f;
+    height: 118px;
+}
+
+.icon-container {
+    position: absolute;
+    width: 200px;
+    height: 30px;
+    top: 29px;
+    left: 50%;
+    text-align: center;
+    margin-right: 0;
+    transform: translate(-50%, -50%);
+}
+
+.icon-container2 {
+    fill: #aaa;
+}
+
+.yt-icon {
+    width: 100%;
+    height: 100%;
+    fill: #fff;
+}
+
+.other2 {
+    display: grid;
+    grid-template-columns: 21fr 2fr 2fr;
+}
+
+.svg1 {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.svg2 {
+    display: block;
+    height: 24px;
+    margin-top: 16px;
+    margin-left: -2px;
+    cursor: pointer;
+}
+
+.svg3 {
+    display: block;
+    height: 24px;
+    margin-top: 14px;
+    margin-left: -5px;
+}
+
+.svg4 {
+    display: block;
+    height: 24px;
+    margin-top: 14px;
+    fill: #aaa;
+    margin-left: -5px;
+}
+
+.svg5 {
+    display: block;
+    height: 24px;
+    margin-top: 5px;
+    fill: #aaa;
+    margin-left: -45px;
+    border: solid rgba(170, 170, 170, .2) .1px;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.live {
+    font-family: Roboto, Noto, sans-serif;
+    font-weight: lighter;
+    font-size: 13px;
+    line-height: 20px;
+    color: #aaa;
+    margin-top: 1px;
+    margin-left: 4px;
+}
+
+#dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #41b4d9;
+    display: inline-block;
+    margin-right: 8px;
+    margin-left: 8px;
+}
+
+hr {
+    border: 0;
+    height: .5px;
+    background: rgba(0, 0, 0, .1);
+}
+
+.hr2 {
+    border: 0;
+    height: 1px;
+    background: #000;
+}
+
+.sub-header {
+    display: flex;
+    margin-top: 16px;
+}
+
+#updating-dot {
+    margin-left: 28px;
+}
+
+textarea {
+    width: 75%;
+}
+
+.svg2,
+.svg3 {
+    cursor: pointer;
+}

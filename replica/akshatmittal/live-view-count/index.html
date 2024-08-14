@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="fragment" content="!" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, user-scalable=no">
+    <meta name="monetization" content="$ilp.uphold.com/xBWda4QH423A" />
+    <link rel="shortcut icon" type="image/png" href="https://gh.akshatmittal.com/youtube-realtime/assets/images/icon.png">
+    <link rel="icon" type="image/png" href="https://gh.akshatmittal.com/youtube-realtime/assets/images/icon.png">
+    <title>Live YouTube View Count — YouTube Realtime</title>
+
+    <link rel="canonical" href="https://gh.akshatmittal.com/youtube-realtime/live-view-count/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@iakshatmittal" />
+    <meta name="twitter:title" content="Live YouTube View Count — YouTube Realtime" />
+    <meta name="twitter:description"
+        content="YouTube Realtime is the easiest way to see the live view count for any YouTube Video on the planet! Simply enter the video name, url, or ID and you are good to go!" />
+    <meta name="twitter:creator" content="@iakshatmittal" />
+    <meta name="twitter:image" content="https://gh.akshatmittal.com/youtube-realtime/assets/images/sharing.png?v=1" />
+    <meta property="og:title" content="Live YouTube View Count — YouTube Realtime" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://gh.akshatmittal.com/youtube-realtime/live-view-count/" />
+    <meta property="og:image" content="https://gh.akshatmittal.com/youtube-realtime/assets/images/sharing.png?v=1" />
+    <meta property="og:description"
+        content="YouTube Realtime is the easiest way to see the live view count for any YouTube Video on the planet! Simply enter the video name, url, or ID and you are good to go!" />
+    <meta property="og:site_name" content="Akshat Mittal" />
+    <meta property="fb:admins" content="100000581280466" />
+    <meta property="fb:app_id" content="1473140929606808" />
+    <meta property="article:author" content="https://www.facebook.com/itsreallyakshat" />
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+        integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+    <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,600,700" rel="stylesheet">
+    <link href="../assets/css/odometer-theme-custom.css" rel="stylesheet">
+    <link href="../assets/css/spinners.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/colors/light.css" id="theme" rel="stylesheet">
+    <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="akshatmittal"
+        data-description="Support me in building YouTube Realtime!" data-message="Like what you see? Buy me a coffee!"
+        data-color="#FF813F" data-position="right" data-x_margin="18" data-y_margin="18"></script>
+    <!-- Nah, no Dark Theme for you people (yet) -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="fix-header fix-sidebar card-no-border">
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <div class="dark-bg"></div>
+    <div id="main-wrapper">
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/youtube-realtime/">
+                        <b class="text-white">
+                            <i class="fab fa-youtube"></i>
+                        </b>
+                        <span class="text-white">
+                            YouTube Realtime
+                        </span>
+                    </a>
+                </div>
+                <div class="navbar-collapse">
+                    <ul class="navbar-nav mr-auto mt-md-0">
+                        <li class="nav-item">
+                            <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark"
+                                href="javascript:void(0)">
+                                <i class="fa fa-bars"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <form class="mx-2 my-auto d-inline w-100" id="yt_search">
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control" placeholder="Enter video URL or name.."
+                                id="yt_searchvalue" autocomplete="off">
+                            <span class="input-group-btn">
+                                <button class="btn btn-success" type="button" id="yt_searchbutton">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+        </header>
+        <aside class="left-sidebar">
+            <div class="scroll-sidebar">
+                <nav class="sidebar-nav">
+                    <ul id="pinned_nav" class="sidebarnav">
+                        <!-- <li class="nav-small-cap">FEATURED VIDEOS</li> -->
+                    </ul>
+                </nav>
+                <nav class="sidebar-nav">
+                    <ul class="sidebarnav">
+                        <li class="nav-small-cap">META</li>
+                        <li>
+                            <a class="waves-effect waves-dark" href="../" target="_blank">
+                                <i class="fa fa-chart-bar"></i>
+                                <span class="hide-menu">Subscriber Count</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <div class="page-wrapper">
+            <div class="container super-search nosel">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-block">
+                                <div>
+                                    <h3 class="card-title text-center">Compare with?</h3>
+                                </div>
+                                <form class="mx-2 my-auto d-inline w-100" id="yt_search_m">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control" placeholder="Search"
+                                            id="yt_searchvalue_m" autocomplete="off">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-success" type="button" id="yt_searchbutton_m">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </form>
+                                <div class="results" id="results">
+
+                                </div>
+                                <div>
+                                    <button class="btn btn-danger w-100" id="yt_comrest">
+                                        <i class="fa fa-times"></i> Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <!-- Column -->
+                    <div class="col-sm-12">
+                        <h3 class="m-t-20 m-b-0 text-center" style="font-size: 2em;">YouTube Live View Count</h3>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="card m-b-0 m-t-20">
+                            <img class="card-img-top img-responsive" src="https://jfrenlsubcounter.nl/assets/images/banner.jpg" id="yt_cover"
+                                style="max-height:0;">
+                            <div class="card-block little-profile p-b-0 text-center views">
+                                <div class="pro-img">
+                                    <img src="../assets/images/icon.png" alt="user" id="yt_profile">
+                                </div>
+                                <h3 class="display-6 m-b-15 m-t-10 text-center yt_name" id="yt_name">Akshat Mittal</h3>
+                            </div>
+                            <div class="card-block text-center p-t-0">
+                                <div class="card-body">
+                                    <div class="position-relative">
+                                        <div class="white">
+                                            <h1 class="display-1 views" id="yt_views">00,000,000</h1>
+                                            <span>Views</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="sharer">
+                    <div class="col-12">
+                        <div class="card-block text-center">
+                            <div class="text-center p-t-0 row">
+                                <div class="col-6 ">
+                                    <div class="card no-shadow btn-youtube mb-0 p-2 waves-effect" id="yt_shareyt">
+                                        <span class="font-light m-b-0"><i class="fab fa-youtube"></i> Watch</span>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-6 col-md-3">
+                                    <div class="card no-shadow btn-compare mb-0 p-2 waves-effect" id="yt_compare">
+                                        <span class="font-light m-b-0"><i class="fa fa-chart-bar"></i> Compare</span>
+                                    </div>
+                                </div> -->
+                                <!-- <div class="col-6 col-md-4">
+                                    <div class="card no-shadow btn-archive mb-0 p-2 waves-effect" id="yt_sharear">
+                                        <span class="font-light m-b-0"><i class="fa fa-fire"></i> Promote</span>
+                                    </div>
+                                </div> -->
+                                <div class="col-6 ">
+                                    <div class="card no-shadow btn-twitter mb-0 p-2 waves-effect" id="yt_sharetw">
+                                        <span class="font-light m-b-0"><i class="fab fa-twitter"></i> Twitter</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12" id="yt_sharear2">
+                        <div class="row">
+                            <div class="col-12 col-lg-4">
+                                <div class="card">
+                                    <div class="card-block">
+                                        <div class="card-body">
+                                            <div class="position-relative">
+                                                <div class="mt-2 ml-2 white">
+                                                    <h1 class="display-5" id="yt_likes">000,000</h1>
+                                                    <span>Likes</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <div class="card">
+                                    <div class="card-block">
+                                        <div class="card-body">
+                                            <div class="position-relative">
+                                                <div class="mt-2 ml-2 white">
+                                                    <h1 class="display-5" id="yt_dislikes">000,000</h1>
+                                                    <span>Dislikes</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <div class="card">
+                                    <div class="card-block">
+                                        <div class="card-body">
+                                            <div class="position-relative">
+                                                <div class="mt-2 ml-2 white">
+                                                    <h1 class="display-5" id="yt_comments">000,000</h1>
+                                                    <span>Comments</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-block text-center p-t-0">
+                            <a href="https://www.facebook.com/itsreallyakshat" target="_blank">
+                                <div class="align-self-center btn-facebook m-1 round">
+                                    <i class="fab fa-facebook"></i>
+                                </div>
+                            </a>
+                            <a href="https://www.twitter.com/iakshatmittal" target="_blank">
+                                <div class="align-self-center btn-twitter m-1 round">
+                                    <i class="fab fa-twitter"></i>
+                                </div>
+                            </a>
+                            <a href="https://www.instagram.com/itsreallyakshat" target="_blank">
+                                <div class="align-self-center btn-instagram m-1 round">
+                                    <i class="fab fa-instagram"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="about">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-block">
+                                <div>
+                                    <div>
+                                        <h3 class="card-title">About</h3>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p>YouTube Realtime Live View Count shows the live view count of any video on
+                                        YouTube as
+                                        accurately as possible. YouTube often doesn't update the view count on the
+                                        website in
+                                        real time and hence it's hard to keep a track on when you'll hit a new
+                                        milestone.
+                                        This tool eases the pressure and allows you see the view count change live!
+                                    </p>
+                                    <p>
+                                        The view count, likes count, dislikes count and comment count are all taken
+                                        directly from Google's infrastructure via
+                                        the Analytics API. The counts are updated every second and are guaranteed to be
+                                        accurate.
+                                    </p>
+                                    <p>You can enter the video in any format. You can also input search terms for
+                                        a video,
+                                        this will also try to automatically correct spellings in most cases. This is as
+                                        good
+                                        as YouTube Search itself since it uses the same engine to search.
+                                    </p>
+                                    <p>
+                                        If you like this tool, please consider supporting me on <a
+                                            href="https://www.buymeacoffee.com/akshatmittal">BuyMeACoffee</a>!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="embeds">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-block">
+                                <div>
+                                    <div>
+                                        <h3 class="card-title">Sharing</h3>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal form-material">
+                                    <p>You can share the live view counts for any video on YouTube by sharing
+                                        the following
+                                        URL. You can also bookmark (Ctrl/Cmd + D) the current URL to
+                                        come back anytime!</p>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <input type="text" name="url" value="..wait.." id="yt_shareurl"
+                                                onclick="this.select()" readonly=""
+                                                class="form-control form-control-line text-center"></input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <h3 class="card-title">Embeds</h3>
+                                    </div>
+                                </div>
+                                <div class="form-horizontal form-material">
+                                    <p>You can also embed the live view count for any video on your own website
+                                        by copying the following embed code in your HTML. Embeds are available as a
+                                        small or a large embed. <a href="https://counts.live/embeds" target="_blank"
+                                            rel="noopener noreferrer">More details here.</a></p>
+                                    <h5>Small Embed</h5>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <input type="text" name="embed_small" value="..wait.." id="yt_embed_small"
+                                                onclick="this.select()" readonly=""
+                                                class="form-control form-control-line text-center"></input>
+                                        </div>
+                                    </div>
+                                    <h5>Large Embed</h5>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <input type="text" name="embed_large" value="..wait.." id="yt_embed_large"
+                                                onclick="this.select()" readonly=""
+                                                class="form-control form-control-line text-center"></input>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-block">
+                                <div class="form-horizontal form-material">
+                                    <p>
+                                        Thank you for using YouTube Realtime. You can find more information about the
+                                        project on
+                                        <a href="https://github.com/akshatmittal/youtube-realtime/blob/gh-pages/README.md"
+                                            target="_blank">GitHub</a> including license and contributors. You can get
+                                        in touch with me on
+                                        <a href="https://www.facebook.com/itsreallyakshat" target="_blank">Facebook</a>,
+                                        <a href="https://twitter.com/iakshatmittal" target="_blank">Twitter</a> or
+                                        <a href="mailto:ytlive@akshatmittal.com" target="_blank">email</a>, if you
+                                        prefer. Do let me know if you have any feedback or ideas for this
+                                        project!
+                                    </p>
+                                    <p class="mb-0">
+                                        YouTube is a registered trademark of Google.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="footer">&copy; 2020
+                <a href="https://akshatmittal.com">Akshat Mittal</a>
+            </footer>
+        </div>
+    </div>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.min.js"
+        integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I=" crossorigin="anonymous"></script>
+    <script>
+        window.Tether = function () { } // I don't want Bootstrap to use Tether.
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.6/odometer.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js"></script>
+    <script src="../assets/js/waves.js"></script>
+    <script src="../assets/js/custom-ui.js"></script>
+
+    <script src="../assets/js/base.js"></script>
+    <script src="../assets/js/featured.view.js"></script>
+    <script src="../assets/js/updateManager.view.js"></script>
+    <script src="../assets/js/query.view.js"></script>
+    <script src="../assets/js/multisearch.view.js"></script>
+    <script src="../assets/js/live.view.js"></script>
+    <script src="../assets/js/sharing.view.js"></script>
+    <script src="../assets/js/urlManager.view.js"></script>
+    <script src="../assets/js/init.js"></script>
+</body>
+
+</html>

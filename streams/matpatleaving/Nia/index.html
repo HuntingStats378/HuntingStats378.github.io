@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+  <head>
+    <title>Counter</title>
+    <meta name="author" content="Combined_Count">
+    <script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap" rel="stylesheet">
+    <link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css">
+    <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+    <link rel="stylesheet" href="https://huntingstats378.github.io/HuntingStats378/main/assets/css/embed.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
+  <body>
+      <img
+        src="https://yt3.googleusercontent.com/zZa5_LIZoT_2TqhiNdterb2GFv7oZEI7QcgAJeLeD7_4aHVJZ1VZXciJ_ouplogGy_x-T6VrYw=s176-c-k-c0x00ffffff-no-rj"
+        alt=""
+        id="avatar"
+        align="left">
+
+    </body>
+    <p id="title" onclick="search()">HuntingStats378</p>
+      <div id=show><span id="count" style="color: white" class="odometer">0</span>
+    <style>
+
+      body {
+        background-color: transparent;
+      }
+
+     #powered {
+        font-size: 16pt;
+        font-family: Roboto;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      #mbtext {
+        font-size: 40pt;
+        font-family: Roboto;
+        font-weight: 100;
+        text-align: left;	
+      }
+
+      #text {
+        text-align: left;
+      }
+
+
+      #count {
+        font-size: 80pt;
+        font-family: Roboto;
+        font-weight: 800;
+      }
+
+      #show {
+        text-align: left;
+      }
+
+      #avatar {
+        top: 0px;
+        left: 0px;
+        width: 176px;
+        height: 176px;
+      }
+
+      #title {
+        width: 100%;
+        height: 25px;
+        left: 0px;
+        top: 0px;
+        text-align: left;
+        font-family: "Roboto";
+        font-weight: 800;
+        color: white;
+        font-size: 50px;
+      }
+
+      @font-face {
+        font-family: RobotoOld;
+        src: url("https://axern.space/font/Roboto-Regular.tff");
+      }
+    </style>
+
+        <script>
+          const params = new URLSearchParams(window.location.search);
+          var id = params.get("id") || "UClOyuxZvQkoHoIn15kNbkUw";
+          var Channels = [
+            id,
+       ];
+      var number = 0;
+      var work = [];
+
+      function render() {
+        datas();
+        number = work.reduce(function (a, b) {
+          return a + b;
+        }, 0);
+        count.innerHTML = number;
+      }
+
+      function datas() {
+        for (let i = 0; i < Channels.length; i++) {
+  fetch("https://axern.space/api/get?platform=youtube&type=channel&id=" + Channels[i] + "")
+            .then((res) => res.json())
+            .then((data) => {
+              work[i] = data.estSubCount;
+              document.getElementById("avatar").src = data.snippet.thumbnails.high.url;
+              document.getElementById("title").textContent = data.snippet.title;
+            });
+        }
+      }
+
+
+
+      render();
+
+      setInterval(() => {
+        render();
+      }, 2000);
+
+          function search() {
+            const prompt = window.prompt("Enter channel name, ID, or URL.");
+            if (prompt)
+              fetch(
+                `https://livecounts.xyz/api/youtube-live-subscriber-count/search/${prompt}`
+              )
+                .then((res) => res.json())
+                .then((data) => {
+                  window.location.href = "?id=" + data.results[0].id;
+                });
+          }
+</script>

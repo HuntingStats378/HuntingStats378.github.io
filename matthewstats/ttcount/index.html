@@ -1,0 +1,132 @@
+<html>
+<head>
+    <title>HuntingStats378 - Followers</title>
+    <link href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css" rel="stylesheet">
+    <link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+    <meta charSet="utf-8" />
+    <meta name="description" content="HuntingStats378 - Followers" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+</head>
+
+<body style="font-family: Roboto; color: var(--fg-color, #fff); background-color: var(--bg-color, #E7541E);">
+    <div style="height: auto; display: grid; grid-template-columns: repeat(1, 1fr); gap: 10px;">
+        <div style="padding: 0px 4px; text-align: center; background-color: var(--counter-bg-color, black);">
+            <img id="banner" style="filter: blur(4px); border-radius: 15px; object-fit: cover; width: 100%; height: 150px; position: relative;" src="https://huntingstats378.github.io/HuntingStats378/main/images/default_banner.png">
+            <img id="image" style="width: 125px; height: 125px; border-radius: 50%; margin-top: -5em; position: relative;" src="https://huntingstats378.github.io/HuntingStats378/main/images/default.png">
+            <h2 id="name" onclick="search()" style="margin-top: 1px; font-size: var(--title-font-size, 4.5vh)">Loading</h2>
+            <h2 id="subs" style="margin-top: -20px; font-size: var(--counter-font-size, 8vh)" class="odometer">0</h2>
+            <h5 onclick="footer()" style="margin-top: -40px;">Followers (TikTok)</h5>
+        </div>
+    </div>
+  <div id="chart" class="chart" style="background-color: black;"></div>
+<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script><script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/highstock.js"></script>
+<script>
+  const searchParams = new URLSearchParams(window.location.search);
+  const name = searchParams.get("id") || "MrBeast";
+    let tid;
+
+    fetch(
+        `https://countik.com/api/exist/${name}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+
+          document.getElementById("name").textContent = data.nickname;
+          tid = data.sec_uid;
+        });
+
+  setInterval(() => {
+        fetch(
+          `https://countik.com/api/userinfo?sec_user_id=${tid}`
+        )
+          .then((res) => res.json())
+          .then((data) => {
+              if (data.status == "success") {
+                document.getElementById("banner").src = data.avatarThumb;
+                document.getElementById("image").src = data.avatarThumb;
+                document.getElementById("subs").innerHTML = data.followerCount;
+                if (chart.series[0].points.length == 1500) chart.series[0].data[0].remove();
+                chart.series[0].addPoint([Date.now(), data.followerCount])
+              }
+                        });
+                }, 2000);
+
+  var textBright = "#bdbdbd"
+  var lineColor = "#000000"
+  var maxPoints = 20000;
+  var chart = new Highcharts.chart({
+      chart: {
+          renderTo: 'chart',
+          type: 'line',
+          zoomType: 'x',
+          backgroundColor: 'transparent',
+          plotBorderColor: 'transparent'
+      },
+      title: {
+          text: ' '
+      },
+      xAxis: {
+          type: 'datetime',
+          tickPixelInterval: 500,
+          gridLineColor: textBright,
+          labels: {
+              style: {
+                  color: textBright
+              }
+          },
+          lineColor: lineColor,
+          minorGridLineColor: '#bdbdbd',
+          tickColor: lineColor,
+          title: {
+              style: {
+                  color: textBright
+              }
+          }
+      },
+      yAxis: {
+          title: {
+              text: ''
+          },
+          gridLineColor: textBright,
+          labels: {
+              style: {
+                  color: textBright
+              }
+          },
+          lineColor: lineColor,
+          minorGridLineColor: '#bdbdbd',
+          tickColor: lineColor
+      },
+      credits: {
+          enabled: false
+      },
+
+      series: [{
+          showInLegend: false,
+          name: 'Followers',
+          marker: {
+              enabled: false
+          },
+          color: '#000000',
+          lineColor: '#FFFFFF'
+      }]
+  });
+
+      function search() {
+    const prompt = window.prompt("Enter account name.");
+    if (prompt)
+      fetch(
+        `https://countik.com/api/exist/${prompt}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          searchParams.set("id", data.uniqueId)
+          window.location.href = "?" + searchParams.toString()
+        });
+  }
+
+  function footer() {
+    href("./../")
+  }
+</script>

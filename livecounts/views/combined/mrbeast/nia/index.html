@@ -1,0 +1,145 @@
+<html>
+<head>
+    <title>HuntingStats378 - MB Combined Views</title>
+    <link href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css" rel="stylesheet">
+    <link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+    <meta charSet="utf-8" />
+    <meta name="description" content="HuntingStats378 - Subscribers" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+</head>
+
+<body style="font-family: Roboto; color: var(--fg-color, #fff); background-color: var(--bg-color, #E7541E);">
+    <div style="height: auto; display: grid; grid-template-columns: repeat(1, 1fr); gap: 10px;">
+        <div style="padding: 0px 4px; text-align: center; background-color: var(--counter-bg-color, black);">
+            <img style="filter: blur(4px); border-radius: 15px; object-fit: cover; width: 100%; height: 150px; position: relative;" src="https://www.banner.yt/UCX6OQ3DkcsbYNE6H8uQQuVA">
+            <img style="width: 125px; height: 125px; border-radius: 50%; margin-top: -5em; position: relative;" src="https://yt3.ggpht.com/fxGKYucJAVme-Yz4fsdCroCFCrANWqw0ql4GYuvx8Uq4l_euNJHgE-w9MTkLQA805vWCi-kE0g=s176-c-k-c0x00ffffff-no-rj">
+            <h2 style="margin-top: 1px; font-size: var(--title-font-size, 4.5vh)">MrBeast Combined</h2>
+            <h2 id="views" style="margin-top: -20px; font-size: var(--counter-font-size, 8vh)" class="odometer">0</h2>
+            <h5 onclick="footer()" style="margin-top: -40px;">Views (Estimated)</h5>
+        </div>
+    </div>
+  <div id="chart" class="chart" style="background-color: black;"></div>
+  </body>
+<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script><script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/highstock.js"></script>
+<script>
+  var Channels = [
+        "UCX6OQ3DkcsbYNE6H8uQQuVA", //MrBeast 
+        "UCluBATXIP9doWvougjUVUGQ", //MrBeast (Russia)
+        "UCDifkiOICEJ-hiVAvCQlpNA", //MrBeast (Hindi)
+        "UClwITvsAr6JnpLmGufudiTw", //MrBeast (Japan)
+        "UCbHU7ouxaMgfyWSUtI4QK8Q", //MrBeast (Arabic)
+        "UCNAhW2oJvy_FUU082pEDspA", //MrBeast (Spanish)
+        "UCggERuskO1F6XKwor-Pvkww", //MrBeast (Brasil)
+        "UCbf2Ozi4BF34AY3t3rHj9IA", //MrBeast (France)
+        "UCUaT_39o1x6qWjz7K2pWcgw", //Beast Reacts
+        "UCneluyh2H6gU7v8gU8El-Cg", //Beast Reacts (Portugese)
+        "UCLAVIBJWb6geGRSvWsZ_ang", //Beast Reacts (Russia)
+        "UCL6Xc5xuRECnWbGBOKG9APA", //Beast Reacts (Spanish)
+        "UCIPPMRA040LQr5QPyJEbmXA", //MrBeast Gaming
+        "UC1lZ05QnM1R09HiwNMLDdnw", //MrBeast Gaming (Russia)
+        "UCfNGT03h99S3zLbyUD9FMuQ", //MrBeast Gaming (Spanish)
+        "UCpPJaHR_s3qYSCzry78G7lg", //MrBeast Gaming (Brasil)
+        "UC4-79UOlP48-QNGgCko5p2g", //MrBeast Shorts
+        "UCAiLfjNXkNv24uhpzUgPa6A", //Beast Philantrophy
+        "UCZzvDDvaYti8Dd8bLEiSoyQ", //Mrbeast 2
+        "UC68DIXWCmetC8N5J_Kc5gjQ" //Don't Subscribe
+      ];
+      var number = 0;
+      var work = [];
+      var maxPoints = 3600;
+
+      async function render() {
+        await datas();
+        number = work.reduce(function (a, b) {
+          return a + b;
+        }, 0);
+        views.innerHTML = number;
+        if (chart.series[0].points.length == maxPoints) chart.series[0].data[0].remove();
+        chart.series[0].addPoint([Date.now(), number])
+      }
+
+      async function datas() {
+        for (let i = 0; i < Channels.length; i++) {
+  await fetch(`https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${Channels[i]}`)
+            .then((res) => res.json())
+            .then((data) => {
+              work[i] = data.estViewCount;
+
+            });
+        }
+        Promise.resolve()
+      }
+
+
+
+      render();
+
+      setInterval(() => {
+        render();
+      }, 2000);
+
+  var textBright = "#bdbdbd"
+  var lineColor = "#000000"
+  var chart = new Highcharts.chart({
+      chart: {
+          renderTo: 'chart',
+          type: 'line',
+          zoomType: 'x',
+          backgroundColor: 'transparent',
+          plotBorderColor: 'transparent'
+      },
+      title: {
+          text: ' '
+      },
+      xAxis: {
+          type: 'datetime',
+          tickPixelInterval: 500,
+          gridLineColor: textBright,
+          labels: {
+              style: {
+                  color: textBright
+              }
+          },
+          lineColor: lineColor,
+          minorGridLineColor: '#bdbdbd',
+          tickColor: lineColor,
+          title: {
+              style: {
+                  color: textBright
+              }
+          }
+      },
+      yAxis: {
+          title: {
+              text: ''
+          },
+          gridLineColor: textBright,
+          labels: {
+              style: {
+                  color: textBright
+              }
+          },
+          lineColor: lineColor,
+          minorGridLineColor: '#bdbdbd',
+          tickColor: lineColor
+      },
+      credits: {
+          enabled: false
+      },
+
+      series: [{
+          showInLegend: false,
+          name: 'Subscribers',
+          marker: {
+              enabled: false
+          },
+          color: '#000000',
+          lineColor: '#FFFFFF'
+      }]
+  });
+
+  function footer() {
+        window.location.href = "./../"
+        }
+</script>

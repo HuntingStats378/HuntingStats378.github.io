@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<meta charSet="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,600,700" rel="stylesheet">
+<link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css">
+<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+</head>
+  <body>
+    <span class="odometer" id="count">0</span>
+</body>
+<style>
+  body {
+    padding: 0%;
+    margin: 0%;
+    text-align: right;
+    background-color: transparent;
+    color: white;
+    font-size: 105px;
+    font-family: Roboto;
+    font-weight: 700;
+    background-image: url(background.png);
+  }
+
+  #count {
+    color: white;
+    margin-right: 10px;
+    margin-top: 20px;
+  }
+</style>
+<script>
+  setInterval(() => {
+      fetch(
+              "https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/UClOyuxZvQkoHoIn15kNbkUw"
+          )
+          .then((res) => res.json())
+          .then((data) => {
+                      document.getElementById("count").innerHTML = data.channels.counts[2].count;
+          });
+  }, 2000);
+</script>

@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MrBeast Confirmed Subscriber Counts Statistics - Real Time</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">
+    <link rel="manifest" href="./favicon/site.webmanifest">
+    <script src="./odometer.js"></script>
+    <link rel="stylesheet" href="./odometer-theme-minimal.css" />
+    <script src="https://code.highcharts.com/10.3.3/highcharts.js"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Readex+Pro:wght@200;300;400;500;600;700&family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Yantramanav:wght@100;300;400;500;700;900&display=swap");
+        @import url('https://fonts.cdnfonts.com/css/obelixpro-6');
+        @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+        body {
+            background: linear-gradient(180deg, rgba(1, 0, 26, 1) 1%, rgba(0, 37, 52, 1) 100%);
+            background-size: 150% 150%;
+            color: white;
+            font-family: "Ubuntu";
+            width: 102%;
+            height: 102%;
+        }
+
+        .box {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .box {
+            margin-bottom: 10px;
+        }
+
+        .box .header {
+            font-weight: 400;
+            font-size: 30px;
+            font-family: "Ubuntu";
+        }
+
+        .box .name {
+            display: flex;
+            gap: 10px;
+        }
+
+        .box .name .material-icons {
+            font-size: 34px;
+        }
+
+        .box .counter {
+            font-weight: 700;
+            font-size: 87px;
+            font-family: "Roboto";
+        }
+
+        .apibox .name {
+            color: red;
+            gap: 7px;
+        }
+
+        .apibox .name .header {
+            font-size: 17.5px;
+        }
+
+        .circle1 {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: red;
+            margin-top: 4.5px;
+            position: relative;
+        }
+
+        .circle1::after {
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: inherit;
+            background-color: red;
+            animation: zoom 5s infinite;
+            z-index: -1;
+        }
+
+        .apibox .counter,
+        .apibox span {
+            font-weight: 700;
+            font-size: 50px;
+            color: #EAEAEA;
+        }
+
+        .updatebox .name {
+            color: #00C5FF;
+        }
+
+        .estbox .name {
+            color: #FFE500;
+        }
+
+        .estbox .name .text {
+            color: #9A9043;
+            font-weight: 500;
+            font-size: 15px;
+            max-width: 180px;
+            font-style: italic;
+        }
+
+        #estimated_counter {
+            --speed: 1s;
+        }
+
+        @keyframes zoom {
+            40% {
+                width: 12px;
+                height: 12px;
+                opacity: 100%;
+                left: 0px;
+                top: 0px;
+            }
+
+            100% {
+                width: 25px;
+                height: 25px;
+                opacity: 0%;
+                left: -6.5px;
+                top: -6px;
+            }
+        }
+
+        .chart {
+            width: 100%;
+            height: 475px;
+            margin-top: 5px;
+        }
+
+        .avgs {
+            display: flex;
+            gap: 30px;
+            --speed: 1s;
+        }
+
+        .avgs_boxes {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .avg_box {
+            display: flex;
+            font-family: "Roboto";
+        }
+
+        .avg_count {
+            font-weight: 700;
+            font-size: 45px;
+            color: #CDFFCD;
+        }
+
+        .avg_unit {
+            font-weight: 400;
+            font-size: 15px;
+            font-size: italic;
+            color: white;
+            margin-top: 27.5px;
+        }
+
+        .estnextupdatetime {
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+            transform: translate(-20px, -310px);
+            margin-bottom: -120px;
+            padding-right: 0px;
+        }
+
+        .enuTitle {
+            color: white;
+            font-family: "Ubuntu";
+            font-weight: 500;
+            font-size: 17px;
+            transform: translate(-30px, 0px);
+        }
+
+
+        #enuTime {
+            font-family: "Roboto";
+            font-size: 90px;
+            font-weight: 700;
+            color: white;
+            transition: 500ms;
+        }
+
+        .estnextmilstonetime {
+            margin-top: 30px;
+            margin-bottom: 30px;
+            font-family: "Ubuntu";
+            font-size: 17px;
+            font-weight: 500;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 3.5px;
+            text-align: right;
+            transform: translate(25px, -165px);
+            scale: 0.9;
+            margin-bottom: -120px;
+        }
+
+        #enmHeader {
+            transform: translate(-53px, 0px);
+        }
+
+        #enmTime {
+            font-family: "Roboto";
+            font-size: 55px;
+            font-weight: 700;
+            color: orange;
+        }
+
+        #enmTz {
+            color: #FFEAC1;
+            font-weight: 700;
+        }
+
+        .mainStuff {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+            padding-left: 0px;
+        }
+
+        .proofHereLol {
+            position: absolute;
+            top: 0px;
+            right: -20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: right;
+            margin-top: 75px;
+            scale: 0.95;
+        }
+
+        .subcountChannelBtn {
+            width: 32%;
+            height: 32%;
+            transform: translate(10%, -30px);
+            border-radius: 10px;
+        }
+
+        .phlText {
+            font-family: "Ubuntu";
+            background: -webkit-linear-gradient(#41AEFF, #247DFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 500;
+            font-size: 15px;
+            max-width: 470px;
+            margin-top: -25px;
+        }
+
+        .phlLink {
+            font-family: "Ubuntu";
+            color: red;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .vsscchannelImage {
+            background-color: #1C1D22;
+            width: 425px;
+            height: 90px;
+            animation: phlFadeInOut 30s linear infinite;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            transform: translate(10px, 5px);
+        }
+
+        .username {
+            font-family: "Source Sans Pro";
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            gap: 6px;
+            transform: translate(70px, -63px);
+        }
+
+        .countMessage {
+            font-family: "Source Sans Pro";
+            font-weight: 500;
+            font-size: 20px;
+            color: white;
+            transform: translate(70px, -100px);
+        }
+
+        .timeMessage {
+            font-family: "Source Sans Pro";
+            font-weight: 600;
+            font-size: 15px;
+            font-style: italic;
+            color: #D7D7D7;
+            display: flex;
+            justify-content: right;
+            transform: translate(-5px, -99px);
+        }
+
+        @keyframes animatingImageBG {
+            0% {
+                background-position: 0% 0%;
+            }
+
+            100% {
+                background-position: 0% 114%;
+            }
+        }
+
+        @keyframes phlFadeInOut {
+            0% {
+                opacity: 100%;
+            }
+
+            40% {
+                opacity: 100%;
+            }
+
+            50% {
+                opacity: 0%;
+            }
+
+            90% {
+                opacity: 0%;
+            }
+
+            100% {
+                opacity: 100%;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .mainStuff {
+                margin-top: 240px;
+            }
+
+            .proofHereLol {
+                margin-top: 210px;
+            }
+
+            .estnextupdatetime {
+                transform: translate(0px, 0px);
+                margin-bottom: 0px;
+            }
+        }
+
+        @media screen and (min-width: 1025px) {
+            .mainStuff {
+                padding-left: 50px;
+            }
+
+            .estnextupdatetime {
+                padding-right: 50px;
+            }
+
+            .enuTitle {
+                font-size: 20px;
+                transform: translate(-50px, 0px);
+            }
+
+            #enuTime {
+                font-size: 110px;
+            }
+
+            .estnextmilstonetime {
+                scale: 1.1;
+                transform: translate(-130px, -165px);
+            }
+
+            .customization_box {
+                padding-left: 50px;
+            }
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        input {
+            width: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="display: flex; gap: 20px; justify-content: center;">
+        <img src="https://yt3.ggpht.com/fxGKYucJAVme-Yz4fsdCroCFCrANWqw0ql4GYuvx8Uq4l_euNJHgE-w9MTkLQA805vWCi-kE0g=s1000-c-k-c0x00ffffff-no-rj" width="40" height="40" />
+        <span style="font-family: 'ObelixPro', sans-serif; font-size: 31px; background: -webkit-linear-gradient(#00F0FF, #00C4FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center;">MrBeast Confirmed Sub Counts Statistics</span>
+        <img src="https://images.emojiterra.com/twitter/v13.1/512px/1f4ca.png" width="40" height="40" />
+    </div>
+    <div class="proofHereLol">
+        <div class="vsscchannelImage" style="animation-delay: 15s;">
+            <img src="./viewstats.png" class="avatar" />
+            <div class="username">
+                <p style="color: red;">viewstats.com</p>
+                <p style="color: #838383; font-weight: 700; font-style: italic; opacity: 50%;">#subcount</p>
+                <img src="https://ongpng.com/wp-content/uploads/2023/09/discord-logo.png" width="17" height="15.0875" style="margin-top: 17px;" />
+            </div>
+            <p class="countMessage">MrBeast Current Subscribers: Loading...</p>
+            <p class="timeMessage">Loading...</p>
+        </div>
+        <div class="vsscchannelImage" style="position: absolute;">
+            <img src="./david.jpeg" class="avatar" />
+            <div class="username">
+                <p style="color: red;">David Summerall</p>
+                <p style="color: #838383; font-weight: 700; font-style: italic; opacity: 50%;">@davidsummerall</p>
+                <img src="https://ongpng.com/wp-content/uploads/2023/09/discord-logo.png" width="17" height="15.0875" style="margin-top: 17px;" />
+            </div>
+            <p class="countMessage">MrBeast Current Subscribers: Loading...</p>
+            <p class="timeMessage">Loading...</p>
+        </div>
+        <img src="./subcountChannelBtn.jpg" class="subcountChannelBtn" />
+        <a class="phlText" href="https://discord.com/channels/1171577354712252438/1200501311486050405">These counts are confirmed and not fake. The site gets data automatically whenever there's a new sub update. Reports are in ViewStats Discord Server in #subcount channel. (Data might be delayed for a few seconds to a few minutes)</a>
+        <a class="phlLink" href="https://discord.com/channels/1171577354712252438/1200501311486050405">https://discord.gg/viewstats</a>
+    </div>
+
+    <div class="mainStuff">
+        <div class="counters">
+            <div class="box apibox">
+                <div class="name">
+                    <span class="header">What YouTube Shows</span>
+                    <span class="circle1"></span>
+                </div>
+                <span class="counter odometer" id="api_counter" style="display: none;">0</span>
+                <span id="apiloadingtext">Loading...</span>
+            </div>
+            <div class="box updatebox">
+                <div class="name">
+                    <span class="header">Last Updated Count</span>
+                    <span class="material-icons"> history </span>
+                </div>
+                <span class="counter odometer" id="lastupdated_counter">0</span>
+            </div>
+            <div class="box estbox">
+                <div class="name">
+                    <span class="header">Estimated Count</span>
+                    <span class="material-icons"> trending_up </span>
+                    <span class="text">linear growth, based on last updated counts</span>
+                </div>
+                <span class="counter odometer" id="estimated_counter" style="--speed: 1.5s;">0</span>
+            </div>
+        </div>
+
+        <div class="avgs">
+            <div class="daily_avg_part">
+                <div style="display: flex; gap: 5px; font-family: 'Ubuntu';">
+                    <span style="font-size: 25px; color: #00CD00;">Averages</span>
+                    <span class="material-icons" style="color: #00CD00; font-size: 29px;"> calculate </span>
+                    <span style="font-size: 15px; color: #308130; font-style: italic; margin-top: 6px; margin-left: 2px; font-weight: 500;">based on last updated counts</span>
+                </div>
+                <div style="display: flex; flex-direction: column; font-family: 'Roboto'; margin-top: 0px;">
+                    <span id="daily_avg" class="odometer" style="font-weight: 700; font-size: 75px; color: #66FF66">0</span>
+                    <span style="font-weight: 400; font-size: 22px; font-style: italic; color: #E7FFE7; margin-left: calc(75px / 2);">subscribers per day</span>
+                </div>
+            </div>
+
+            <div class="avgs_boxes">
+                <div class="avg_box">
+                    <span class="avg_count odometer" id="sec_avg">0</span>
+                    <span class="avg_unit">/second</span>
+                </div>
+                <div class="avg_box">
+                    <span class="avg_count odometer" id="min_avg">0</span>
+                    <span class="avg_unit">/minute</span>
+                </div>
+                <div class="avg_box">
+                    <span class="avg_count odometer" id="hr_avg">0</span>
+                    <span class="avg_unit">/hour</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="estnextupdatetime">
+        <p style="margin: 0;" class="enuTitle">Estimated time until next daily report</p>
+        <p id="enuTime" style="margin: 0;">00:00:00</p>
+    </div>
+
+    <div class="estnextmilstonetime">
+        <p id="enmHeader" style="margin: 0;">Estimated Time until next milestone</p>
+        <p id="enmTime" style="margin: 0;">Calculating...</p>
+        <p id="enmTz" style="margin: 0;">Loading...</p>
+    </div>
+
+    <div class="chart" id="subscribersChart"></div>
+    <div class="chart" id="avgChart"></div>
+
+    <div style="margin-bottom: 32px;" class="customization_box">
+        <div style="display: flex; gap: 5px; font-family: 'Ubuntu'; font-weight: 700; font-size: 30px; color: #8500FF;">
+            <span>Customization</span>
+            <span class="material-icons"> palette </span>
+        </div>
+
+        <div style="font-family: 'Ubuntu'; display: flex; flex-direction: column; gap: 10px;">
+            <span style="font-size: 25px; margin-top: 10px; margin-bottom: -7.5px; font-weight: 500; color: #C3C3C3;">Charts options</span>
+
+            <div style="display: flex; flex-direction: column;">
+                <span style="font-size: 20px; margin-bottom: 5px;">Subscriber Chart</span>
+                <div style="display: flex; gap: 5px;">
+                    <span>Width: </span>
+                    <input type="number" value="100" id="input_chart_sub_Width" onchange="checkCustoms();" />
+                    <span>px (pixel)</span>
+                </div>
+                <div style="display: flex; gap: 5px;">
+                    <span>Height: </span>
+                    <input type="number" value="475" id="input_chart_sub_Height" onchange="checkCustoms();" />
+                    <span>px (pixel)</span>
+                </div>
+            </div>
+
+
+            <div style="display: flex; flex-direction: column;">
+                <span style="font-size: 20px; margin-bottom: 5px;">Averages Chart</span>
+                <div style="display: flex; gap: 5px;">
+                    <span>Width: </span>
+                    <input type="number" value="100" id="input_chart_avg_Width" onchange="checkCustoms();" />
+                    <span>px (pixel)</span>
+                </div>
+                <div style="display: flex; gap: 5px;">
+                    <span>Height: </span>
+                    <input type="number" value="475" id="input_chart_avg_Height" onchange="checkCustoms();" />
+                    <span>px (pixel)</span>
+                </div>
+            </div>
+            <button type="submit" style="width: 170px; font-size: 20px; font-family: 'Ubuntu';" onclick="resetCustoms();">Reset to default</button>
+        </div>
+    </div>
+</body>
+<script>
+    document.getElementById('input_chart_sub_Width').value = Math.floor(window.innerWidth / 103.05 * 100);
+    document.getElementById('input_chart_avg_Width').value = Math.floor(window.innerWidth / 103.05 * 100);
+
+    function checkCustoms() {
+        subsChart.setSize(parseFloat(document.getElementById('input_chart_sub_Width').value), parseFloat(document.getElementById('input_chart_sub_Height').value), true);
+
+        avgChart.setSize(parseFloat(document.getElementById('input_chart_avg_Width').value), parseFloat(document.getElementById('input_chart_avg_Height').value), true);
+
+        document.getElementById('subscribersChart').style.width = document.getElementById('input_chart_sub_Width').value + "px";
+        document.getElementById('subscribersChart').style.height = document.getElementById('input_chart_sub_Height').value + "px";
+
+        document.getElementById('avgChart').style.width = document.getElementById('input_chart_avg_Width').value + "px";
+        document.getElementById('avgChart').style.height = document.getElementById('input_chart_avg_Height').value + "px";
+    }
+
+    function resetCustoms() {
+        let w = Math.floor(window.innerWidth / 103.05 * 100);
+        let h = 475;
+
+        subsChart.setSize(w, h, true);
+
+        avgChart.setSize(w, h, true)
+
+        document.getElementById('subscribersChart').style.width = w + "px";
+        document.getElementById('subscribersChart').style.height = h + "px";
+
+        document.getElementById('avgChart').style.width = w + "px";
+        document.getElementById('avgChart').style.height = h + "px";
+    }
+
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function abr(value, digits) {
+        if (parseFloat(value) > 999 || parseFloat(value) < -999) {
+            let newValue = value;
+            const suffixes = ["", "K", "M", "B", "T"];
+            let suffixNum = 0;
+            while (newValue >= 1000 || newValue <= -1000) {
+                newValue /= 1000;
+                suffixNum++;
+            }
+
+            newValue = newValue.toPrecision(digits);
+
+            newValue += suffixes[suffixNum];
+            return newValue;
+        } else {
+            return parseFloat(value);
+        }
+    }
+
+    function calcApiUpdate(count, gainorlose) {
+        let digits = count.toString().split("").length;
+        let update_length = 10 ** (digits - 3);
+
+        return count > 999 ? count + update_length : count
+    }
+
+    function hexToRGBA(hex, opacity) {
+        return (
+            "rgba(" +
+            (hex = hex.replace("#", ""))
+            .match(new RegExp("(.{" + hex.length / 3 + "})", "g"))
+            .map(function(l) {
+                return parseInt(hex.length % 2 ? l + l : l, 16);
+            })
+            .concat(isFinite(opacity) ? opacity : 1)
+            .join(",") +
+            ")"
+        );
+    }
+
+    function greenToRedColor(value) {
+        let hue = ((1 - value) * 120).toString(10);
+        return ["hsl(", hue, ",100%,50%)"].join("");
+    }
+
+    function checkZero(x) {
+        return x < 10 ? "0" + x : x;
+    }
+
+    function calcOverestimation(updateTime, estMilestoneTime) {
+        let gap = Date.now() - estMilestoneTime;
+        let times = Math.max(Math.ceil(gap / 10800000), 0);
+        let newUpdateTime = updateTime + (10800000 * times);
+        let newEstMilestoneTime = estMilestoneTime + (10800000 * times);
+
+        return [newUpdateTime, newEstMilestoneTime];
+    }
+
+
+    Highcharts.setOptions({
+        time: {
+            useUTC: false,
+            timezoneOffset: new Date().getTimezoneOffset()
+        }
+    });
+
+    var subsChart = new Highcharts.chart({
+        chart: {
+            renderTo: "subscribersChart",
+            type: "line",
+            zoomType: "xy",
+            backgroundColor: "#1B1B1B",
+            plotBorderColor: "transparent",
+            animation: {
+                duration: 500
+            }
+        },
+        title: {
+            text: "Subscriber Graph",
+            style: {
+                color: "white",
+                fontFamily: "Ubuntu",
+                fontWeight: 500
+            }
+        },
+        yAxis: {
+            gridLineColor: '#313131',
+            title: {
+                text: '',
+            },
+            labels: {
+                formatter: function() {
+                    return abr(this.value)
+                },
+                style: {
+                    color: "white",
+                    fontFamily: "Ubuntu",
+                    fontSize: "1.1em"
+                }
+            },
+        },
+        xAxis: {
+            lineColor: '#313131',
+            tickColor: '#313131',
+            type: 'datetime',
+            title: {
+                text: '',
+            },
+            labels: {
+                style: {
+                    color: "white",
+                    fontFamily: "Ubuntu",
+                    fontSize: "1.1em"
+                },
+            },
+        },
+        legend: {
+            itemStyle: {
+                color: '#DEF7FF',
+                fontFamily: "Ubuntu",
+                fontWeight: 400
+            }
+        },
+        credits: {
+            text: "mrbeast-confirmed-stats.vercel.app",
+            href: window.location.href,
+            style: {
+                color: "#89B2FF",
+                fontFamily: "Ubuntu",
+                fontStyle: "italic",
+                fontSize: "0.7em"
+            }
+        },
+        tooltip: {
+            shared: true,
+            formatter: function() {
+                var index = this.points[0].series.xData.indexOf(this.x);
+                var lastY = this.points[0].series.yData[index - 1];
+                var lastIndex = Math.max(index - 1, 0);
+                var dif = Math.floor(database[index].avg) - Math.floor(database[lastIndex].avg);
+                var curAVG = database[Math.max(index, 0)].avg
+                var r =
+                    Highcharts.dateFormat("%A %b %e, %H:%M:%S", new Date(this.x)) +
+                    '<br><span style="color:#00C2FF;font-family:Ubuntu;">\u25CF </span>' + this.points[0].series.name +
+                    ": <b>" + numberWithCommas(Math.floor(this.y));
+                if (dif > 0) {
+                    r +=
+                        `<span style="color:#00bb00;font-weight:bold;font-family: 'Ubuntu';"> (` +
+                        numberWithCommas(Math.floor(curAVG)) +
+                        "/day)</span><span class='material-icons' style='color:#00bb00; font-size: 25px;'>keyboard_double_arrow_up </span>";
+                }
+                if (dif == 0) {
+                    r +=
+                        `<span style="color:#7E7E7E;font-weight:bold;font-family: 'Ubuntu';"> (` +
+                        numberWithCommas(Math.floor(curAVG)) +
+                        "/day)</span>";
+                }
+                if (dif < 0) {
+                    r +=
+                        `<span style="color:#ff0000;font-weight:bold;font-family: 'Ubuntu';"> (` + numberWithCommas(Math.floor(curAVG)) +
+                        "/day)</span><span class='material-icons' style='color:#ff0000;'> keyboard_double_arrow_down </span>";
+                }
+                return r;
+            },
+        },
+        series: [{
+            showInLegend: true,
+            legendColor: "white",
+            name: "MrBeast",
+            color: "#00C2FF",
+            lineColor: "#00C2FF",
+            lineWidth: 3.25,
+            marker: {
+                enabled: false
+            },
+            data: []
+        }],
+    });
+
+
+    var avgChart = new Highcharts.chart({
+        chart: {
+            renderTo: "avgChart",
+            type: "line",
+            zoomType: "xy",
+            backgroundColor: "#1B1B1B",
+            plotBorderColor: "transparent",
+            animation: {
+                duration: 500
+            }
+        },
+        title: {
+            text: "Daily Averages",
+            style: {
+                color: "white",
+                fontFamily: "Ubuntu",
+                fontWeight: 500
+            }
+        },
+        yAxis: {
+            gridLineColor: '#313131',
+            title: {
+                text: '',
+            },
+            labels: {
+                formatter: function() {
+                    return abr(this.value)
+                },
+                style: {
+                    color: "white",
+                    fontFamily: "Ubuntu",
+                    fontSize: "1.1em"
+                }
+            },
+        },
+        xAxis: {
+            lineColor: '#313131',
+            tickColor: '#313131',
+            type: 'datetime',
+            title: {
+                text: '',
+            },
+            labels: {
+                style: {
+                    color: "white",
+                    fontFamily: "Ubuntu",
+                    fontSize: "1.1em"
+                }
+            }
+        },
+        legend: {
+            itemStyle: {
+                color: '#D3FFDC',
+                fontFamily: "Ubuntu",
+                fontWeight: 400
+            }
+        },
+        credits: {
+            text: "mrbeast-confirmed-stats.vercel.app",
+            href: window.location.href,
+            style: {
+                color: "#89B2FF",
+                fontFamily: "Ubuntu",
+                fontStyle: "italic",
+                fontSize: "0.7em"
+            }
+        },
+        tooltip: {
+            shared: true,
+            formatter: function() {
+                var index = this.points[0].series.xData.indexOf(this.x);
+                var lastY = this.points[0].series.yData[index - 1];
+                var dif = this.y - lastY;
+                var r =
+                    Highcharts.dateFormat("%A %b %e, %H:%M:%S", new Date(this.x)) +
+                    `<br><span style="color: #00DF1C; font-family:'Ubuntu';">\u25CF </span>` +
+                    this.points[0].series.name +
+                    ": <b>" + numberWithCommas(Math.floor(this.y));
+                if (dif < 0) {
+                    r +=
+                        `<span style="color:#ff0000;font-weight:bold;font-family: 'Ubuntu';"> (` + abr(Math.floor(dif), 4) +
+                        ")</span>";
+                }
+                if (dif > 0) {
+                    r +=
+                        `<span style="color:#00bb00;font-weight:bold;font-family: 'Ubuntu';"> (+` +
+                        abr(Math.floor(dif), 4) +
+                        ")</span>";
+                }
+                return r;
+            },
+        },
+        series: [{
+            name: "Daily Average",
+            color: "#00DF1C",
+            lineColor: "#00DF1C",
+            lineWidth: 3.25,
+            marker: {
+                enabled: false
+            },
+            data: []
+        }],
+    });
+
+    setTimeout(() => {
+        checkCustoms();
+    }, 10);
+
+    var database = {};
+    var apiCount = 0;
+    var estCount = 0;
+    var ESTnextUpdateTime = Date.now() - 1000;
+
+    function getData() {
+        fetch("https://nia-statistics.com/api/get?platform=youtube&type=channel&id=UCX6OQ3DkcsbYNE6H8uQQuVA")
+            .then((res) => res.json())
+            .then((data) => {
+                apiCount = data.apiSubCount;
+                if (apiCount !== undefined || apiCount !== null) {
+                    document.getElementById('apiloadingtext').style.display = "none";
+                    document.getElementById('api_counter').style.display = "";
+                }
+                document.getElementById('api_counter').innerHTML = apiCount;
+            });
+
+        fetch("https://nia-statistics.com/mrbeastsubcount")
+            .then((res) => res.json())
+            .then((msgData) => {
+                fetch("./history.txt")
+                    .then((res) => res.text())
+                    .then((historyData) => {
+                        let data = msgData.concat(JSON.parse(historyData));
+
+                        data = data.sort((a, b) => {
+                            return new Date(a[0]).getTime() - new Date(b[0]).getTime();
+                        }).filter(count => count[1] !== null);
+
+                        // create daily averages 
+                        for (let i = 0; i < data.length; i++) {
+                            if (i == 0) {
+                                data[i][2] = 350370;
+                            } else {
+                                data[i][2] = ((parseFloat(data[i][1]) - parseFloat(data[(i - 1)][1])) / (new Date(data[i][0]).getTime() - new Date(data[(i - 1)][0]).getTime())) * 86400000;
+                            }
+                        }
+
+
+
+                        database = data.map(data => {
+                            let time = new Date(data[0]).getTime();
+                            let count = parseFloat(data[1]);
+                            let avg = parseFloat(data[2]);
+                            return {
+                                time,
+                                count,
+                                avg
+                            };
+                        });
+
+                        database = database.sort((a, b) => {
+                            return a.time - b.time;
+                        });
+
+                        currentData = database[database.length - 1];
+                        let latestMsgData = msgData[msgData.length - 1];
+
+                        if (ESTnextUpdateTime < Date.now()) {
+                            ESTnextUpdateTime = Date.now() + 60000;
+                        }
+
+
+                        if (Date.now() <= (new Date(latestMsgData[0]).getTime() + 86400000)) {
+                            ESTnextUpdateTime = (new Date(latestMsgData[0]).getTime() + 86400000);
+                        }
+
+
+                        for (let i = 0; i < 2; i++) {
+                            document.getElementsByClassName("countMessage")[i].textContent = "MrBeast Current Subscribers: " + numberWithCommas(latestMsgData[1]);
+                        }
+
+                        let tmDate = new Date(latestMsgData[0]);
+                        let tmTime = (new Date().getDate() !== tmDate.getDate() ? "Yesterday at " : "Today at ") + (tmDate.getHours() > 12 ? tmDate.getHours() - 12 : tmDate.getHours()) + ":" + (tmDate.getMinutes() < 10 ? "0" + tmDate.getMinutes() : tmDate.getMinutes()) + ":" + (tmDate.getSeconds() < 10 ? "0" + tmDate.getSeconds() : tmDate.getSeconds()) + (tmDate.getHours() > 11 ? " PM" : " AM");
+
+                        for (let i = 0; i < 2; i++) {
+                            document.getElementsByClassName("timeMessage")[i].textContent = tmTime;
+                        }
+
+                        document.getElementById('lastupdated_counter').innerHTML = currentData.count;
+
+                        let enmTimeCal = Date.now() + ((86400000 / currentData.avg) * (calcApiUpdate(apiCount) - estCount));
+                        estCount = Math.floor(currentData.count + ((currentData.avg / 86400000) * (Date.now() - calcOverestimation(currentData.time, enmTimeCal)[0])));
+
+                        document.getElementById('estimated_counter').innerHTML = estCount;
+
+                        document.getElementById('sec_avg').innerHTML = (currentData.avg / 86400).toFixed(2);
+
+                        document.getElementById('min_avg').innerHTML = (currentData.avg / 1440).toFixed(2);
+
+                        document.getElementById('hr_avg').innerHTML = (currentData.avg / 24).toFixed(2);
+
+                        document.getElementById('daily_avg').innerHTML = Math.floor(currentData.avg);
+
+                        document.getElementById('enmHeader').textContent = "Estimated Time until next milestone (" + abr(calcApiUpdate(apiCount), 3) + ")";
+                        document.getElementById('enmTime').textContent = new Date(calcOverestimation(currentData.time, enmTimeCal)[1]).toString().split(" ")[1] + " " + new Date(calcOverestimation(currentData.time, enmTimeCal)[1]).toString().split(" ")[2] + " " + new Date(calcOverestimation(currentData.time, enmTimeCal)[1]).toString().split(" ")[4];
+                        document.getElementById('enmTz').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+                        subsChart.series[0].setData(database.map(x => [x.time, x.count]), true);
+                        avgChart.series[0].setData(database.map(x => [x.time, x.avg]), true);
+                    });
+            });
+    }
+
+    getData();
+    setInterval(getData, 2000);
+    setInterval(() => {
+        let enuTimeLeft = Math.max(ESTnextUpdateTime - Date.now(), 1)
+
+        document.getElementById('enuTime').textContent = checkZero(Math.floor((enuTimeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))) + ":" + checkZero(Math.floor((enuTimeLeft % (1000 * 60 * 60)) / (1000 * 60))) + ":" + checkZero(Math.floor((enuTimeLeft % (1000 * 60)) / 1000));
+
+        document.getElementById('enuTime').style.color = greenToRedColor(1 - (enuTimeLeft / 86400000));
+    }, 1000);
+</script>
+
+</html>

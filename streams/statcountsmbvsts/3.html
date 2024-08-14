@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<title>#3 Counters</title>
+<link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+<meta charSet="utf-8" />
+<meta name="description"
+    content="HuntingStats378's Website" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:image" content="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css">
+  <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+</head>
+<body>
+  <div id="main">
+    <span id="combined1" class="odometer">0</span>
+    <span id="combined2" class="odometer">0</span>
+    <span id="combined3" class="odometer">0</span>
+    <div id="comgap"><span id="subgap" class="odometer">0</span></div>
+    <div id="vs"><span id="viewstats" class="odometer">0</span></div>
+    <div id="thumb1"><img src="./loading.png" id="thumbnail1" align="left" width="70px" height="40px"></div>
+    <div id="latesttext1"><span id="tstext">Video title</span></div>
+    <div id="latest1"><span id="ts1" class="odometer">0</span></div>
+    <div id="latest2"><span id="ts2" class="odometer">0</span></div>
+  </div>
+  <div id="thumb2"><img src="./loading.png" id="thumbnail2" align="left" width="70px" height="40px"></div>
+    <div id="latesttext2"><span id="mbtext">Video title</span></div>
+    <div id="latest3"><span id="mb1" class="odometer">0</span></div>
+    <div id="latest4"><span id="mb2" class="odometer">0</span></div>
+</div>
+</body>
+<style>
+  body {
+    margin: 0;
+    background-color: transparent;
+    color: white;
+    text-align: right;
+  }
+
+  #combined1 {
+    text-align: right;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: Roboto;
+    margin-top: 0px;
+  }
+  
+  #combined2 {
+    text-align: right;
+    font-size: 74px;
+    font-weight: 700;
+    font-family: Roboto;
+  }
+
+  #combined3 {
+    text-align: right;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: Roboto;
+  }
+
+  #subgap {
+    text-align: right;
+    font-size: 74px;
+    font-weight: 700;
+    font-family: Roboto;
+  }
+
+  #comgap {
+    text-align: center;
+    font-size: 74px;
+    font-weight: 700;
+    font-family: Roboto;
+  }
+  
+  #confirmed {
+    text-align: center;
+    font-size: 74px;
+    font-weight: 700;
+    font-family: Roboto;
+  }
+
+  #vs {
+    text-align: center;
+    font-size: 74px;
+    font-weight: 700;
+    font-family: Roboto;
+    margin-top: 80px;
+  }
+
+  #thumb1 {
+    margin-top: 25px;
+    margin-left: 4px;
+  }
+  
+  #latesttext1 {
+    text-align: left;
+    font-size: 10px;
+    font-weight: 400;
+    font-family: Roboto;
+    margin-top: 65px;
+    margin-left: 5px;
+    width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  #latest1 {
+    text-align: left;
+    font-size: 33px;
+    font-weight: 700;
+    font-family: Roboto;
+    margin-top: 11px;
+    margin-left: 5px;
+  }
+
+  #latest2 {
+    text-align: left;
+    font-size: 33px;
+    font-weight: 700;
+    font-family: Roboto;
+    margin-top: 20px;
+    margin-left: 5px;
+  }
+
+  #thumb2 {
+    margin-top: -250px;
+    margin-left: 225px;
+  }
+
+  #latesttext2 {
+    text-align: left;
+    font-size: 10px;
+    font-weight: 400;
+    font-family: Roboto;
+    margin-top: 65px;
+    margin-left: 225px;
+    width: 205px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  #latest3 {
+    text-align: left;
+    font-size: 33px;
+    font-weight: 700;
+    font-family: Roboto;
+    margin-top: 15px;
+    margin-left: 227px;
+  }
+
+  #latest4 {
+    text-align: left;
+    font-size: 33px;
+    font-weight: 700;
+    font-family: Roboto;
+    margin-top: 20px;
+    margin-left: 227px;
+  }
+  
+</style>
+<script>
+    var Channels = [
+          "UCX6OQ3DkcsbYNE6H8uQQuVA", //MrBeast 
+          "UCluBATXIP9doWvougjUVUGQ", //MrBeast (Russia)
+          "UCDifkiOICEJ-hiVAvCQlpNA", //MrBeast (Hindi)
+          "UClwITvsAr6JnpLmGufudiTw", //MrBeast (Japan)
+          "UCbHU7ouxaMgfyWSUtI4QK8Q", //MrBeast (Arabic)
+          "UCNAhW2oJvy_FUU082pEDspA", //MrBeast (Spanish)
+          "UCggERuskO1F6XKwor-Pvkww", //MrBeast (Brasil)
+          "UCbf2Ozi4BF34AY3t3rHj9IA", //MrBeast (France)
+          "UCUaT_39o1x6qWjz7K2pWcgw", //Beast Reacts
+          "UCneluyh2H6gU7v8gU8El-Cg", //Beast Reacts (Portugese)
+          "UCLAVIBJWb6geGRSvWsZ_ang", //Beast Reacts (Russia)
+          "UCL6Xc5xuRECnWbGBOKG9APA", //Beast Reacts (Spanish)
+          "UCIPPMRA040LQr5QPyJEbmXA", //MrBeast Gaming
+          "UC1lZ05QnM1R09HiwNMLDdnw", //MrBeast Gaming (Russia)
+          "UCfNGT03h99S3zLbyUD9FMuQ", //MrBeast Gaming (Spanish)
+          "UCpPJaHR_s3qYSCzry78G7lg", //MrBeast Gaming (Brasil)
+          "UC4-79UOlP48-QNGgCko5p2g", //MrBeast Shorts
+          "UCAiLfjNXkNv24uhpzUgPa6A", //Beast Philantrophy
+          "UCZzvDDvaYti8Dd8bLEiSoyQ", //Mrbeast 2
+          "UC68DIXWCmetC8N5J_Kc5gjQ" //Don't Subscribe
+        ];
+    var Channel = [
+      "UCq-Fj5jknLsUf-MWSy4_brA", // T-Series
+      "UChz5aEi3dfrDVC8-YJsMUDA", // T-Series Kids Hut
+      "UCcvNYxWXR_5TjVK7cSCdW-g", // T-Series Apna Punjab
+      "UCnJjcn5FrgrOEp5_N45ZLEQ", // T-Series Telugu
+      "UCovxnbWKPCA5iJDxa9zbBew", // T-Series Kannada
+      "UC884UDwNldmpdEiS1mgtijA", // Shabad Gurbani
+      "UClzDIMsdz5O5hHNz4iRgGTw", // Health and Fitness
+      "UCaayLD9i5x4MmIoVZxXSv_g", // T-Series Bhakti Sagar
+      "UCzL6rJhkoXkIt0fCv9T9_uA", // Pop Chartbusters
+      "UCRm96I5kmb_iGFofE5N691w", // T-Series Bollywood Classics
+      "UCAEv0ANkT221wXsTnxFnBsQ", // T-Series Tamil
+      "UCUoj77TIUy9DhLNe5EVmF-A", // T-Series Malayalam
+      "UCy2fvV-mH_4AcIgqnLg9uDw", // T-Series Regional
+      "UCpN-WGQgGsOrXm7nHXDdTDA", // T-Series Hamaar Bhojpuri
+      "UCev6abkwjdHj_dB3rquFfbQ", // T-Series Gujarati
+      "UCCo_LMj-m3iGSSuytYq9n6Q", // T-Series Marathi
+      "UCJKd5H8WR_w0wN-Or1-MJyQ", // T-Series Bhavageethegalu & Folk
+      "UCjA7qIB2IetzeolMd_Hwa0w", // Bhakti Sagar Telugu
+      "UCg5bqGqi_ROdCPV4eHF575g", // Bhakti Sagar Tamil
+      "UCG-dSI2eRCBzxzPUfXjxHQw", // Bhakti Sagar Malayalam
+      "UCR4_gSSeup7YpBfsOWN_oRA", // T-Series Bhakti Marathi
+      "UCQX4SV8Fg0cD98K1VRBVPEw", // Bhakti Sagar Kannada
+      "UCVkXfARLNI0vf7gajoDDjlw", // T-Series Islamic Music
+      "UCz2pmzVJkW78zzUNIN0GeTQ", // T-Series Kids Hut - Portuguese Fairy Tales
+      "UC3Zva7aW8lJUFZQYnC-XyHg", // T-SERIES HARYANVI
+      "UCvX5_TDQ3kJq48FF9xCvJ6Q", // T-Series Kids Hut - Telugu Kathalu
+      "UCBlslL5pqbe8EwI1Edx__Fw", // T-Series Kids Hut - Cuentos en Español
+      "UCoi3aLlLa6xs0A1QwR_7oxA", // T-Series Kids Hut Tamil
+      "UC6rzGFfqiyOTxIGhx7MDJYA", // T-Series Himachali
+      "UCkPipkv-8UZ2saO2TjE8AWA", // T-Series Rajasthani
+      "UCPH9W_9ZDQ1gemcCaIxOvCw", // T-Series Bangla
+    ];
+        var number = 0;
+        var numbe1r = 0;
+        var work = [];
+        var wor1k = [];
+
+        function render() {
+          datas();
+          number = work.reduce(function (a, b) {
+            return a + b;
+          }, 0);
+          combined1.innerHTML = number;
+        }
+
+        function rendear() {
+          dataa();
+          numbe1r = wor1k.reduce(function (a, b) {
+            return a + b;
+          }, 0);
+          combined2.innerHTML = numbe1r;
+          combined3.innerHTML = number - numbe1r;
+        }
+
+        function datas() {
+          for (let i = 0; i < Channel.length; i++) {
+    fetch(`https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${Channel[i]}`)
+              .then((res) => res.json())
+              .then((data) => {
+                work[i] = Math.round(data.estSubCount);
+              });
+          }
+        }
+
+        function dataa() {
+          for (let c = 0; c < Channels.length; c++) {
+        fetch(`https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${Channels[c]}`)
+              .then((res) => res.json())
+              .then((data) => {
+                wor1k[c] = Math.round(data.estSubCount);
+              });
+          }
+        }
+
+
+        render();
+        rendear();
+
+        setInterval(() => {
+          render();
+          rendear();
+        }, 2000);
+  
+  const urlParams1 = new URLSearchParams(window.location.search);
+  var id1 = urlParams1.get("id1") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
+  const urlParams2 = new URLSearchParams(window.location.search);
+  var id2 = urlParams2.get("id2") || "UCq-Fj5jknLsUf-MWSy4_brA";
+  
+  setInterval(() => {
+  fetch(
+    `https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id1}`
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      fetch(
+        `https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id2}`
+      )
+        .then((res) => res.json())
+        .then((date) => {
+          fetch(
+            "https://nia-statistics.com/mrbeastsubcount"
+          )
+            .then((res) => res.json())
+            .then((viewstats) => {
+              fetch(
+                `https://axern.space/api/get?platform=youtube&type=video&id=${id1}`
+              )
+                .then((res) => res.json())
+                .then((mblatest) => {
+                  fetch(
+                    `https://axern.space/api/get?platform=youtube&type=video&id=${id2}`
+                  )
+                    .then((res) => res.json())
+                    .then((tslatest) => {
+                      document.getElementById("viewstats").innerHTML = viewstats[viewstats.length - 1][1];
+
+document.getElementById("subgap").innerHTML = date.estSubCount - data.estSubCount;
+                      document.getElementById("ts1").innerHTML = tslatest.estViewCount;
+                      document.getElementById("ts2").innerHTML = tslatest.apiLikeCount;
+                      document.getElementById("thumbnail1").src = tslatest.snippet.thumbnails.maxres.url;
+                      document.getElementById("tstext").textContent = tslatest.snippet.title;
+                      document.getElementById("mb1").innerHTML = mblatest.estViewCount;
+                      document.getElementById("mb2").innerHTML = mblatest.apiLikeCount;
+                      document.getElementById("thumbnail2").src = mblatest.snippet.thumbnails.maxres.url;
+                      document.getElementById("mbtext").textContent = mblatest.snippet.title;
+              });
+      });
+              });
+              });
+    });
+          }, 2000);
+</script>

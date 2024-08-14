@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+  <head>
+    <title>Counter</title>
+    <meta name="author" content="Combined_Count">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap" rel="stylesheet">
+    <link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css">
+    <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <body>
+      <span id="counter" style="color: white" class="odometer">0</span>
+    <style>
+
+      body {
+        background-color: transparent;
+        padding: 0px;
+      }
+
+     #counter {
+        font-size: 35pt;
+        font-family: Roboto;
+        font-weight: 800;
+        text-align: left;
+      }
+    </style>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const vid = params.get("id") || "5wg8iI8dHbg";
+  setInterval(() => {
+          fetch(`https://api.socialcounts.org/youtube-live-watching-count/${vid}`)
+                .then((res) => res.json())
+                .then((data) => {
+                document.getElementById("counter").innerHTML =
+                data.like;
+                  });
+          }, 2000);
+</script>
+  </body>

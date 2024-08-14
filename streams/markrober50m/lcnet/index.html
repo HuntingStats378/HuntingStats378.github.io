@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="initial-scale=1.0001,minimum-scale=1.0001,maximum-scale=1.0001,user-scalable=no"
+    />
+    <title>Live Subscriber Count - Livecounts</title>
+    <link
+      rel="shortcut icon"
+      href="https://livecounts.net/favicon.ico"
+      type="image/x-icon"
+    />
+    <meta
+      name="description"
+      content="The best, lightest real-time subscriber counter on the web. View any YouTube channel's real-time subscriber count, updated every 2 seconds."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@LivecountsSite" />
+    <meta name="twitter:title" content="Live Subscriber Count - Livecounts" />
+    <meta
+      name="twitter:description"
+      content="The best, lightest live sub counter on the web. View any YouTube channel's real-time subscriber count, updated every 2 seconds."
+    />
+    <meta name="twitter:creator" content="@ToastifyDev" />
+    <meta name="twitter:image" content="https://livecounts.net/logo.jpg" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="assets/odometer.css" />
+    <script src="assets/odometer.js"></script>
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+  </head>
+  <body class="">
+    <h1 class="title">Real-Time YouTube Subscriber Count</h1>
+    <p class="subtitle">by @ColleensCuber</p>
+    <a id="imageLink" target="_blank">
+      <img
+        id="image"
+        alt="Colleen Ballinger"
+        src="https://yt3.ggpht.com/5TSarMoLOZ2qUjwsI55B4YalpHbB7gTUMOwqOFcbc4dmVt-32mCcAgjM7vOQfFIO37qjMGqB=s200-c-k-c0x00ffffff-no-rj"
+      />
+    </a>
+    <a id="subscribeBtn">Subscribe</a>
+    <div class="name" onclick="search()">
+      <p id="name">HuntingStats378</p>
+      <span class="iconify" data-icon="zondicons:checkmark"></span>
+    </div>
+    <span id="subscribers" class="odometer">0</span>
+    <div class="container">
+      <span id="goal" class="odometer">0</span>
+      <p id="goalText">subscribers to 5</p>
+    </div>
+    <i class="updateText">updated every 2 seconds</i>
+    <div id="footer">
+      <span
+        class="iconify icon"
+        id="dark"
+        data-icon="ph:moon-bold"
+        onclick="toggleLightMode()"
+        data-width="25"
+      ></span>
+      <span
+        class="iconify icon"
+        id="light"
+        data-icon="ph:sun-bold"
+        onclick="toggleLightMode()"
+        data-width="25"
+      ></span>
+    </div>
+  </body>
+  <script src="script.js"></script>
+</html>

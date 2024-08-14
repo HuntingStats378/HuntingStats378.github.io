@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html>
+<title>#2 Counters</title>
+<link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+<meta charSet="utf-8" />
+<meta name="description"
+    content="HuntingStats378's Website" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:image" content="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,600,700" rel="stylesheet">
+  <link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer05s.css">
+  <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometerleading.js"></script>
+    <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/highstock.js"></script>
+</head>
+<body>
+    <div id="chart1" class="chart1"></div><div id="chart2" class="chart2"></div><div id="chart3" class="chart3"></div><div id="chart4" class="chart4"></div><div id="chart5" class="chart5"></div><div id="chart6" class="chart6"></div><div id="chart7" class="chart7"></div><div id="chart8" class="chart8"></div><div id="chart9" class="chart9"></div><div id="chart10" class="chart10"></div>
+    <div id="clock"><div id="date"><span>Date: </span><span id="years" class="odometer">0000</span><span>-</span><span id="months" class="odometer">00</span><span>-</span><span id="days" class="odometer">00</span><span> UTC</span></div><div id="time"><span id="hours" class="odometer">00</span><span>:</span><span id="minutes" class="odometer">00</span><span>:</span><span id="seconds" class="odometer">00</span></div></div>
+</body>
+<style>
+    body {
+        padding: 0px;
+        font-weight: 700;
+        font-family: Roboto;
+        color: White;
+        background-color: transparent;
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    .right {
+        text-align: right;
+    }
+
+      #chart1 {
+        width: 50%;
+        height: 250px;
+        margin-top: 0px;
+      }
+
+      #chart3 {
+        width: 30%;
+        height: 150px;
+        margin-top: -33px;
+        margin-left: 0%;
+      }
+
+      #chart2 {
+        width: 50%;
+        height: 250px;
+        margin-top: -250px;
+        margin-left: 50%;
+      }
+
+      #time {
+        font-size: 50px;
+        font-family: Roboto;
+        text-align: left;
+        margin-left: 63px;
+        margin-top: 0px;
+      }
+
+      #date {
+        font-size: 25px;
+        font-family: Roboto;
+        text-align: left;
+        margin-left: 10px;
+        margin-top: -115px;
+      }
+
+      #chart4 {
+        width: 22%;
+        height: 150px;
+        margin-left: 33%;
+      }
+    
+    .chart4 {
+        margin-top: -150px;
+    }
+
+    #chart5 {
+        width: 22%;
+        height: 150px;
+        margin-left: 55%;
+      }
+
+    .chart5 {
+        margin-top: -150px;
+    }
+
+    #chart6 {
+        width: 22%;
+        height: 150px;
+        margin-left: 77%;
+      }
+
+    .chart6 {
+        margin-top: -150px;
+    }
+
+    #chart7 {
+        width: 25%;
+        height: 150px;
+        margin-left: 50%;
+      }
+
+    .chart7 {
+        margin-top: -0px;
+    }
+
+    #chart8 {
+        width: 25%;
+        height: 150px;
+        margin-left: 75%;
+      }
+
+    .chart8 {
+        margin-top: -150px;
+    }
+
+    #chart9 {
+        width: 25%;
+        height: 150px;
+        margin-left: 50%;
+      }
+
+    .chart9 {
+        margin-top: -40px;
+    }
+
+    #chart10 {
+        width: 25%;
+        height: 150px;
+        margin-left: 75%;
+      }
+
+    .chart10 {
+        margin-top: -150px;
+    }
+</style>
+<script>
+    const urlParams3 = new URLSearchParams(window.location.search);
+    var id3 = urlParams3.get("id3") || "UClOyuxZvQkoHoIn15kNbkUw";
+    const urlParams4 = new URLSearchParams(window.location.search);
+    var id4 = urlParams4.get("id4") || "UCVfKmfOY5SWfx_rt51oG92Q";
+    let subs
+    let id1
+    let id2
+    let id5
+    let id6
+    let id7
+    let id8
+    let id9
+    let id10
+    let id11
+    const odometers = document.querySelectorAll(".odometer");
+            for (const odo of odometers) {
+              new Odometer({
+                el: odo,
+                format: "(ddd)",
+                minIntegerLen: 2,
+              });
+            }
+
+
+                    setInterval(() => {
+                    fetch(
+                        "numbers.json"
+                      )
+                        .then((res) => res.json())
+                        .then((data) => {
+                            id1 = data.one
+                            id2 = data.username
+                            id5 = data.usertwo
+                            id6 = data.userthree
+                            id7 = data.userfour
+                            id8 = data.userfive
+                            id9 = data.usersix
+                            id10 = data.userseven
+                            id11 = data.usereight
+                    });
+                    }, 1000);
+
+    var db = {
+        len: 0,
+        time: [],
+        subs1: [],
+        subs2: [],
+        subs3: [],
+        subs4: [],
+        subs5: [],
+        subs6: [],
+        subs7: [],
+        subs8: [],
+        subs9: []
+      };
+
+      function calcGain(arr, len) {
+        if (len !== undefined) {
+          if (arr.length > len) {
+            return arr[arr.length-1] - arr[((arr.length-1) - len)];
+          } else {
+            return arr[arr.length-1] - arr[0];
+          }
+        } else {
+          return arr[arr.length-1] - arr[0];
+        }
+      }
+
+    setInterval(() => {
+                    fetch(
+          `https://axern.space/api/get?platform=youtube&type=channel&id=${id1}`
+        )
+          .then((res) => res.json())
+          .then((data) => {
+              subs = data.estSubCount
+              db.subs1.push(data.estSubCount);
+              let change1 = calcGain(db.subs1, 1);
+              if (chart1.series[0].points.length == 1500) chart1.series[0].data[0].remove();
+              chart1.series[0].addPoint([Date.now(), data.estSubCount])
+              });
+              }, 2000);
+
+    setInterval(() => {
+            fetch(
+              `https://api-v2.nextcounts.com/api/instagram/user/${id2}`
+            )
+              .then((res) => res.json())
+              .then((data) => {
+                  db.subs2.push(data.followers);
+                  let change2 = calcGain(db.subs2, 1);
+                            if (chart2.series[0].points.length == 1500) chart2.series[0].data[0].remove();
+                            chart2.series[0].addPoint([Date.now(), data.followers])
+                  if (chart3.series[0].points.length == 1500) chart3.series[0].data[0].remove();
+                  chart3.series[0].addPoint([Date.now(), (data.followers - subs)])
+            });
+                }, 2000);
+
+    setInterval(() => {
+    fetch(
+      `https://api-v2.nextcounts.com/api/instagram/user/${id5}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+            db.subs3.push(data.followers);
+            let change3 = calcGain(db.subs3, 1);
+                    if (chart4.series[0].points.length == 1500) chart4.series[0].data[0].remove();
+                    chart4.series[0].addPoint([Date.now(), data.followers])
+    });
+        }, 2000);
+
+    setInterval(() => {
+    fetch(
+      `https://api-v2.nextcounts.com/api/instagram/user/${id6}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+            db.subs4.push(data.followers);
+            let change4 = calcGain(db.subs4, 1);
+                    if (chart5.series[0].points.length == 1500) chart5.series[0].data[0].remove();
+                    chart5.series[0].addPoint([Date.now(), data.followers])
+    });
+        }, 2000);
+
+    setInterval(() => {
+    fetch(
+      `https://api-v2.nextcounts.com/api/instagram/user/${id7}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+            db.subs5.push(data.followers);
+            let change5 = calcGain(db.subs5, 1);
+                    if (chart6.series[0].points.length == 1500) chart6.series[0].data[0].remove();
+                    chart6.series[0].addPoint([Date.now(), data.followers])
+    });
+        }, 2000);
+    
+    setInterval(() => {
+    fetch(
+      `https://axern.space/api/get?platform=youtube&type=channel&id=${id8}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+            db.subs6.push(data.estSubCount_linear);
+            let change6 = calcGain(db.subs6, 1);
+                    if (chart7.series[0].points.length == 1500) chart7.series[0].data[0].remove();
+                    chart7.series[0].addPoint([Date.now(), data.estSubCount_linear])
+    });
+        }, 2000);
+
+    setInterval(() => {
+    fetch(
+      `https://axern.space/api/get?platform=youtube&type=channel&id=${id9}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+          db.subs7.push(data.estSubCount_linear);
+            let change7 = calcGain(db.subs7, 1);
+                    if (chart8.series[0].points.length == 1500) chart8.series[0].data[0].remove();
+                    chart8.series[0].addPoint([Date.now(), data.estSubCount_linear])
+    });
+        }, 2000);
+
+    setInterval(() => {
+    fetch(
+      `https://axern.space/api/get?platform=youtube&type=channel&id=${id10}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+          db.subs8.push(data.estSubCount_linear);
+            let change8 = calcGain(db.subs8, 1);
+                    if (chart9.series[0].points.length == 1500) chart9.series[0].data[0].remove();
+                    chart9.series[0].addPoint([Date.now(), data.estSubCount_linear])
+    });
+        }, 2000);
+
+    setInterval(() => {
+    fetch(
+      `https://axern.space/api/get?platform=youtube&type=channel&id=${id11}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+          db.subs9.push(data.estSubCount_linear);
+            let change9 = calcGain(db.subs9, 1);
+                    if (chart10.series[0].points.length == 1500) chart10.series[0].data[0].remove();
+                    chart10.series[0].addPoint([Date.now(), data.estSubCount_linear])
+    });
+        }, 2000);
+    
+                    setInterval(() => {
+                        const d = new Date();
+                      var tYear = d.getUTCFullYear();
+                       var tMonth = (d.getUTCMonth() + 1);
+                       var tDay = d.getUTCDate();
+                      var tHour = d.getUTCHours();
+                           var tMinute = d.getUTCMinutes();
+                           var tSecond = d.getUTCSeconds();
+                      document.getElementById("years").innerHTML = tYear;
+                      document.getElementById("months").innerHTML = tMonth;
+                      document.getElementById("days").innerHTML = tDay;
+                      document.getElementById("hours").innerHTML = tHour;
+                      document.getElementById("minutes").innerHTML = tMinute;
+                      document.getElementById("seconds").innerHTML = tSecond;
+                        }, 0);
+
+                      var textBright = "transparent"
+                      var lineColor = "transparent"
+                      var maxPoints = 20000;
+                      var chart1 = new Highcharts.chart({
+                          chart: {
+                              renderTo: 'chart1',
+                              type: 'line',
+                              zoomType: 'x',
+                              backgroundColor: 'transparent',
+                              plotBorderColor: 'transparent'
+                          },
+                          title: {
+                              text: ' '
+                          },
+                          xAxis: {
+                              visible: false,
+                          },
+                          yAxis: {
+                                visible: false,
+                          },
+                          credits: {
+                              enabled: false
+                          },
+
+                          series: [{
+                              showInLegend: false,
+                              name: 'Subscribers',
+                              marker: {
+                                  enabled: false
+                              },
+                              color: 'transparent',
+                              lineColor: 'white'
+                          }]
+                      });
+
+                      var chart2 = new Highcharts.chart({
+                          chart: {
+                              renderTo: 'chart2',
+                              type: 'line',
+                              zoomType: 'x',
+                              backgroundColor: 'transparent',
+                              plotBorderColor: 'transparent'
+                          },
+                          title: {
+                                text: ' '
+                            },
+                            xAxis: {
+                                visible: false,
+                            },
+                            yAxis: {
+                                  visible: false,
+                            },
+                            credits: {
+                              enabled: false
+                          },
+
+                          series: [{
+                              showInLegend: false,
+                              name: 'Subscribers',
+                              marker: {
+                                  enabled: false
+                              },
+                              color: 'transparent',
+                              lineColor: 'white'
+                          }]
+                      });
+
+    var chart3 = new Highcharts.chart({
+          chart: {
+              renderTo: 'chart3',
+              type: 'line',
+              zoomType: 'x',
+              backgroundColor: 'transparent',
+              plotBorderColor: 'transparent'
+          },
+          title: {
+                text: ' '
+            },
+            xAxis: {
+                visible: false,
+            },
+            yAxis: {
+                  visible: false,
+            },
+            credits: {
+              enabled: false
+          },
+
+          series: [{
+              showInLegend: false,
+              name: 'Subscribers',
+              marker: {
+                  enabled: false
+              },
+              color: 'transparent',
+              lineColor: 'white'
+          }]
+      });
+
+    var chart4 = new Highcharts.chart({
+          chart: {
+              renderTo: 'chart4',
+              type: 'line',
+              zoomType: 'x',
+              backgroundColor: 'transparent',
+              plotBorderColor: 'transparent'
+          },
+          title: {
+                text: ' '
+            },
+            xAxis: {
+                visible: false,
+            },
+            yAxis: {
+                  visible: false,
+            },
+            credits: {
+              enabled: false
+          },
+
+          series: [{
+              showInLegend: false,
+              name: 'Subscribers',
+              marker: {
+                  enabled: false
+              },
+              color: 'transparent',
+              lineColor: 'white'
+          }]
+      });
+
+    var chart5 = new Highcharts.chart({
+          chart: {
+              renderTo: 'chart5',
+              type: 'line',
+              zoomType: 'x',
+              backgroundColor: 'transparent',
+              plotBorderColor: 'transparent'
+          },
+          title: {
+                text: ' '
+            },
+            xAxis: {
+                visible: false,
+            },
+            yAxis: {
+                  visible: false,
+            },
+            credits: {
+              enabled: false
+          },
+
+          series: [{
+              showInLegend: false,
+              name: 'Subscribers',
+              marker: {
+                  enabled: false
+              },
+              color: 'transparent',
+              lineColor: 'white'
+          }]
+      });
+
+    var chart6 = new Highcharts.chart({
+          chart: {
+              renderTo: 'chart6',
+              type: 'line',
+              zoomType: 'x',
+              backgroundColor: 'transparent',
+              plotBorderColor: 'transparent'
+          },
+          title: {
+                text: ' '
+            },
+            xAxis: {
+                visible: false,
+            },
+            yAxis: {
+                  visible: false,
+            },
+            credits: {
+              enabled: false
+          },
+
+          series: [{
+              showInLegend: false,
+              name: 'Subscribers',
+              marker: {
+                  enabled: false
+              },
+              color: 'transparent',
+              lineColor: 'white'
+          }]
+      });
+
+    var chart7 = new Highcharts.chart({
+          chart: {
+              renderTo: 'chart7',
+              type: 'line',
+              zoomType: 'x',
+              backgroundColor: 'transparent',
+              plotBorderColor: 'transparent'
+          },
+          title: {
+                text: ' '
+            },
+            xAxis: {
+                visible: false,
+            },
+            yAxis: {
+                  visible: false,
+            },
+            credits: {
+              enabled: false
+          },
+
+          series: [{
+              showInLegend: false,
+              name: 'Subscribers',
+              marker: {
+                  enabled: false
+              },
+              color: 'transparent',
+              lineColor: 'white'
+          }]
+      });
+
+    var chart8 = new Highcharts.chart({
+          chart: {
+              renderTo: 'chart8',
+              type: 'line',
+              zoomType: 'x',
+              backgroundColor: 'transparent',
+              plotBorderColor: 'transparent'
+          },
+          title: {
+                text: ' '
+            },
+            xAxis: {
+                visible: false,
+            },
+            yAxis: {
+                  visible: false,
+            },
+            credits: {
+              enabled: false
+          },
+
+          series: [{
+              showInLegend: false,
+              name: 'Subscribers',
+              marker: {
+                  enabled: false
+              },
+              color: 'transparent',
+              lineColor: 'white'
+          }]
+      });
+
+    var chart9 = new Highcharts.chart({
+          chart: {
+              renderTo: 'chart9',
+              type: 'line',
+              zoomType: 'x',
+              backgroundColor: 'transparent',
+              plotBorderColor: 'transparent'
+          },
+          title: {
+                text: ' '
+            },
+            xAxis: {
+                visible: false,
+            },
+            yAxis: {
+                  visible: false,
+            },
+            credits: {
+              enabled: false
+          },
+
+          series: [{
+              showInLegend: false,
+              name: 'Subscribers',
+              marker: {
+                  enabled: false
+              },
+              color: 'transparent',
+              lineColor: 'white'
+          }]
+      });
+
+    var chart10 = new Highcharts.chart({
+          chart: {
+              renderTo: 'chart10',
+              type: 'line',
+              zoomType: 'x',
+              backgroundColor: 'transparent',
+              plotBorderColor: 'transparent'
+          },
+          title: {
+                text: ' '
+            },
+            xAxis: {
+                visible: false,
+            },
+            yAxis: {
+                  visible: false,
+            },
+            credits: {
+              enabled: false
+          },
+
+          series: [{
+              showInLegend: false,
+              name: 'Subscribers',
+              marker: {
+                  enabled: false
+              },
+              color: 'transparent',
+              lineColor: 'white'
+          }]
+      });
+
+    var chart11 = new Highcharts.chart({
+          chart: {
+              renderTo: 'chart11',
+              type: 'line',
+              zoomType: 'x',
+              backgroundColor: 'transparent',
+              plotBorderColor: 'transparent'
+          },
+          title: {
+                text: ' '
+            },
+            xAxis: {
+                visible: false,
+            },
+            yAxis: {
+                  visible: false,
+            },
+            credits: {
+              enabled: false
+          },
+
+          series: [{
+              showInLegend: false,
+              name: 'Subscribers',
+              marker: {
+                  enabled: false
+              },
+              color: 'transparent',
+              lineColor: 'white'
+          }]
+      });
+
+    function ChangeOfCount(x, gain, lose, none) {
+        gain = gain || "1";
+        lose = lose || "1";
+        none = none || "0";
+        let count = parseFloat(x);
+        if (count > 3333) {
+          return ["1",
+                 gain];
+        } else if (count < -3333) {
+          return ["1",
+                 lose];
+        } else {
+          return ["0",
+                 none];
+        }
+      }
+
+    setInterval(() => {
+    console.log(ChangeOfCount(change1)[1]);
+        }, 4000);
+</script>

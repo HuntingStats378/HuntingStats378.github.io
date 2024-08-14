@@ -1,0 +1,151 @@
+<html>
+<head>
+    <title>HuntingStats378 - Combined</title>
+    <link href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css" rel="stylesheet">
+    <link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+    <meta charSet="utf-8" />
+    <meta name="description" content="HuntingStats378 - Compare" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+</head>
+
+<body style="font-family: Roboto; color: var(--fg-color, #fff); background-color: var(--bg-color, #E7541E);">
+    <div style="height: auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+        <div style="padding: 0px 4px; text-align: center; background-color: var(--counter-bg-color, black);">
+            <img style="filter: blur(4px); border-radius: 15px; object-fit: cover; width: 100%; height: 150px; position: relative;" src="https://www.banner.yt/UCq-Fj5jknLsUf-MWSy4_brA">
+            <img style="width: 125px; height: 125px; border-radius: 50%; margin-top: -5em; position: relative;" src="https://yt3.ggpht.com/XE7Iq8jvJ07ptMc-HxZR_V-2XgXCb0i06i4E_dypl7xSR655WXaQeglfqNuEeuwH3oM9RKVodQ=s176-c-k-c0x00ffffff-no-rj">
+            <h2 style="margin-top: 1px; font-size: var(--title-font-size, 4.5vh)">T-Series Combined</h2>
+            <h2 id="views1" style="margin-top: -20px; font-size: var(--counter-font-size, 8vh)" class="odometer">0</h2>
+            <h5 onclick="footer1()" id="footer1" style="margin-top: -40px;">Views</h5>
+        </div>
+        <div style="height: auto; padding: 0px 4px; text-align: center; background-color: var(--counter-bg-color, black);">
+            <img style="filter: blur(4px); border-radius: 15px; object-fit: cover; width: 100%; height: 150px; position: relative;" src="https://www.banner.yt/UCX6OQ3DkcsbYNE6H8uQQuVA">
+            <img style="width: 125px; height: 125px; border-radius: 50%; margin-top: -5em; position: relative;" src="https://yt3.ggpht.com/fxGKYucJAVme-Yz4fsdCroCFCrANWqw0ql4GYuvx8Uq4l_euNJHgE-w9MTkLQA805vWCi-kE0g=s176-c-k-c0x00ffffff-no-rj">
+            <h2 style="margin-top: 1px; font-size: var(--title-font-size, 4.5vh)">MrBeast Combined</h2>
+            <h2 id="views2" style="margin-top: -20px; font-size: var(--counter-font-size, 8vh)" class="odometer">0</h2>
+            <h5 onclick="footer2()" id="footer2" style="margin-top: -40px;">Views</h5>
+        </div>
+    </div>
+    <center>
+        <div style="width: 100%; height: 100px; background-color: var(--counter-bg-color, black); border-radius: 20px;">
+            <h1>Gap:</h1>
+            <h1 id="gap" class="odometer" style="margin-top: -15px">0</h1>
+        </div>
+    </center>
+    </body>
+<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+<script>
+  var Channels = [
+        "UCX6OQ3DkcsbYNE6H8uQQuVA", //MrBeast 
+        "UCluBATXIP9doWvougjUVUGQ", //MrBeast (Russia)
+        "UCDifkiOICEJ-hiVAvCQlpNA", //MrBeast (Hindi)
+        "UClwITvsAr6JnpLmGufudiTw", //MrBeast (Japan)
+        "UCbHU7ouxaMgfyWSUtI4QK8Q", //MrBeast (Arabic)
+        "UCNAhW2oJvy_FUU082pEDspA", //MrBeast (Spanish)
+        "UCggERuskO1F6XKwor-Pvkww", //MrBeast (Brasil)
+        "UCbf2Ozi4BF34AY3t3rHj9IA", //MrBeast (France)
+        "UCUaT_39o1x6qWjz7K2pWcgw", //Beast Reacts
+        "UCneluyh2H6gU7v8gU8El-Cg", //Beast Reacts (Portugese)
+        "UCLAVIBJWb6geGRSvWsZ_ang", //Beast Reacts (Russia)
+        "UCL6Xc5xuRECnWbGBOKG9APA", //Beast Reacts (Spanish)
+        "UCIPPMRA040LQr5QPyJEbmXA", //MrBeast Gaming
+        "UC1lZ05QnM1R09HiwNMLDdnw", //MrBeast Gaming (Russia)
+        "UCfNGT03h99S3zLbyUD9FMuQ", //MrBeast Gaming (Spanish)
+        "UCpPJaHR_s3qYSCzry78G7lg", //MrBeast Gaming (Brasil)
+        "UC4-79UOlP48-QNGgCko5p2g", //MrBeast Shorts
+        "UCAiLfjNXkNv24uhpzUgPa6A", //Beast Philantrophy
+        "UCZzvDDvaYti8Dd8bLEiSoyQ", //Mrbeast 2
+        "UC68DIXWCmetC8N5J_Kc5gjQ" //Don't Subscribe
+      ];
+  var Channel = [
+    "UCq-Fj5jknLsUf-MWSy4_brA", // T-Series
+    "UChz5aEi3dfrDVC8-YJsMUDA", // T-Series Kids Hut
+    "UCcvNYxWXR_5TjVK7cSCdW-g", // T-Series Apna Punjab
+    "UCnJjcn5FrgrOEp5_N45ZLEQ", // T-Series Telugu
+    "UCovxnbWKPCA5iJDxa9zbBew", // T-Series Kannada
+    "UC884UDwNldmpdEiS1mgtijA", // Shabad Gurbani
+    "UClzDIMsdz5O5hHNz4iRgGTw", // Health and Fitness
+    "UCaayLD9i5x4MmIoVZxXSv_g", // T-Series Bhakti Sagar
+    "UCzL6rJhkoXkIt0fCv9T9_uA", // Pop Chartbusters
+    "UCRm96I5kmb_iGFofE5N691w", // T-Series Bollywood Classics
+    "UCAEv0ANkT221wXsTnxFnBsQ", // T-Series Tamil
+    "UCUoj77TIUy9DhLNe5EVmF-A", // T-Series Malayalam
+    "UCy2fvV-mH_4AcIgqnLg9uDw", // T-Series Regional
+    "UCpN-WGQgGsOrXm7nHXDdTDA", // T-Series Hamaar Bhojpuri
+    "UCev6abkwjdHj_dB3rquFfbQ", // T-Series Gujarati
+    "UCCo_LMj-m3iGSSuytYq9n6Q", // T-Series Marathi
+    "UCJKd5H8WR_w0wN-Or1-MJyQ", // T-Series Bhavageethegalu & Folk
+    "UCjA7qIB2IetzeolMd_Hwa0w", // Bhakti Sagar Telugu
+    "UCg5bqGqi_ROdCPV4eHF575g", // Bhakti Sagar Tamil
+    "UCG-dSI2eRCBzxzPUfXjxHQw", // Bhakti Sagar Malayalam
+    "UCR4_gSSeup7YpBfsOWN_oRA", // T-Series Bhakti Marathi
+    "UCQX4SV8Fg0cD98K1VRBVPEw", // Bhakti Sagar Kannada
+    "UCVkXfARLNI0vf7gajoDDjlw", // T-Series Islamic Music
+    "UCz2pmzVJkW78zzUNIN0GeTQ", // T-Series Kids Hut - Portuguese Fairy Tales
+    "UC3Zva7aW8lJUFZQYnC-XyHg", // T-SERIES HARYANVI
+    "UCvX5_TDQ3kJq48FF9xCvJ6Q", // T-Series Kids Hut - Telugu Kathalu
+    "UCBlslL5pqbe8EwI1Edx__Fw", // T-Series Kids Hut - Cuentos en Español
+    "UCoi3aLlLa6xs0A1QwR_7oxA", // T-Series Kids Hut Tamil
+    "UC6rzGFfqiyOTxIGhx7MDJYA", // T-Series Himachali
+    "UCkPipkv-8UZ2saO2TjE8AWA", // T-Series Rajasthani
+    "UCPH9W_9ZDQ1gemcCaIxOvCw", // T-Series Bangla
+  ];
+      var number = 0;
+      var numbe1r = 0;
+      var work = [];
+      var wor1k = [];
+
+      function render() {
+        datas();
+        number = work.reduce(function (a, b) {
+          return a + b;
+        }, 0);
+        views1.innerHTML = number;
+      }
+
+      function rendear() {
+        dataa();
+        numbe1r = wor1k.reduce(function (a, b) {
+          return a + b;
+        }, 0);
+        views2.innerHTML = numbe1r;
+        gap.innerHTML = number - numbe1r;
+      }
+
+      function datas() {
+        for (let i = 0; i < Channel.length; i++) {
+  fetch(`https://api-v2.nextcounts.com/api/youtube/channel/${Channel[i]}`)
+            .then((res) => res.json())
+            .then((data) => {
+              work[i] = Math.round(data.viewcount);
+            });
+        }
+      }
+
+      function dataa() {
+        for (let c = 0; c < Channels.length; c++) {
+      fetch(`https://api-v2.nextcounts.com/api/youtube/channel/${Channels[c]}`)
+            .then((res) => res.json())
+            .then((data) => {
+              wor1k[c] = Math.round(data.viewcount);
+            });
+        }
+      }
+
+
+      render();
+      rendear();
+
+      setInterval(() => {
+        render();
+        rendear();
+      }, 2000);
+
+      function footer1() {
+        window.location.href = "./../"
+        }
+
+        function footer2() {
+        window.location.href = "./../"
+        }
+</script>

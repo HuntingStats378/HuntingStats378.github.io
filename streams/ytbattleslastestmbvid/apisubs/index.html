@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+  <head>
+    <title>Counter</title>
+    <meta name="author" content="Combined_Count">
+    <script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap" rel="stylesheet">
+    <link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css">
+    <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+    <link rel="stylesheet" href="https://huntingstats378.github.io/HuntingStats378/main/assets/css/embed.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
+  <body>
+      <span id="count" style="color: black" class="odometer">0</span>
+    <style>
+
+      body {
+        background-color: transparent;
+      }
+
+     #count {
+        font-size: 80pt;
+        font-family: Roboto;
+        font-weight: 800;
+        text-align: left;
+      }
+    </style>
+
+        <script>
+          const params = new URLSearchParams(window.location.search);
+          var id = params.get("id") || "UClOyuxZvQkoHoIn15kNbkUw";
+          setInterval(() => {
+            fetch(`https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id}`)
+            .then((res) => res.json())
+            .then((data) => {
+              document.getElementById("count").innerHTML = data.apiSubCount;
+            });
+          }, 2000);
+</script>

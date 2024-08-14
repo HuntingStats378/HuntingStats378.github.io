@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<title>#4 Counters</title>
+<link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+<meta charSet="utf-8" />
+<meta name="description"
+    content="HuntingStats378's Website" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:image" content="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer1s.css">
+  <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometerleading.js"></script>
+  <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/highstock.js"></script>
+</head>
+<body>
+  <div id="chart1" class="chart1"></div>
+  <div id="chart2" class="chart2"></div>
+  <div id="clock"><div id="time"><span id="hours" class="odometer">00</span><span>:</span><span id="minutes" class="odometer">00</span><span>:</span><span id="seconds" class="odometer">00</span></div><div id="date"><span id="years" class="odometer">0000</span><span>-</span><span id="months" class="odometer">00</span><span>-</span><span id="days" class="odometer">00</span><span> BST</span></div></div>
+  <div id="ts"><span id="tsdays" class="odometer">00</span><span>:</span><span id="tshours" class="odometer">00</span><span>:</span><span id="tsminutes" class="odometer">00</span><span>:</span><span id="tsseconds" class="odometer">00</span></div>
+  <div id="mb"><span id="mbdays" class="odometer">00</span><span>:</span><span id="mbhours" class="odometer">00</span><span>:</span><span id="mbminutes" class="odometer">00</span><span>:</span><span id="mbseconds" class="odometer">00</span></div>
+</body>
+<style>
+  body {
+    margin: 0;
+    background-color: transparent;
+    color: white;
+    text-align: right;
+  }
+
+  #chart1 {
+    width: 666px;
+    height: 210px;
+    margin-top: 22px;
+  }
+
+  #chart2 {
+    width: 666px;
+    height: 210px;
+    margin-top: 0px;
+  }
+
+  #time {
+    font-size: 25px;
+    font-weight: 700;
+    font-family: Roboto;
+    text-align: left;
+    margin-left: 280px;
+  }
+
+  #date {
+    font-size: 10px;
+    font-weight: 700;
+    font-family: Roboto;
+    text-align: left;
+    margin-left: 280px;
+  }
+
+  #ts {
+    font-size: 23px;
+    font-weight: 700;
+    font-family: Roboto;
+    text-align: left;
+    margin-left: 733px;
+    margin-top: -50px;
+  }
+
+  #mb {
+    font-size: 23px;
+    font-weight: 700;
+    font-family: Roboto;
+    text-align: left;
+    margin-left: 955px;
+    margin-top: -31px;
+  }
+</style>
+<script>
+  const urlParams1 = new URLSearchParams(window.location.search);
+    var id1 = urlParams1.get("id1") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
+    const urlParams2 = new URLSearchParams(window.location.search);
+    var id2 = urlParams2.get("id2") || "UCq-Fj5jknLsUf-MWSy4_brA";
+  const odometers = document.querySelectorAll(".odometer");
+        for (const odo of odometers) {
+          new Odometer({
+            el: odo,
+            format: "(ddd)",
+            minIntegerLen: 2,
+          });
+        }
+
+  
+setInterval(() => {
+    fetch(
+      `https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id1}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        fetch(
+          `https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id2}`
+        )
+          .then((res) => res.json())
+          .then((date) => {
+            fetch(
+                  `https://axern.space/api/get?platform=youtube&type=video&id=${id1}`
+                )
+                  .then((res) => res.json())
+                  .then((mblatest) => {
+                    fetch(
+                      `https://axern.space/api/get?platform=youtube&type=video&id=${id2}`
+                    )
+                      .then((res) => res.json())
+                      .then((tslatest) => {
+                        setInterval(() => {
+                          var TSupload = tslatest.snippet.publishedAt;
+                          uploadtsTime = ((new Date().getTime()) - (new Date(TSupload).getTime()));
+                              var tsdays = Math.floor(uploadtsTime / (1000 * 60 * 60 * 24));
+                                var tshours = Math.floor((uploadtsTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                var tsminutes = Math.floor((uploadtsTime % (1000 * 60 * 60)) / (1000 * 60));
+                                var tsseconds = Math.floor((uploadtsTime % (1000 * 60)) / 1000);
+                        document.getElementById("tsdays").innerHTML = tsdays;
+                        document.getElementById("tshours").innerHTML = tshours;
+                        document.getElementById("tsminutes").innerHTML = tsminutes;
+                        document.getElementById("tsseconds").innerHTML = tsseconds;
+                          }, 0);
+                        setInterval(() => {
+                          var MBupload = mblatest.snippet.publishedAt;
+                          uploadmbTime = ((new Date().getTime()) - (new Date(MBupload).getTime()));
+                              var mbdays = Math.floor(uploadmbTime / (1000 * 60 * 60 * 24));
+                                var mbhours = Math.floor((uploadmbTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                var mbminutes = Math.floor((uploadmbTime % (1000 * 60 * 60)) / (1000 * 60));
+                                var mbseconds = Math.floor((uploadmbTime % (1000 * 60)) / 1000);
+                        document.getElementById("mbdays").innerHTML = mbdays;
+                        document.getElementById("mbhours").innerHTML = mbhours;
+                        document.getElementById("mbminutes").innerHTML = mbminutes;
+                        document.getElementById("mbseconds").innerHTML = mbseconds;
+                          }, 0);
+                                        if (chart1.series[0].points.length == 1500) chart1.series[0].data[0].remove();
+                                        chart1.series[0].addPoint([Date.now(), data.estSubCount])
+                        if (chart2.series[0].points.length == 1500) chart2.series[0].data[0].remove();
+                        chart2.series[0].addPoint([Date.now(), date.estSubCount])
+                      });
+        });
+                });
+                });
+            }, 2000);
+  setInterval(() => {
+    const d = new Date();
+  var tYear = d.getFullYear();
+   var tMonth = (d.getMonth() + 1);
+   var tDay = d.getDate();
+  var tHour = d.getHours();
+       var tMinute = d.getMinutes();
+       var tSecond = d.getSeconds();
+  document.getElementById("years").innerHTML = tYear;
+  document.getElementById("months").innerHTML = tMonth;
+  document.getElementById("days").innerHTML = tDay;
+  document.getElementById("hours").innerHTML = tHour;
+  document.getElementById("minutes").innerHTML = tMinute;
+  document.getElementById("seconds").innerHTML = tSecond;
+    }, 0);
+  
+  var textBright = "transparent"
+  var lineColor = "transparent"
+  var maxPoints = 20000;
+  var chart1 = new Highcharts.chart({
+      chart: {
+          renderTo: 'chart1',
+          type: 'line',
+          zoomType: 'x',
+          backgroundColor: 'transparent',
+          plotBorderColor: 'transparent'
+      },
+      title: {
+          text: ' '
+      },
+      xAxis: {
+          visible: false,
+      },
+      yAxis: {
+            visible: false,
+      },
+      credits: {
+          enabled: false
+      },
+
+      series: [{
+          showInLegend: false,
+          name: 'Subscribers',
+          marker: {
+              enabled: false
+          },
+          color: 'transparent',
+          lineColor: '#fff'
+      }]
+  });
+
+  var chart2 = new Highcharts.chart({
+      chart: {
+          renderTo: 'chart2',
+          type: 'line',
+          zoomType: 'x',
+          backgroundColor: 'transparent',
+          plotBorderColor: 'transparent'
+      },
+      title: {
+            text: ' '
+        },
+        xAxis: {
+            visible: false,
+        },
+        yAxis: {
+              visible: false,
+        },
+        credits: {
+          enabled: false
+      },
+
+      series: [{
+          showInLegend: false,
+          name: 'Subscribers',
+          marker: {
+              enabled: false
+          },
+          color: 'transparent',
+          lineColor: '#fff'
+      }]
+  });
+</script>

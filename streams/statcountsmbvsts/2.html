@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<title>#2 Counters</title>
+<link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+<meta charSet="utf-8" />
+<meta name="description"
+    content="HuntingStats378's Website" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:image" content="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css">
+  <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+</head>
+<body>
+    <div><span id="mysubs1" class="odometer">0</span>
+    </div>
+  <div id="mycviews"><span id="myviews1" class="odometer">0</span>
+  </div>
+    <div id="myapisubs"><span id="mysubs2" class="odometer">0</span>
+  </div>
+    <div id="myrandomsubs"><span id="mysubs3" class="odometer">0</span>
+    </div>
+    <div id="mystreamviewers"><span id="myviewers" class="odometer">0</span>
+    </div>
+  <div id="myslikes"><span id="mylikes" class="odometer">0</span>
+  </div>
+  <div id="mysviews"><span id="myviews2" class="odometer">0</span>
+  </div>
+</body>
+<style>
+  body {
+    margin: 0;
+    background-color: transparent;
+    color: white;
+  }
+
+  #mysubs1 {
+    text-align: left;
+    font-size: 70px;
+    font-weight: 700;
+    font-family: Roboto;
+    margin-top: 0px;
+  }
+
+  #myviews1 {
+    text-align: left;
+    font-size: 25px;
+    font-weight: 400;
+    font-family: Roboto;
+    margin-top: 20px;
+    margin-left: 22px;
+  }
+
+  #mysubs2 {
+    text-align: left;
+    font-size: 25px;
+    font-weight: 400;
+    font-family: Roboto;
+    margin-top: 5px;
+    margin-left: 22px;
+  }
+
+  #mysubs3 {
+    text-align: left;
+    font-size: 25px;
+    font-weight: 400;
+    font-family: Roboto;
+    margin-top: -135px;
+    margin-left: 168px;
+  }
+
+  #myviewers {
+    text-align: left;
+    font-size: 25px;
+    font-weight: 400;
+    font-family: Roboto;
+    margin-top: -95px;
+    margin-left: 168px;
+  }
+
+  #mylikes {
+    text-align: left;
+    font-size: 35px;
+    font-weight: 700;
+    font-family: Roboto;
+    margin-top: -288px;
+    margin-left: 280px;
+  }
+  
+  #myviews2 {
+    text-align: left;
+    font-size: 35px;
+    font-weight: 700;
+    font-family: Roboto;
+    margin-top: -200px;
+    margin-left: 280px;
+  }
+</style>
+<script>
+  const urlParams1 = new URLSearchParams(window.location.search);
+  var id1 = urlParams1.get("id1") || "UClOyuxZvQkoHoIn15kNbkUw";
+  const urlParams2 = new URLSearchParams(window.location.search);
+  var id2 = urlParams2.get("id2") || "UCVfKmfOY5SWfx_rt51oG92Q";
+  const urlParams3 = new URLSearchParams(window.location.search);
+  var id3 = urlParams3.get("id3") || "SeLXhgxSfJE";
+
+  setInterval(() => {
+  fetch(
+    `https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id1}`
+  )
+    .then((res) => res.json())
+    .then((data) => {
+              fetch(
+                `https://api-v2.nextcounts.com/api/youtube/channel/${id1}`
+              )
+                .then((res) => res.json())
+                .then((mystudio) => {
+                  fetch(
+                    `https://api-v2.nextcounts.com/api/youtube/channel/${id2}`
+                  )
+                    .then((res) => res.json())
+                    .then((myrandomstudio) => {
+                      fetch(
+                        `https://mixerno.space/api/youtube-stream-counter/user/${id3}`
+                      )
+                        .then((res) => res.json())
+                        .then((mystream) => {
+                      document.getElementById("mysubs1").innerHTML = mystudio.subcount;
+                      document.getElementById("myviews1").innerHTML = data.estViewCount;
+                      document.getElementById("mysubs2").innerHTML = data.apiSubCount;
+                      document.getElementById("mysubs3").innerHTML = myrandomstudio.subcount;
+                          document.getElementById("myviewers").innerHTML = mystream.counts[0].count;
+                          document.getElementById("mylikes").innerHTML = mystream.counts[2].count;
+                          document.getElementById("myviews2").innerHTML = mystream.counts[4].count;
+          });
+                      });
+      });
+      });
+          }, 2000);
+</script>

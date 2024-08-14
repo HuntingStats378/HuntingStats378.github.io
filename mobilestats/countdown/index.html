@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<title>CountDown</title>
+<link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+<meta charSet="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+<link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer05s.css">
+<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometerleading.js"></script>
+</head>
+  <body>
+    <div id="countdown"><span id="days" class="odometer">00</span><span>:</span><span id="hours" class="odometer">00</span><span>:</span><span id="minutes" class="odometer">00</span><span>:</span><span id="seconds" class="odometer">00</span></div>
+  </body>
+  <style>
+    
+    #countdown {
+      font-size: 150px;
+      font-weight: 700;
+      font-family: Roboto;
+      color: black;
+      text-align: center;
+    }
+  </style>
+  <script>
+    const odometers = document.querySelectorAll(".odometer");
+    for (const odo of odometers) {
+      new Odometer({
+        el: odo,
+        format: "(ddd)",
+        minIntegerLen: 2,
+      });
+    }
+    const urlParams = new URLSearchParams(window.location.search);
+    var year = urlParams.get("year") || "2025";
+    var month = urlParams.get("month") || "01";
+    var day = urlParams.get("day") || "01";
+    var hour = urlParams.get("hour") || "00";
+    var minute = urlParams.get("minute") || "00";
+    var second = urlParams.get("second") || "00";
+    var countDownDate = new Date(`${year}-${month}-${day}T${hour}:${minute}:${second}`).getTime();
+    var countdownfunction = setInterval(function() {
+      var now = new Date().getTime();
+      var distance = countDownDate - now;
+      var days = Math.floor((distance / (1000 * 60 * 60 * 24)));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      if (distance < 0) {
+        days = 0;
+        hours = 0;
+        minutes = 0;
+        seconds = 0;
+      }
+      document.getElementById("days").innerHTML = days;
+      document.getElementById("hours").innerHTML = hours;
+      document.getElementById("minutes").innerHTML = minutes;
+      document.getElementById("seconds").innerHTML = seconds;
+      }, 1);
+  </script>
+  </html>

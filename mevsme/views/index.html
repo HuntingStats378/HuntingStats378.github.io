@@ -1,0 +1,394 @@
+<head>
+    <title>HuntingStats378 - Compare</title>
+    <link href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css" rel="stylesheet">
+    <link href="../style.css" rel="stylesheet">
+    <link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+    <meta charSet="utf-8" />
+    <meta name="description" content="HuntingStats378 - Compare" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <div class="sub-header">
+            <div id="updating-dot">
+                <span id="dot"></span>
+            </div>
+            <h4 class="live">Updating live</h4>
+        </div>
+        <div>
+            <div class="icon-container">
+                <svg viewBox="0 0 24 24" focusable="false" class="svg1">
+                    <g width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M21.58 7.19C21.35 6.33 20.67 5.65 19.81 5.42C18.25 5 12 5 12 5C12 5 5.75 5 4.19 5.42C3.33 5.65 2.65 6.33 2.42 7.19C2 8.75 2 12 2 12C2 12 2 15.25 2.42 16.81C2.65 17.67 3.33 18.35 4.19 18.58C5.75 19 12 19 12 19C12 19 18.25 19 19.81 18.58C20.67 18.35 21.35 17.67 21.58 16.81C22 15.25 22 12 22 12C22 12 22 8.75 21.58 7.19ZM10 15V9L15.2 12L10 15Z" class="yt-icon"></path>
+                    </g>
+                </svg>
+            </div>
+        </div>
+        <div class="other2">
+            <div></div>
+            <div>
+                <div class="icon-container2">
+                    <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="svg2" onclick="toggleTheme()">
+                        <g>
+                            <path d="M13,14h-2v-2h2V14z M13,5h-2v6h2V5z M19,3H5v16.59l3.29-3.29L8.59,16H9h10V3 M20,2v15H9l-5,5V2H20L20,2z">
+                            </path>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <div>
+                <div class="icon-container2">
+                    <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" class="svg3" onclick="window.location.href = '../HuntingStats378'">
+                        <g>
+                            <path d="M12.7,12l6.6,6.6l-0.7,0.7L12,12.7l-6.6,6.6l-0.7-0.7l6.6-6.6L4.6,5.4l0.7-0.7l6.6,6.6l6.6-6.6l0.7,0.7L12.7,12z">
+                            </path>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+<div style="height: auto; display: grid; grid-template-columns: repeat(2, 1fr);">
+        <div style="text-align: center;">
+            <img id="image1" src="https://huntingstats378.github.io/HuntingStats378/main/images/default.png">
+            <h2 id="name1" onclick="search1()">Loading</h2>
+            <h2 id="subs1" class="odometer">0</h2>
+            <h5 id="footer1">Views</h5>
+            <div class="chart-area">
+                <div class="chart-text-area">
+                    <p class="channel-growth-label">Channel growth</p>
+                    <p class="last-growth-label">Last hour</p>
+                </div>
+                <div id="chart1" class="chart1"></div>
+            </div>
+            </div>
+            <div style="height: auto; text-align: center;">
+            <img id="image2" src="https://huntingstats378.github.io/HuntingStats378/main/images/default.png">
+            <h2 id="name2" onclick="search2()">Loading</h2>
+            <h2 id="subs2" class="odometer">0</h2>
+            <h5 id="footer2">Views</h5>
+                        <div class="chart-area">
+                            <div class="chart-text-area">
+                                <p class="channel-growth-label">Channel growth</p>
+                                <p class="last-growth-label">Last hour</p>
+                            </div>
+                            <div id="chart2" class="chart2"></div>
+                        </div>
+                        </div>
+    <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+    <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/highstock.js"></script>
+    <script>
+        const searchParams1 = new URLSearchParams(window.location.search);
+        const id1 = searchParams1.get("id1") || "UCq-Fj5jknLsUf-MWSy4_brA";
+        const searchParams2 = new URLSearchParams(window.location.search);
+        const id2 = searchParams2.get("id2") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
+
+        setInterval(() => {
+            fetch(
+                    `https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${id1}`
+                )
+                .then((res) => res.json())
+                .then((data) => {
+document.getElementById("image1").src = data.currentChannels.image;
+                            document.getElementById("name1").textContent = data.currentChannels.name;
+                            document.getElementById("subs1").innerHTML = data.channels.counts[1].count;
+                            if (chart1.series[0].points.length == 1500) chart1.series[0].data[0].remove();
+                            chart1.series[0].addPoint([Date.now(), data.channels.counts[1].count])
+                        });
+}, 2000);
+
+setInterval(() => {
+                    fetch(
+                            `https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${id2}`
+                        )
+                        .then((res) => res.json())
+                        .then((data) => {
+                            document.getElementById("image2").src = data.currentChannels.image;
+                            document.getElementById("name2").textContent = data.currentChannels.name;
+                            document.getElementById("subs2").innerHTML = data.channels.counts[1].count;
+                            if (chart2.series[0].points.length == 1500) chart2.series[0].data[0].remove();
+                            chart2.series[0].addPoint([Date.now(), data.channels.counts[1].count])
+                        });
+                    }, 2000);
+        
+        const chart1 = new Highcharts.chart({
+            chart: {
+                renderTo: "chart1",
+                type: "line",
+                zoomType: "x",
+                backgroundColor: "transparent",
+                plotBorderColor: "transparent",
+                height: "153px",
+                animation: true,
+                style: {
+                    fontFamily: "Roboto",
+                },
+            },
+            title: {
+                text: "",
+            },
+            time: {
+                useUTC: false,
+                timezoneOffset: new Date().getTimezoneOffset()
+            },
+            xAxis: {
+                type: "datetime",
+                tickPixelInterval: 500,
+                labels: {
+                    style: {
+                        color: "#AAAAAA",
+                    },
+                },
+                gridLineColor: "#9E9E9E",
+                lineColor: "#9E9E9E",
+                minorGridLineColor: "#858585",
+                tickColor: "#858585",
+                title: {
+                    style: {
+                        color: "#858585",
+                    },
+                },
+            },
+            yAxis: {
+                title: {
+                    text: "",
+                },
+                labels: {
+                    style: {
+                        color: "#AAAAAA",
+                    },
+                    formatter: function() {
+                        function abbreviate(count, withAbbr = true, decimals = 2) {
+                            if (String(count)[0] === "0") {
+                                if (count === 0) return "0";
+                                else return count.toFixed(decimals);
+                            }
+
+                            let neg = false;
+                            if (String(count)[0] == "-") {
+                                neg = true;
+                                count = ~Number(count) + 1;
+                            }
+
+                            const COUNT_ABBRS = ["", "K", "M", "B"];
+                            const i =
+                                count === 0 ? count : Math.floor(Math.log(count) / Math.log(1000));
+                            let result = parseFloat(
+                                (count / Math.pow(1000, i)).toFixed(decimals)
+                            ).toString();
+                            if (withAbbr) result += `${COUNT_ABBRS[i]}`;
+                            if (neg) result = `-${result}`;
+                            return result;
+                        }
+
+                        return abbreviate(this.value);
+                    },
+                },
+                gridLineColor: "#3D3D3D",
+                lineColor: "#3D3D3D",
+                minorGridLineColor: "#3D3D3D",
+                tickColor: "#3D3D3D",
+                opposite: true,
+            },
+            credits: {
+                enabled: false,
+            },
+            tooltip: {
+                shared: true,
+                formatter: function() {
+                    // @ts-ignore
+                    var index = this.points[0].series.xData.indexOf(this.x);
+                    // @ts-ignore
+                    var lastY = this.points[0].series.yData[index - 1];
+                    // @ts-ignore
+                    var dif = this.y - lastY;
+                    var r =
+                        // @ts-ignore
+                        Highcharts.dateFormat("%A %b %e, %H:%M:%S", new Date(this.x)) +
+                        '<br><span style="color:black">\u25CF </span>' +
+                        // @ts-ignore
+                        this.points[0].series.name +
+                        ": <b>" +
+                        // @ts-ignore
+                        Highcharts.numberFormat(this.y, 0);
+                    if (dif < 0) {
+                        r +=
+                            '<span style="color:#ff0000;font-weight:bold;"> (' +
+                            Highcharts.numberFormat(dif, 0) +
+                            ")</span>";
+                    }
+                    if (dif > 0) {
+                        r +=
+                            '<span style="color:#00bb00;font-weight:bold;"> (+' +
+                            Highcharts.numberFormat(dif, 0) +
+                            ")</span>";
+                    }
+                    return r;
+                },
+            },
+            series: [{
+                showInLegend: false,
+                name: "Views",
+                marker: {
+                    enabled: false
+                },
+                color: "#3FABCD",
+                lineColor: "#3FABCD",
+                lineWidth: 2,
+            }, ],
+        });
+
+        const chart2 = new Highcharts.chart({
+            chart: {
+                renderTo: "chart2",
+                type: "line",
+                zoomType: "x",
+                backgroundColor: "transparent",
+                plotBorderColor: "transparent",
+                height: "153px",
+                animation: true,
+                style: {
+                    fontFamily: "Roboto",
+                },
+            },
+            title: {
+                text: "",
+            },
+            time: {
+                useUTC: false,
+                timezoneOffset: new Date().getTimezoneOffset()
+            },
+            xAxis: {
+                type: "datetime",
+                tickPixelInterval: 500,
+                labels: {
+                    style: {
+                        color: "#AAAAAA",
+                    },
+                },
+                gridLineColor: "#9E9E9E",
+                lineColor: "#9E9E9E",
+                minorGridLineColor: "#858585",
+                tickColor: "#858585",
+                title: {
+                    style: {
+                        color: "#858585",
+                    },
+                },
+            },
+            yAxis: {
+                title: {
+                    text: "",
+                },
+                labels: {
+                    style: {
+                        color: "#AAAAAA",
+                    },
+                    formatter: function() {
+                        function abbreviate(count, withAbbr = true, decimals = 2) {
+                            if (String(count)[0] === "0") {
+                                if (count === 0) return "0";
+                                else return count.toFixed(decimals);
+                            }
+
+                            let neg = false;
+                            if (String(count)[0] == "-") {
+                                neg = true;
+                                count = ~Number(count) + 1;
+                            }
+
+                            const COUNT_ABBRS = ["", "K", "M", "B"];
+                            const i =
+                                count === 0 ? count : Math.floor(Math.log(count) / Math.log(1000));
+                            let result = parseFloat(
+                                (count / Math.pow(1000, i)).toFixed(decimals)
+                            ).toString();
+                            if (withAbbr) result += `${COUNT_ABBRS[i]}`;
+                            if (neg) result = `-${result}`;
+                            return result;
+                        }
+
+                        return abbreviate(this.value);
+                    },
+                },
+                gridLineColor: "#3D3D3D",
+                lineColor: "#3D3D3D",
+                minorGridLineColor: "#3D3D3D",
+                tickColor: "#3D3D3D",
+                opposite: true,
+            },
+            credits: {
+                enabled: false,
+            },
+            tooltip: {
+                shared: true,
+                formatter: function() {
+                    // @ts-ignore
+                    var index = this.points[0].series.xData.indexOf(this.x);
+                    // @ts-ignore
+                    var lastY = this.points[0].series.yData[index - 1];
+                    // @ts-ignore
+                    var dif = this.y - lastY;
+                    var r =
+                        // @ts-ignore
+                        Highcharts.dateFormat("%A %b %e, %H:%M:%S", new Date(this.x)) +
+                        '<br><span style="color:black">\u25CF </span>' +
+                        // @ts-ignore
+                        this.points[0].series.name +
+                        ": <b>" +
+                        // @ts-ignore
+                        Highcharts.numberFormat(this.y, 0);
+                    if (dif < 0) {
+                        r +=
+                            '<span style="color:#ff0000;font-weight:bold;"> (' +
+                            Highcharts.numberFormat(dif, 0) +
+                            ")</span>";
+                    }
+                    if (dif > 0) {
+                        r +=
+                            '<span style="color:#00bb00;font-weight:bold;"> (+' +
+                            Highcharts.numberFormat(dif, 0) +
+                            ")</span>";
+                    }
+                    return r;
+                },
+            },
+            series: [{
+                showInLegend: false,
+                name: "Views",
+                marker: {
+                    enabled: false
+                },
+                color: "#3FABCD",
+                lineColor: "#3FABCD",
+                lineWidth: 2,
+            }, ],
+        });
+        
+        function search1() {
+            const prompt = window.prompt("Enter channel name, ID, or URL.");
+            if (prompt)
+                fetch(
+                    `https://axern.space/api/search?platform=youtube&type=channel&query=${prompt}`
+                )
+                .then((res) => res.json())
+                .then((date1) => {
+                    searchParams1.set("id1", date1[0].id)
+                    window.location.href = "?" + searchParams1.toString()
+                });
+        }
+
+        function search2() {
+            const prompt = window.prompt("Enter channel name, ID, or URL.");
+            if (prompt)
+                fetch(
+                    `https://axern.space/api/search?platform=youtube&type=channel&query=${prompt}`
+                )
+                .then((res) => res.json())
+                .then((date2) => {
+                    searchParams2.set("id2", date2[0].id)
+                    window.location.href = "?" + searchParams2.toString()
+                });
+        }
+    </script>

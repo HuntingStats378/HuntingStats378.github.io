@@ -1,0 +1,121 @@
+<html>
+<head>
+    <title>HuntingStats378 - Subscribers</title>
+    <link href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css" rel="stylesheet">
+    <link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+    <meta charSet="utf-8" />
+    <meta name="description" content="HuntingStats378 - Subscribers" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+</head>
+
+<body style="font-family: Roboto; color: var(--fg-color, #fff); background-color: var(--bg-color, #E7541E);">
+    <div style="height: auto; display: grid; grid-template-columns: repeat(1, 1fr); gap: 10px;">
+        <div style="padding: 0px 4px; text-align: center; background-color: var(--counter-bg-color, black);">
+            <img id="banner" style="filter: blur(4px); border-radius: 15px; object-fit: cover; width: 100%; height: 150px; position: relative;" src="https://huntingstats378.github.io/HuntingStats378/main/images/default_banner.png">
+            <img id="image" style="width: 125px; height: 125px; border-radius: 50%; margin-top: -5em; position: relative;" src="https://huntingstats378.github.io/HuntingStats378/main/images/default.png">
+            <h2 id="name" onclick="search()" style="margin-top: 1px; font-size: var(--title-font-size, 4.5vh)">Loading</h2>
+            <h2 id="subs" style="margin-top: -20px; font-size: var(--counter-font-size, 8vh)" class="odometer">0</h2>
+            <h5 onclick="footer()" style="margin-top: -40px;">Subscribers</h5>
+        </div>
+    </div>
+  <div id="chart" class="chart" style="background-color: black;"></div>
+  </body>
+<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script><script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/highstock.js"></script>
+<script>
+  const searchParams = new URLSearchParams(window.location.search);
+  const id = searchParams.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
+
+  setInterval(() => {
+        fetch(
+          `https://api-v2.nextcounts.com/api/youtube/channel/${id}`
+        )
+          .then((res) => res.json())
+          .then((data) => {
+                document.getElementById("banner").src = data.userBanner;
+                document.getElementById("image").src = data.userImg;
+                document.getElementById("name").textContent = data.username;
+                document.getElementById("subs").innerHTML = data.subcount;
+                if (chart.series[0].points.length == 1500) chart.series[0].data[0].remove();
+                chart.series[0].addPoint([Date.now(), data.subcount])
+                        });
+                }, 2000);
+
+  var textBright = "#bdbdbd"
+  var lineColor = "#000000"
+  var maxPoints = 20000;
+  var chart = new Highcharts.chart({
+      chart: {
+          renderTo: 'chart',
+          type: 'line',
+          zoomType: 'x',
+          backgroundColor: 'transparent',
+          plotBorderColor: 'transparent'
+      },
+      title: {
+          text: ' '
+      },
+      xAxis: {
+          type: 'datetime',
+          tickPixelInterval: 500,
+          gridLineColor: textBright,
+          labels: {
+              style: {
+                  color: textBright
+              }
+          },
+          lineColor: lineColor,
+          minorGridLineColor: '#bdbdbd',
+          tickColor: lineColor,
+          title: {
+              style: {
+                  color: textBright
+              }
+          }
+      },
+      yAxis: {
+          title: {
+              text: ''
+          },
+          gridLineColor: textBright,
+          labels: {
+              style: {
+                  color: textBright
+              }
+          },
+          lineColor: lineColor,
+          minorGridLineColor: '#bdbdbd',
+          tickColor: lineColor
+      },
+      credits: {
+          enabled: false
+      },
+
+      series: [{
+          showInLegend: false,
+          name: 'Subscribers',
+          marker: {
+              enabled: false
+          },
+          color: '#000000',
+          lineColor: '#FFFFFF'
+      }]
+  });
+  
+      function search() {
+    const prompt = window.prompt("Enter channel name, ID, or URL.");
+    if (prompt)
+      fetch(
+        `https://axern.space/api/search?platform=youtube&type=channel&query=${prompt}`
+      )
+        .then((res) => res.json())
+        .then((date) => {
+          searchParams.set("id", date[0].id)
+          window.location.href = "?" + searchParams.toString()
+        });
+  }
+  
+  function footer() {
+    window.location.href = "./../"
+  }
+</script>

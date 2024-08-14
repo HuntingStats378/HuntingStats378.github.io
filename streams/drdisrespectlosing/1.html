@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<title>Main Counters</title>
+<link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+<meta charSet="utf-8" />
+<meta name="description" content="HuntingStats378's Website" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:image" content="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,600,700" rel="stylesheet">
+<link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css">
+<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+</head>
+
+<body>
+    <div><span id="subs1" class="odometer">0</span></div>
+    <div><span id="subs2" class="odometer">0</span></div>
+    <div><span id="twitter" class="odometer">0</span></div>
+    <div id="info"><span class="information">On Friday, an ex-twitch</span><br><span class="information">employee came out</span><br><span class="information">and said that the reason he got banned in</span><br><span class="information">2020 was for sexually</span><br><span class="information">texting a minor and</span><br><span class="information">trying to meet up with her at twitchcon.</span><br><br><span class="information">DrDisRespect has admitted to doing this.</span></div>
+</body>
+<style>
+    body {
+        padding: 0px;
+        font-weight: 700;
+        font-family: Roboto;
+        color: white;
+        background-color: transparent;
+    }
+
+    #ape1 {
+        text-align: right;
+    }
+
+    #subs1 {
+        font-size: 188px;
+        margin-top: 175px;
+    }
+
+    #subs2 {
+        font-size: 111px;
+        margin-top: 50px;
+        margin-left: 188px;
+    }
+
+    #twitter {
+        font-size: 77px;
+        margin-top: -133px;
+        margin-left: 580px;
+    }
+
+    .information {
+        font-size: 20px;
+        margin-left: 888px;
+        width: 100px;
+    }
+
+    #info {
+        text-align: right;
+        margin-top: -433px;
+    }
+</style>
+<script>
+    const urlParams1 = new URLSearchParams(window.location.search);
+    var id1 = urlParams1.get("id1") || "UCcJL2ld6kxy_nuV1u7PVQ0g";
+    const urlParams2 = new URLSearchParams(window.location.search);
+    var id2 = urlParams2.get("id2") || "UClOyuxZvQkoHoIn15kNbkUw";
+    const urlParams3 = new URLSearchParams(window.location.search);
+    var id3 = urlParams3.get("id3") || "DrDisrespect";
+    
+    setInterval(() => {
+        fetch(
+                `https://mixerno.space/api/youtube-channel-counter/user/${id1}`
+            )
+            .then((res) => res.json())
+            .then((data) => {
+                document.getElementById("subs1").innerHTML = data.counts[0].count;
+            });
+    }, 2000);
+
+    setInterval(() => {
+        fetch(
+                `https://api-v2.nextcounts.com/api/youtube/channel/${id2}`
+            )
+            .then((res) => res.json())
+            .then((data) => {
+                document.getElementById("subs2").innerHTML = data.subcount;
+            });
+    }, 2000);
+
+    setInterval(() => {
+        fetch(
+                `https://api-v2.nextcounts.com/api/twitter/user/${id3}`
+            )
+            .then((res) => res.json())
+            .then((data) => {
+                document.getElementById("twitter").innerHTML = data.followers;
+            });
+    }, 2000);
+</script>

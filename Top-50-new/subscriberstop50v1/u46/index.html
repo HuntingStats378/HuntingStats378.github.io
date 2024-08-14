@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+  <head>
+    <title>Counter</title>
+    <meta name="author" content="Combined_Count">
+    <script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap" rel="stylesheet">
+    <link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css">
+    <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+    <link rel="stylesheet" href="https://huntingstats378.github.io/HuntingStats378/code/subscriberstop50v1.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
+  <body>
+      <img
+        src="https://yt3.googleusercontent.com/zZa5_LIZoT_2TqhiNdterb2GFv7oZEI7QcgAJeLeD7_4aHVJZ1VZXciJ_ouplogGy_x-T6VrYw=s176-c-k-c0x00ffffff-no-rj"
+        alt=""
+        id="avatar"
+        align="left">
+
+    </body>
+    <p id="title" onclick="search()">HuntingStats378</p>
+      <div id=show><span id="count" style="color: black" class="odometer">0</span>
+    <script>
+          setInterval(() => {
+                      fetch("https://youtubecrap.nia-statistics.com/toplists/subscribers")
+                        .then((res) => res.json())
+                        .then((dataid) => {
+                              const id = dataid.data[45].channel_id
+                          fetch(`https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id}`)
+                            .then((res) => res.json())
+                            .then((data) => {
+                                         document.getElementById("count").innerHTML = data.estSubCount;
+                        document.getElementById("avatar").src = data.snippet.thumbnails[2].url;
+                        document.getElementById("title").textContent = data.snippet.title;
+                    });
+                });
+            }, 2000);
+</script>

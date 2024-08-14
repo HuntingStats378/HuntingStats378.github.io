@@ -1,0 +1,231 @@
+body,
+html {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background-color: transparent;
+  color: white;
+  font-family: Arial;
+  text-align: center;
+  overflow: hidden;
+}
+
+body.light {
+  background-color: transparent;
+  color: black;
+}
+
+.title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  padding-top: 8px;
+  font-size: 4.5vw;
+}
+
+.subtitle {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  top: 9.5%;
+  font-size: 2.5vw;
+}
+
+@media only screen and (min-aspect-ratio: 6/5) {
+  .subtitle {
+    top: 12.5%;
+  }
+}
+
+@media only screen and (min-aspect-ratio: 5/3) {
+  .title,
+  .subtitle {
+    display: none;
+  }
+}
+
+#image {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 10%;
+  bottom: 73%;
+  border-radius: 17.5%;
+  border: 1px solid #08f;
+}
+
+@media only screen and (min-aspect-ratio: 6/5) {
+  #image {
+    display: none;
+  }
+}
+
+#subscribeBtn {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  top: 28%;
+  background-color: #0af;
+  border: none;
+  border-radius: 2px;
+  color: #fff;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  width: 15%;
+  font-size: 2.5vw;
+  text-decoration: none;
+}
+
+@media only screen and (min-aspect-ratio: 6/5) {
+  #subscribeBtn {
+    top: 19.5%;
+  }
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  font-size: 3vw;
+  top: 34.5%;
+}
+
+#name {
+  margin: 0;
+}
+
+@media only screen and (min-aspect-ratio: 6/5) {
+  .name {
+    top: 28%;
+  }
+}
+
+@media only screen and (min-aspect-ratio: 5/3) {
+  .name {
+    top: 26%;
+  }
+}
+
+#subscribers {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  font-size: 15.5vw;
+  top: 37%;
+}
+
+@media only screen and (min-aspect-ratio: 6/5) {
+  #subscribers {
+    top: 31.5%;
+  }
+}
+
+@media only screen and (min-aspect-ratio: 5/3) {
+  #subscribeBtn {
+    top: 13.5%;
+  }
+}
+
+.container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  display: block;
+  opacity: 1.004;
+  top: 66.5%;
+  width: 40%;
+}
+
+@media only screen and (min-aspect-ratio: 5 / 3) {
+  .container {
+    display: none;
+  }
+}
+
+#goal {
+  font-size: 4.5vw;
+}
+
+#goalText {
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  font-size: 2.5vw;
+}
+
+.updateText {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  bottom: 7%;
+  font-size: 3vw;
+}
+
+@media only screen and (min-aspect-ratio: 5/3) {
+  .updateText {
+    display: none;
+  }
+}
+
+@media only screen and (max-height: 800px) {
+  .updateText {
+    bottom: 9%;
+  }
+}
+
+#footer {
+  position: absolute;
+  bottom: 0px;
+  height: 40px;
+  width: 100%;
+  background: transparent;
+  color: transparent;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: right;
+}
+
+.icon {
+  position: absolute;
+  right: 10px;
+  top: 0px;
+  bottom: 0px;
+  margin: auto;
+}
+
+body.light #light {
+  display: none;
+}
+
+body:not(.light) #dark {
+  display: none;
+}
+
+input[type="radio"] {
+  display: none;
+}

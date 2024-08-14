@@ -1,0 +1,9 @@
+@import url("./base.css");
+
+#count {
+  font-family: "Roboto";
+  font-size: 120pt;
+  width: 100%;
+  text-align: center;
+  line-height: 1.1em;
+}
