@@ -1,0 +1,86 @@
+<html>
+
+<head>
+  <title>HuntingStats378 - Compare</title>
+  <link href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css" rel="stylesheet">
+  <link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+  <meta charSet="utf-8" />
+  <meta name="description" content="HuntingStats378 - Compare" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap"
+    rel="stylesheet">
+</head>
+<div id="avr">
+  MrBeast: <span id="day1">0</span>/<span id="hr1">0</span>/<span id="min1">0</span><br>
+  Ronaldo: <span id="day2">0</span>/<span id="hr2">0</span>/<span id="min2">0</span><br>
+  <span>Averages/Day/Hour/Minute/Subscribe!</span>
+</div>
+<style>
+  body {
+    background-color: #141414;
+    font-family: roboto;
+    color: white;
+    font-size: 30px;
+    font-weight: 700;
+  }
+
+  #avr {
+    margin-top: 455px;
+    margin-left: 155px;
+  }
+</style>
+<script>
+  const searchParams1 = new URLSearchParams(window.location.search);
+  const id1 = searchParams1.get("id1") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
+  const searchParams2 = new URLSearchParams(window.location.search);
+  const id2 = searchParams2.get("id2") || "UCq-Fj5jknLsUf-MWSy4_brA";
+
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  function calPrefixOfCount(x, gain, lose, none) {
+    gain = gain || "lime";
+    lose = lose || "red";
+    none = none || "white";
+    let count = parseFloat(x);
+    if (count > 0) {
+      return ["+",
+        gain];
+    } else if (count == 0) {
+      return ["+",
+        none];
+    } else {
+      return ["",
+        lose];
+    }
+  }
+
+  setInterval(() => {
+    fetch(
+      `https://api.communitrics.com/${id1}?averages=true`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("day1").innerHTML = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 1))[0] + numberWithCommas(Math.floor(data.channelDetails.mostRecentAverage / 1));
+        document.getElementById("hr1").innerHTML = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 24))[0] + numberWithCommas(Math.floor(data.channelDetails.mostRecentAverage / 24));
+        document.getElementById("min1").innerHTML = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 1440))[0] + numberWithCommas(Math.floor(data.channelDetails.mostRecentAverage / 1440));
+        document.getElementById("day1").style.color = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 1))[1];
+        document.getElementById("hr1").style.color = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 24))[1];
+        document.getElementById("min1").style.color = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 1440))[1];
+      });
+
+    fetch(
+      `https://api.communitrics.com/${id2}?averages=true`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("day2").innerHTML = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 1))[0] + numberWithCommas(Math.floor(data.channelDetails.mostRecentAverage / 1));
+        document.getElementById("hr2").innerHTML = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 24))[0] + numberWithCommas(Math.floor(data.channelDetails.mostRecentAverage / 24));
+        document.getElementById("min2").innerHTML = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 1440))[0] + numberWithCommas(Math.floor(data.channelDetails.mostRecentAverage / 1440));
+        document.getElementById("day2").style.color = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 1))[1];
+        document.getElementById("hr2").style.color = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 24))[1];
+        document.getElementById("min2").style.color = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 1440))[1];
+      });
+  }, 10000);
+</script>
