@@ -11,7 +11,7 @@
     rel="stylesheet">
 </head>
 <div id="avr">
-  MrBeast: <span id="day1">0</span>/<span id="hr1">0</span>/<span id="min1">0</span><br>
+  <a id="name">MrBeast</a>: <span id="day1">0</span>/<span id="hr1">0</span>/<span id="min1">0</span><br>
   Ronaldo: <span id="day2">0</span>/<span id="hr2">0</span>/<span id="min2">0</span><br>
   <span>Averages/Day/Hour/Minute/Subscribe!</span>
 </div>
@@ -32,8 +32,10 @@
 <script>
   const searchParams1 = new URLSearchParams(window.location.search);
   const id1 = searchParams1.get("id1") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
-  const searchParams2 = new URLSearchParams(window.location.search);
-  const id2 = searchParams2.get("id2") || "UCq-Fj5jknLsUf-MWSy4_brA";
+  var channelsIds = [];
+    var channels = [];
+    let sortedChannels = [];
+    let battle = {};
 
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
@@ -56,12 +58,76 @@
     }
   }
 
-  setInterval(() => {
-    fetch(
-      `https://api.communitrics.com/${id1}?averages=true`
+  async function fetchChannelIds() {
+        await fetch(`https://corsproxy.io/?https://www.noxinfluencer.com/ws/mobile/channel?pageSize=199&rankSize=10000`)
+            .then((res) => res.json())
+            .then((data) => {
+                for (let i = 0; i < data.retDataList.length; i++) {
+                    channelsIds[i] = data.retDataList[i].id;
+                }
+            });
+        channelsIds[199] = "UCtxD0x6AuNNqdXO9Wp5GHew";
+    }
+
+    async function updateChannelData() {
+        for (let i = 0; i < channelsIds.length; i++) {
+            if (channelsIds[i] === "UC-lHJZR3Gqxm24_Vd_AJ5Yw") {
+                await fetch(`https://api.communitrics.com/UC-lHJZR3Gqxm24_Vd_AJ5Yw?averages=true`)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        channels[i] = {
+                            name: data.channelDetails.name,
+                            avatar: data.channelDetails.profilePicture,
+                            id: channelsIds[i],
+                            subcount: data.channelDetails.linearEstSubscriberCount
+                        };
+                    });
+            } else {
+                await fetch(`https://mixerno.space/api/youtube-channel-counter/user/${channelsIds[i]}`)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        channels[i] = {
+                            name: data.user[0].count,
+                            avatar: data.user[1].count,
+                            id: channelsIds[i],
+                            subcount: data.counts[0].count
+                        };
+                    });
+            }
+        }
+
+        sortedChannels = [...channels].sort((a, b) => b.subcount - a.subcount);
+        console.log("Sorted Channels:", sortedChannels);
+
+        // Try to find the channel with the specific ID and the one directly above it in the sorted list
+        let targetIndex = sortedChannels.findIndex(channel => channel.id === "UCtxD0x6AuNNqdXO9Wp5GHew");
+        console.log(targetIndex);
+
+        if (targetIndex !== -1 && targetIndex > 0) { // Check if the channel is found and isn't the first in the list
+            battle = {
+                one: sortedChannels[targetIndex - 1].id, // The one above in subcount
+                two: sortedChannels[targetIndex].id // The target channel
+            };
+            console.log("Battle Channels:", battle);
+        } else if (targetIndex === 0) {
+            console.warn("The target channel is at the top of the list, no previous channel to battle with.");
+            battle = {
+                one: sortedChannels[targetIndex].id, // The target channel
+                two: sortedChannels[targetIndex + 1].id // The next channel in subcount
+            };
+        } else {
+            console.error("Target channel not found or no suitable battle candidates.");
+        }
+    }
+
+
+    async function updateBattleData() {
+        await fetch(
+      `https://api.communitrics.com/${battle.one}?averages=true`
     )
       .then((res) => res.json())
       .then((data) => {
+        document.getElementById("name").innerHTML = channelDetails.name;
         document.getElementById("day1").innerHTML = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 1))[0] + numberWithCommas(Math.floor(data.channelDetails.mostRecentAverage / 1));
         document.getElementById("hr1").innerHTML = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 24))[0] + numberWithCommas(Math.floor(data.channelDetails.mostRecentAverage / 24));
         document.getElementById("min1").innerHTML = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 1440))[0] + numberWithCommas(Math.floor(data.channelDetails.mostRecentAverage / 1440));
@@ -69,9 +135,9 @@
         document.getElementById("hr1").style.color = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 24))[1];
         document.getElementById("min1").style.color = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 1440))[1];
       });
-
-    fetch(
-      `https://api.communitrics.com/${id2}?averages=true`
+      
+        await fetch(
+      `https://api.communitrics.com/${battle.two}?averages=true`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -82,5 +148,21 @@
         document.getElementById("hr2").style.color = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 24))[1];
         document.getElementById("min2").style.color = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 1440))[1];
       });
-  }, 10000);
+    }
+
+    (async () => {
+        await fetchChannelIds();
+
+        setInterval(async () => {
+            await fetchChannelIds();
+        }, 3600000);
+
+        setInterval(async () => {
+            await updateChannelData();
+        }, 20000);
+
+        setInterval(async () => {
+            await updateBattleData();
+        }, 10000);
+    })();
 </script>
