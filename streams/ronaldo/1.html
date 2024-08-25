@@ -127,7 +127,7 @@
     )
       .then((res) => res.json())
       .then((data) => {
-        document.getElementById("name").innerHTML = channelDetails.name;
+        document.getElementById("name").innerHTML = data.channelDetails.name;
         document.getElementById("day1").innerHTML = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 1))[0] + numberWithCommas(Math.floor(data.channelDetails.mostRecentAverage / 1));
         document.getElementById("hr1").innerHTML = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 24))[0] + numberWithCommas(Math.floor(data.channelDetails.mostRecentAverage / 24));
         document.getElementById("min1").innerHTML = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 1440))[0] + numberWithCommas(Math.floor(data.channelDetails.mostRecentAverage / 1440));
