@@ -7,7 +7,8 @@
     <meta charSet="utf-8" />
     <meta name="description" content="HuntingStats378 - Compare" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
 </head>
 
 <body style="font-family: Roboto; color: var(--fg-color, #fff); background-color: var(--bg-color, transparent);">
@@ -47,89 +48,109 @@
 </body>
 <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
 <script>
-    const searchParams1 = new URLSearchParams(window.location.search);
-    const id1 = searchParams1.get("id1") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
-    const searchParams2 = new URLSearchParams(window.location.search);
-    const id2 = searchParams2.get("id2") || "UCq-Fj5jknLsUf-MWSy4_brA";
-    let status1
-    let status2
-    let subs1
-    let subs2
+    var channelsIds = [];
+    var channels = [];
+    let sortedChannels = [];
+    let battle = {};
 
-    fetch(
-        `https://livecounts.xyz/api/youtube-live-subscriber-count/search/${id1}`
-    )
-        .then((res) => res.json())
-        .then((data) => {
-            document.getElementById("image1").src = data.results[0].pfp;
-            document.getElementById("name1").textContent = data.results[0].name;
-        });
-
-    fetch(
-        `https://livecounts.xyz/api/youtube-live-subscriber-count/search/${id2}`
-    )
-        .then((res) => res.json())
-        .then((data) => {
-            document.getElementById("image2").src = data.results[0].pfp;
-            document.getElementById("name2").textContent = data.results[0].name;
-        });
-    
-    setInterval(() => {
-        fetch(
-            `https://livecounts.xyz/api/youtube-live-subscriber-count/live/${id1}`
-        )
+    async function fetchChannelIds() {
+        await fetch(`https://corsproxy.io/?https://www.noxinfluencer.com/ws/mobile/channel?pageSize=199&rankSize=10000`)
             .then((res) => res.json())
             .then((data) => {
-                document.getElementById("banner1").src = `https://banner.yt/${id1}`;
-                document.getElementById("subs1").innerHTML = data.counts[0];
-                subs1 = data.counts[0]
+                for (let i = 0; i < data.retDataList.length; i++) {
+                    channelsIds[i] = data.retDataList[i].id;
+                }
             });
-    }, 2000);
+        channelsIds[199] = "UCtxD0x6AuNNqdXO9Wp5GHew";
+    }
 
-    setInterval(() => {
-        fetch(
-            `https://livecounts.xyz/api/youtube-live-subscriber-count/live/${id2}`
-        )
+    async function updateChannelData() {
+        for (let i = 0; i < channelsIds.length; i++) {
+            if (channelsIds[i] === "UC-lHJZR3Gqxm24_Vd_AJ5Yw") {
+                await fetch(`https://api.communitrics.com/UC-lHJZR3Gqxm24_Vd_AJ5Yw?averages=true`)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        channels[i] = {
+                            name: data.channelDetails.name,
+                            avatar: data.channelDetails.profilePicture,
+                            id: channelsIds[i],
+                            subcount: data.channelDetails.linearEstSubscriberCount
+                        };
+                    });
+            } else {
+                await fetch(`https://mixerno.space/api/youtube-channel-counter/user/${channelsIds[i]}`)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        channels[i] = {
+                            name: data.user[0].count,
+                            avatar: data.user[1].count,
+                            id: channelsIds[i],
+                            subcount: data.counts[0].count
+                        };
+                    });
+            }
+        }
+
+        sortedChannels = [...channels].sort((a, b) => b.subcount - a.subcount);
+        console.log("Sorted Channels:", sortedChannels);
+
+        // Try to find the channel with the specific ID and the one directly above it in the sorted list
+        let targetIndex = sortedChannels.findIndex(channel => channel.id === "UCtxD0x6AuNNqdXO9Wp5GHew");
+        console.log(targetIndex);
+
+        if (targetIndex !== -1 && targetIndex > 0) { // Check if the channel is found and isn't the first in the list
+            battle = {
+                one: sortedChannels[targetIndex - 1].id, // The one above in subcount
+                two: sortedChannels[targetIndex].id // The target channel
+            };
+            console.log("Battle Channels:", battle);
+        } else if (targetIndex === 0) {
+            console.warn("The target channel is at the top of the list, no previous channel to battle with.");
+            battle = {
+                one: sortedChannels[targetIndex].id, // The target channel
+                two: sortedChannels[targetIndex + 1].id // The next channel in subcount
+            };
+        } else {
+            console.error("Target channel not found or no suitable battle candidates.");
+        }
+    }
+
+
+    async function updateBattleData() {
+        await fetch(`https://mixerno.space/api/youtube-channel-counter/user/${battle.one}`)
             .then((res) => res.json())
             .then((data) => {
-                document.getElementById("banner2").src = `https://banner.yt/${id2}`;
-                document.getElementById("subs2").innerHTML = data.counts[0];
-                subs2 = data.counts[0];
+                document.getElementById("subs1").innerHTML = data.counts[0].count;
+                document.getElementById("name1").innerHTML = data.user[0].count;
+                document.getElementById("image1").src = data.user[1].count; // Use src instead of innerHTML
+                count1 = data.counts[0].count;
             });
-        document.getElementById("gap").innerHTML = subs1 - subs2;
-    }, 2000);
 
-    function search1() {
-        const prompt = window.prompt("Enter channel name, ID, or URL.");
-        if (prompt)
-            fetch(
-                `https://livecounts.xyz/api/youtube-live-subscriber-count/search/${prompt}`
-            )
-                .then((res) => res.json())
-                .then((data) => {
-                    searchParams1.set("id1", data.results[0].id)
-                    window.location.href = "?" + searchParams1.toString()
-                });
+        await fetch(`https://mixerno.space/api/youtube-channel-counter/user/${battle.two}`)
+            .then((res) => res.json())
+            .then((data) => {
+                document.getElementById("subs2").innerHTML = data.counts[0].count;
+                document.getElementById("name2").innerHTML = data.user[0].count;
+                document.getElementById("image2").src = data.user[1].count; // Use src instead of innerHTML
+                count2 = data.counts[0].count;
+            });
+        document.getElementById("gap").innerHTML = count1 - count2;
     }
 
-    function search2() {
-        const prompt = window.prompt("Enter channel name, ID, or URL.");
-        if (prompt)
-            fetch(
-                `https://livecounts.xyz/api/youtube-live-subscriber-count/search/${prompt}`
-            )
-                .then((res) => res.json())
-                .then((data) => {
-                    searchParams2.set("id2", data.results[0].id)
-                    window.location.href = "?" + searchParams2.toString()
-                });
-    }
+    (async () => {
+        await fetchChannelIds();
 
-    function footer1() {
-        window.location.href = "./../"
-    }
+        setInterval(async () => {
+            await fetchChannelIds();
+        }, 3600000);
 
-    function footer2() {
-        window.location.href = "./../"
-    }
+        setInterval(async () => {
+            await updateChannelData();
+        }, 20000);
+
+        setInterval(async () => {
+            await updateBattleData();
+        }, 2000);
+    })();
+
 </script>
