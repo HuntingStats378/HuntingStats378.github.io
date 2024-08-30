@@ -54,7 +54,8 @@
     let battle = {};
 
     odometers = Odometer.init();
-    odometers[0].options = {
+    for (let i = 0; i < data.odometers.length; i++) {
+    odometers[i].options = {
         animation: ['default','byDigit','count', 'minimal'][1],
         downColor: "white",
         duration: 2 * 1000,
@@ -62,6 +63,7 @@
         reverseAnimation: false,
         format: ",ddd",
         upColor: "white"
+    }
     }
 
     async function fetchChannelIds() {
