@@ -1,0 +1,77 @@
+<link id="font" href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+<link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css">
+<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+
+<body>
+    <span id="count" class="odometer">0</span>
+</body>
+<style>
+    body {
+        background-color: var(--backcolor);
+        font-size: var(--size);
+        font-family: var(--font);
+        text-align: var(--fontalign);
+        font-weight: var(--fontweight);
+        color: var(--fontcolor);
+    }
+
+    html {
+        --backcolor: black;
+        --fontcolor: white;
+        --size: 50px;
+        --fontalign: center;
+        --fontweight: 400;
+        --font: Roboto;
+    }
+
+
+    #count {
+        font-size: var(--size);
+        font-family: var(--font);
+        text-align: var(--fontalign);
+        color: var(--fontcolor);
+    }
+</style>
+<script>
+    const params1 = new URLSearchParams(window.location.search);
+    var bg = params1.get("background") || "black";
+    const params2 = new URLSearchParams(window.location.search);
+    var fc = params2.get("fontcolor") || "white";
+    const params3 = new URLSearchParams(window.location.search);
+    var fa = params3.get("fontalign") || "center";
+    const params4 = new URLSearchParams(window.location.search);
+    var id = params4.get("id") || "UClOyuxZvQkoHoIn15kNbkUw";
+    const params5 = new URLSearchParams(window.location.search);
+    var font = params5.get("font") || "Roboto";
+    const params6 = new URLSearchParams(window.location.search);
+    var sizee = params6.get("size") || "50";
+    const params7 = new URLSearchParams(window.location.search);
+    var fw = params7.get("fontweight") || "400";
+
+    function validateSize(input) {
+        let size = Number(input);
+        return (isNaN(size) || size < 1) ? 50 : size;
+    }
+
+    let userInput = sizee; // Replace with actual user input
+    let size = validateSize(userInput);
+
+
+    setInterval(() => {
+        fetch(
+                            `https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id}`
+                        )
+                        .then((res) => res.json())
+                        .then((data) => {
+                            document.getElementById("count").innerHTML = data.estSubCount;
+                    });
+    }, 2000);
+
+    document.documentElement.style.setProperty('--backcolor', bg);
+    document.documentElement.style.setProperty('--fontcolor', fc);
+    document.documentElement.style.setProperty('--fontalign', fa);
+    document.documentElement.style.setProperty('--fontweight', fw);
+    document.documentElement.style.setProperty('--size', size + "px");
+    document.documentElement.style.setProperty('--font', font);
+    document.getElementById("font").href = "https://fonts.googleapis.com/css?family=" + font + ":100,200,300,400,500,600,700,800&display=swap";
+</script>

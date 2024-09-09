@@ -1,0 +1,53 @@
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+        <link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer05s.css">
+        <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometerleading.js"></script>
+
+        <body>
+            <span id="hours" class="odometer">00</span><span>:</span><span id="minutes" class="odometer">00</span><span>:</span><span id="seconds" class="odometer">00</span>
+        </body>
+        <style>
+            body {
+                background-color: transparent;
+                font-size: 100px;
+                font-family: Roboto;
+                text-align: center;
+                font-weight: 700;
+                color: white;
+            }
+        </style>
+        <script>
+            const odometers = document.querySelectorAll(".odometer");
+            for (const odo of odometers) {
+                new Odometer({
+                    el: odo,
+                    format: "(,ddd)",
+                    minIntegerLen: 2,
+                });
+            }
+        const countdownDate = new Date("2024-09-09T17:00:00.000Z").getTime();
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            if (distance > 0) {
+                document.getElementById("hours").innerHTML = hours;
+                document.getElementById("minutes").innerHTML = minutes;
+                document.getElementById("seconds").innerHTML = seconds;
+            } else {
+                const timeSince = now - countdownDate;
+                const hoursSince = Math.floor((timeSince % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutesSince = Math.floor((timeSince % (1000 * 60 * 60)) / (1000 * 60));
+                const secondsSince = Math.floor((timeSince % (1000 * 60)) / 1000);
+                document.getElementById("hours").innerHTML = hoursSince;
+                document.getElementById("minutes").innerHTML = minutesSince;
+                document.getElementById("seconds").innerHTML = secondsSince;
+            }
+        }
+
+        setInterval(updateTimer, 1000);
+    </script>
