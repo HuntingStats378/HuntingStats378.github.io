@@ -1,0 +1,50 @@
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+<link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer1s.css">
+<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometerleading.js"></script>
+
+<body>
+  <div><span id="years" class="odometer">00</span><span>-</span><span id="months" class="odometer">00</span><span>-</span><span id="days" class="odometer">00</span> <span>UTC</span></div>
+  <div id="time"><span id="hours" class="odometer">00</span><span>:</span><span id="minutes"
+      class="odometer">00</span><span>:</span><span id="seconds" class="odometer">00</span></div>
+</body>
+<style>
+  body {
+    background-color: transparent;
+    font-size: 33px;
+    font-family: Roboto;
+    text-align: center;
+    font-weight: 700;
+    color: white;
+  }
+
+  #time {
+    font-size: 75px;
+  }
+</style>
+<script>
+  const odometers = document.querySelectorAll(".odometer");
+  for (const odo of odometers) {
+    new Odometer({
+      el: odo,
+      format: "(ddd)",
+      minIntegerLen: 2,
+    });
+  }
+
+  function clock() {
+    const d = new Date();
+    var tYear = d.getFullYear();
+    var tMonth = (d.getMonth() + 1);
+    var tDay = d.getDate();
+    var tHour = d.getHours();
+    var tMinute = d.getMinutes();
+    var tSecond = d.getSeconds();
+    document.getElementById("years").innerHTML = tYear;
+    document.getElementById("months").innerHTML = tMonth;
+    document.getElementById("days").innerHTML = tDay;
+    document.getElementById("hours").innerHTML = tHour;
+    document.getElementById("minutes").innerHTML = tMinute;
+    document.getElementById("seconds").innerHTML = tSecond;
+  }
+  setInterval(clock, 0);
+</script>

@@ -1,0 +1,40 @@
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+<body>
+<span id="count">0</span>
+</body>
+<style>
+body {
+    font-family: roboto;
+    font-weight: 700;
+    text-align: left;
+    background-color: transparent;
+    color: white;
+    font-size: 50px;
+}
+</style>
+<script>
+const searchParams = new URLSearchParams(window.location.search);
+const id = searchParams.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
+
+function formatNumber(num) {
+    if (num >= 1_000_000_000) {
+        return (num / 1_000_000_000).toFixed(2).replace(/\.?0+$/, '') + 'B';
+    } else if (num >= 1_000_000) {
+        return (num / 1_000_000).toFixed(2).replace(/\.?0+$/, '') + 'M';
+    } else if (num >= 1_000) {
+        return (num / 1_000).toFixed(2).replace(/\.?0+$/, '') + 'K';
+    } else {
+        return num.toString();
+    }
+}
+
+setInterval(() => {
+fetch(
+            `https://mixerno.space/api/youtube-channel-counter/user/${id}`
+        )
+        .then((res) => res.json())
+        .then((data) => {
+document.getElementById("count").textContent = `(${formatNumber(data.counts[2].count)})`;
+});
+}, 2000);
+</script>
