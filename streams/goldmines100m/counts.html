@@ -1,0 +1,72 @@
+<link id="font" href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+<link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css">
+<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+
+<body>
+    <span id="count" class="odometer">0</span>
+</body>
+<style>
+    body {
+        background-color: var(--backcolor);
+        font-size: var(--size);
+        font-family: var(--font);
+        text-align: var(--fontalign);
+        font-weight: var(--fontweight);
+        color: var(--fontcolor);
+    }
+
+    html {
+        --backcolor: black;
+        --fontcolor: white;
+        --size: 50px;
+        --fontalign: center;
+        --fontweight: 400;
+        --font: Roboto;
+    }
+
+
+    #count {
+        font-size: var(--size);
+        font-family: var(--font);
+        text-align: var(--fontalign);
+        color: var(--fontcolor);
+    }
+</style>
+<script>
+    const params = new URLSearchParams(window.location.search);
+    var bg = params.get("background") || "black";
+    var fc = params.get("fontcolor") || "white";
+    var fa = params.get("fontalign") || "center";
+    var id = params.get("id") || "UClOyuxZvQkoHoIn15kNbkUw";
+    var font = params.get("font") || "Roboto";
+    var sizee = params.get("size") || "50";
+    var fw = params.get("fontweight") || "400";
+    var counter = params.get("counter") || 0;
+
+    function validateSize(input) {
+        let size = Number(input);
+        return (isNaN(size) || size < 1) ? 50 : size;
+    }
+
+    let userInput = sizee; // Replace with actual user input
+    let size = validateSize(userInput);
+
+
+    setInterval(() => {
+        fetch(
+                            `https://mixerno.space/api/youtube-channel-counter/user/${id}`
+                        )
+                        .then((res) => res.json())
+                        .then((data) => {
+                            document.getElementById("count").innerHTML = data.counts[counter].count;
+                    });
+    }, 2000);
+
+    document.documentElement.style.setProperty('--backcolor', bg);
+    document.documentElement.style.setProperty('--fontcolor', fc);
+    document.documentElement.style.setProperty('--fontalign', fa);
+    document.documentElement.style.setProperty('--fontweight', fw);
+    document.documentElement.style.setProperty('--size', size + "px");
+    document.documentElement.style.setProperty('--font', font);
+    document.getElementById("font").href = "https://fonts.googleapis.com/css?family=" + font + ":100,200,300,400,500,600,700,800&display=swap";
+</script>
