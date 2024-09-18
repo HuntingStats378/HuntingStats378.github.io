@@ -1,0 +1,114 @@
+<html>
+
+<head>
+    <title>HuntingStats378 - Compare</title>
+    <link href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css" rel="stylesheet">
+    <link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+    <meta charSet="utf-8" />
+    <meta name="description" content="HuntingStats378 - Compare" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.0-beta.3/iconify-icon.min.js"></script>
+</head>
+
+<body class="flex">
+    <div class="flex">
+        <span class="material-icons"> hourglass_full </span>
+        <span class="text">MIN:</span>
+        <span id="min">0</span>
+    </div>
+    <div class="flex">
+        <span class="material-icons"> hourglass_full </span>
+        <span class="text">HR:</span>
+        <span id="hr">0</span>
+    </div>
+    <div class="flex">
+        <span class="material-icons"> hourglass_full </span>
+        <span class="text">DAY:</span>
+        <span id="day">0</span>
+    </div>
+</body>
+<style>
+    @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
+    @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap");
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background-color: transparent;
+        color: white;
+        text-align: center;
+        font-family: roboto;
+        font-weight: 700;
+    }
+
+    body {
+        --font-size: 50px;
+        font-size: var(--font-size);
+    }
+
+    .flex {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 15px;
+    }
+
+    #mins,
+    #hrs,
+    #days {
+        line-height: 1.1em;
+        font-size: calc(var(--font-size) + 10px);
+    }
+
+    .material-icons {
+        font-size: calc(var(--font-size) + 10px);
+        margin-right: -12px;
+    }
+</style>
+<script>
+    const searchParams = new URLSearchParams(window.location.search);
+    const id = searchParams.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
+
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function calPrefixOfCount(x, gain, lose, none) {
+        gain = gain || "lime";
+        lose = lose || "red";
+        none = none || "white";
+        let count = parseFloat(x);
+        if (count > 0) {
+            return ["+",
+                gain];
+        } else if (count == 0) {
+            return ["+",
+                none];
+        } else {
+            return ["",
+                lose];
+        }
+    }
+
+    setInterval(() => {
+        fetch(
+            `https://api.communitrics.com/${id}?averages=true`
+        )
+            .then((res) => res.json())
+            .then((data) => {
+                document.getElementById("day").innerHTML = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 1))[0] + numberWithCommas(Math.floor(data.channelDetails.mostRecentAverage / 1));
+                document.getElementById("hr").innerHTML = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 24))[0] + numberWithCommas(Math.floor(data.channelDetails.mostRecentAverage / 24));
+                document.getElementById("min").innerHTML = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 1440))[0] + numberWithCommas(Math.floor(data.channelDetails.mostRecentAverage / 1440));
+                document.getElementById("day").style.color = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 1))[1];
+                document.getElementById("hr").style.color = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 24))[1];
+                document.getElementById("min").style.color = calPrefixOfCount(Math.floor(data.channelDetails.mostRecentAverage / 1440))[1];
+            });
+    }, 2000);
+</script>
