@@ -34,15 +34,15 @@
 </style>
 <script>
     const urlParams = new URLSearchParams(window.location.search);
-    const params = {};
-    for (const [key, value] of urlParams.entries()) {
-        if (!isNaN(value) && value.trim() !== '') {
-            params[key] = parseFloat(value);
-        } else {
-            params[key] = value;
-        }
+const params = {};
+
+for (const [key, value] of urlParams.entries()) {
+    if (!isNaN(value) && value.trim() !== '') {
+        params[key] = parseFloat(value);
+    } else {
+        params[key] = value;
     }
-    return params;
+}
     var bg = params.get("background") || "black";
     var fc = params.get("fontcolor") || "white";
     var fa = params.get("fontalign") || "center";
