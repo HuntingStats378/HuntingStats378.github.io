@@ -1,60 +1,39 @@
-<!DOCTYPE html>
-<html>
-<title>Home</title>
-<link href="./main/assets/ess/odometer.css" rel="stylesheet">
-<link href="./index.css" rel="stylesheet" type="text/css">
-<link rel="icon" href="./main/images/logo.png">
-<meta charSet="utf-8" />
-<meta name="description"
-    content="HuntingStats378" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title"
-    content="HuntingStats378" />
-<meta name="twitter:description"
-    content="HuntingStats378" />
-<meta name="twitter:image" content="./main/images/logo.png" />
-<meta property="og:title"
-    content="HuntingStats378" />
-<meta property="og:description"
-    content="HuntingStats378" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="./" />
-<meta property="og:image" content="./main/images/logo.png" />
-</head>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+<link href="https://lcedit.com/odometer/odometer.css" rel="stylesheet">
+<script src="https://lcedit.com/odometer/odometer.js"></script>
+<div id="main">
+<span class="odometer" id="count">0</span>
+</div>
+<style>
+body {
+  background-color: black;
+  text-align: center;
+  color: white;
+  font-weight: 700;
+  font-family: roboto;
+  font-size: 150px;
+}
+</style>
+<script>
+const searchParams = new URLSearchParams(window.location.search);
+    const id = searchParams.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
 
-<body>
-    <center>
-        <h1 class="title">HuntingStats378</h1>
-        <a href="https://discord.gg/rnng6j74Y4">
-            <h2 style="margin-top: -1vw; text-decoration: underline;">Click Here To Join The Affiliated Discord!</h2>
-        </a><br>
-      <a href="https://youtube.com/@HuntingStats378?sub_confirmation=1">
-          <h2 style="margin-top: -1vw; text-decoration: underline;">Subscribe!</h2>
-      </a><br>
-        <a href="./">
-            <h2 style="margin-top: -1vw; text-decoration: underline;">Home!</h2>
-      </a>
-    </center>
-    <div class="container">
-        <div class="options">
-            <div>
-                <button>Pages</button>
-                <a href="./rules">
-                    <h1>Rules</h1>
-                </a>
-                <a href="./streams">
-                    <h1>Stream Assets</h1>
-                </a>
-                <a href="./livecounts">
-                    <h1>Livecounts</h1>
-                </a>
-                <a href="./information">
-                    <h1>User Information (Early Access)</h1>
-                </a>
-                <a href="./fysc">
-                    <h1>FYSC</h1>
-                </a>
-          </div>
-        </div>
-    </div>
+odometers = Odometer.init();
+    odometers[0].options = {
+        animation: ['default','byDigit','count', 'minimal'][1],
+        downColor: "white",
+        duration: 2 * 1000,
+        removeLeadingZeros: 1 === 1,
+        reverseAnimation: false,
+        format: ",ddd",
+        upColor: "white"
+    }
+
+setInterval(() => {
+fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
+.then((res) => res.json())
+.then((data) => {
+  document.getElementById("count").innerHTML = data.counts[0].count;
+});
+}, 2000);
+</script>
