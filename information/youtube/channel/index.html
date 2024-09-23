@@ -44,11 +44,11 @@
             const prompt = window.prompt("Enter channel name, ID, or URL.");
             if (prompt)
                 fetch(
-                    `https://axern.space/api/search?platform=youtube&type=channel&query=${prompt}`
+                    `https://mixerno.space/api/youtube-channel-counter/search/${prompt}`
                 )
                 .then((res) => res.json())
                 .then((date) => {
-                    searchParams.set("id", date[0].id)
+                    searchParams.set("id", date.list[0][2])
                     window.location.href = "?" + searchParams.toString()
                 });
         }
