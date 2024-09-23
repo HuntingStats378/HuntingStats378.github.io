@@ -30,13 +30,13 @@
         const id = searchParams.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
 
         fetch(
-                    `https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id}`
+                    `https://mixerno.space/api/youtube-channel-counter/user/${id}`
                 )
                 .then((res) => res.json())
                 .then((data) => {
-                    document.getElementById("banner").textContent = `Profile Banner: https://banner.yt/${id}`;
-                    document.getElementById("image").textContent = `Profile Picture: ${data.snippet.thumbnails.high.url}`;
-                    document.getElementById("name").textContent = `Profile Name: ${data.snippet.title}`;
+                    document.getElementById("banner").textContent = `Profile Banner: ${data.user[2].count}`;
+                    document.getElementById("image").textContent = `Profile Picture: ${data.user[1].count}`;
+                    document.getElementById("name").textContent = `Profile Name: ${data.user[0].count}`;
                   document.getElementById("id").textContent = `Profile ID: ${id}`;
                 });
         
