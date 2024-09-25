@@ -61,6 +61,7 @@ var up = urlParams.get("up") || fc;
 var down = urlParams.get("down") || fc;
 var format = urlParams.get("format") || 0;
 var clock = urlParams.get("clock") || false;
+var duration = urlParams.get("duration") || 2;
 
 // Validate and handle font size
 function validateSize(input) {
@@ -71,19 +72,51 @@ function validateSize(input) {
 let userInput = sizee; // Replace with actual user input
 let size = validateSize(userInput);
 
+function durationNumber(num) {
+    // Convert the number to a string
+    let numStr = num.toString();
+    
+    // Check if the number starts with '0'
+    if (numStr.startsWith('0')) {
+        // Insert the decimal point after the first '0'
+        return parseFloat('0.' + numStr.slice(1));
+    }
+    
+    // If the number doesn't start with '0', return the number as it is
+    return num;
+}
+
 odometers = Odometer.init();
+
+setInterval(() => {
+if (time = true) {
     odometers[0].options = {
         animation: ['default','byDigit','count', 'minimal'][animation],
         downColor: down,
-        duration: 2 * 1000,
+        duration: duration * 1000,
         removeLeadingZeros: true,
         reverseAnimation: false,
-        format: [',ddd',' ddd','ddd', ':dd'][format],
+        format: [',ddd','ddd',' ddd',':dd'][3],
         upColor: up
 }
-setInterval(() => {
-if (time = true) {
+
+const now = new Date();
+const hours = now.getHours().toString().padStart(2, '0');
+const minutes = now.getMinutes().toString().padStart(2, '0');
+const seconds = now.getSeconds().toString().padStart(2, '0');
+
+// Concatenate time parts and convert to a number
+document.getElementById("count").innerHTML = parseInt(hours + minutes + seconds);
 } else {
+    odometers[0].options = {
+        animation: ['default','byDigit','count', 'minimal'][animation],
+        downColor: down,
+        duration: duration * 1000,
+        removeLeadingZeros: true,
+        reverseAnimation: false,
+        format: [',ddd','ddd',' ddd',':dd'][format],
+        upColor: up
+}
 // Set interval to fetch data
     fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
         .then((res) => res.json())
