@@ -57,6 +57,8 @@ var counter = urlParams.get("counter") || 0;
 var studio = urlParams.get("studio") || false;
 var animation = urlParams.get("animation") || 0;
 var est = urlParams.get("est") || 0;
+var up = urlParams.get("up") || fc;
+var down = urlParams.get("down") || fc;
 
 // Validate and handle font size
 function validateSize(input) {
@@ -70,12 +72,12 @@ let size = validateSize(userInput);
 odometers = Odometer.init();
     odometers[0].options = {
         animation: ['default','byDigit','count', 'minimal'][animation],
-        downColor: "white",
+        downColor: down,
         duration: 2 * 1000,
-        removeLeadingZeros: 1 === 1,
+        removeLeadingZeros: true,
         reverseAnimation: false,
         format: ",ddd",
-        upColor: "white"
+        upColor: up
     }
 
 // Set interval to fetch data
