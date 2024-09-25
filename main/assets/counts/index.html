@@ -81,14 +81,16 @@ odometers = Odometer.init();
         format: [',ddd',' ddd','ddd', ':dd'][format],
         upColor: up
 }
-
-// Set interval to fetch data
 setInterval(() => {
+if (time = true) {
+} else {
+// Set interval to fetch data
     fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
         .then((res) => res.json())
         .then((data) => {
             document.getElementById("count").innerHTML = data.counts[counter].count;
         });
+}
 }, 2000);
 
 // Apply styles using the fetched parameters
