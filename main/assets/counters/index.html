@@ -67,6 +67,17 @@ function validateSize(input) {
 let userInput = sizee; // Replace with actual user input
 let size = validateSize(userInput);
 
+odometers = Odometer.init();
+    odometers[0].options = {
+        animation: ['default','byDigit','count', 'minimal'][animation],
+        downColor: "white",
+        duration: 2 * 1000,
+        removeLeadingZeros: 1 === 1,
+        reverseAnimation: false,
+        format: ",ddd",
+        upColor: "white"
+    }
+
 // Set interval to fetch data
 setInterval(() => {
     fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
