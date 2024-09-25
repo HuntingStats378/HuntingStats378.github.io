@@ -36,12 +36,16 @@
 const urlParams = new URLSearchParams(window.location.search);
 const params = {};
 
-// Convert URL parameters to the `params` object with number parsing for numeric values
+// Convert URL parameters to the `params` object with number and boolean parsing
 for (const [key, value] of urlParams.entries()) {
-    if (!isNaN(value) && value.trim() !== '') {
+    if (value.toLowerCase() === "true") {
+        params[key] = true;  // Convert "true" string to boolean true
+    } else if (value.toLowerCase() === "false") {
+        params[key] = false;  // Convert "false" string to boolean false
+    } else if (!isNaN(value) && value.trim() !== '') {
         params[key] = parseFloat(value);  // Convert numeric values
     } else {
-        params[key] = value;  // Keep string values as they are
+        params[key] = value;  // Keep other string values as they are
     }
 }
 
