@@ -33,7 +33,7 @@
     }
 </style>
 <script>
-    const urlParams = new URLSearchParams(window.location.search);
+const urlParams = new URLSearchParams(window.location.search);
 const params = {};
 
 // Convert URL parameters to the `params` object with number parsing for numeric values
@@ -56,6 +56,7 @@ var fw = urlParams.get("fontweight") || "400";
 var counter = urlParams.get("counter") || 0;
 var studio = urlParams.get("studio") || false;
 var animation = urlParams.get("animation") || 0;
+var est = urlParams.get("est") || 0;
 
 // Validate and handle font size
 function validateSize(input) {
