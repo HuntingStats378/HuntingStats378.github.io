@@ -91,10 +91,9 @@ function durationNumber(num) {
 }
 
 odometers = Odometer.init();
-console.log(clock);
 
 setInterval(() => {
-if (clock === true) {
+if (clock == true) {
     odometers[0].options = {
         animation: ['default','byDigit','count', 'minimal'][animation],
         downColor: down,
