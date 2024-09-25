@@ -93,7 +93,7 @@ if (clock === true) {
     odometers[0].options = {
         animation: ['default','byDigit','count', 'minimal'][animation],
         downColor: down,
-        duration: duration * 1000,
+        duration: durationNumber(duration) * 1000,
         removeLeadingZeros: true,
         reverseAnimation: false,
         format: [',ddd','ddd',' ddd',':dd'][3],
@@ -111,7 +111,7 @@ document.getElementById("count").innerHTML = parseInt(hours + minutes + seconds)
     odometers[0].options = {
         animation: ['default','byDigit','count', 'minimal'][animation],
         downColor: down,
-        duration: duration * 1000,
+        duration: durationNumber(duration) * 1000,
         removeLeadingZeros: true,
         reverseAnimation: false,
         format: [',ddd','ddd',' ddd',':dd'][format],
