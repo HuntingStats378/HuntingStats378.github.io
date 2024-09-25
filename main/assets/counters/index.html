@@ -59,6 +59,7 @@ var animation = urlParams.get("animation") || 0;
 var est = urlParams.get("est") || 0;
 var up = urlParams.get("up") || fc;
 var down = urlParams.get("down") || fc;
+var format = urlParams.get("format") || 0;
 
 // Validate and handle font size
 function validateSize(input) {
@@ -76,9 +77,9 @@ odometers = Odometer.init();
         duration: 2 * 1000,
         removeLeadingZeros: true,
         reverseAnimation: false,
-        format: ",ddd",
+        format: [',ddd',' ddd','ddd', ':dd'][format],
         upColor: up
-    }
+}
 
 // Set interval to fetch data
 setInterval(() => {
