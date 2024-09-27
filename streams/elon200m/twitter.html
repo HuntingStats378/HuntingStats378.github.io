@@ -1,0 +1,87 @@
+<link id="font" href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+<link rel=stylesheet href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css">
+<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+
+<body>
+    <span id="count" class="odometer">0</span>
+</body>
+<style>
+    body {
+        background-color: var(--backcolor);
+        font-size: var(--size);
+        font-family: var(--font);
+        text-align: var(--fontalign);
+        font-weight: var(--fontweight);
+        color: var(--fontcolor);
+    }
+
+    html {
+        --backcolor: black;
+        --fontcolor: white;
+        --size: 50px;
+        --fontalign: center;
+        --fontweight: 400;
+        --font: Roboto;
+    }
+
+
+    #count {
+        font-size: var(--size);
+        font-family: var(--font);
+        text-align: var(--fontalign);
+        color: var(--fontcolor);
+    }
+</style>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+const params = {};
+
+// Convert URL parameters to the `params` object with number parsing for numeric values
+for (const [key, value] of urlParams.entries()) {
+    if (!isNaN(value) && value.trim() !== '') {
+        params[key] = parseFloat(value);  // Convert numeric values
+    } else {
+        params[key] = value;  // Keep string values as they are
+    }
+}
+
+// Fetch the values directly from `urlParams` using `.get()`
+var bg = urlParams.get("background") || "black";
+var fc = urlParams.get("fontcolor") || "white";
+var fa = urlParams.get("fontalign") || "center";
+var id = urlParams.get("id") || "elonmusk";
+var font = urlParams.get("font") || "Roboto";
+var sizee = urlParams.get("size") || "50";
+var fw = urlParams.get("fontweight") || "400";
+var counter = urlParams.get("counter") || 0;
+
+// Validate and handle font size
+function validateSize(input) {
+    let size = Number(input);
+    return (isNaN(size) || size < 1) ? 50 : size;
+}
+
+let userInput = sizee; // Replace with actual user input
+let size = validateSize(userInput);
+
+// Set interval to fetch data
+setInterval(() => {
+    fetch(`https://mixerno.space/api/twitter-user-counter/user/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+            document.getElementById("count").innerHTML = data.counts[counter].count;
+        });
+}, 2000);
+
+// Apply styles using the fetched parameters
+document.documentElement.style.setProperty('--backcolor', bg);
+document.documentElement.style.setProperty('--fontcolor', fc);
+document.documentElement.style.setProperty('--fontalign', fa);
+document.documentElement.style.setProperty('--fontweight', fw);
+document.documentElement.style.setProperty('--size', size + "px");
+document.documentElement.style.setProperty('--font', font);
+
+// Dynamically load Google Font
+document.getElementById("font").href = "https://fonts.googleapis.com/css?family=" + font + ":100,200,300,400,500,600,700,800&display=swap";
+
+</script>
