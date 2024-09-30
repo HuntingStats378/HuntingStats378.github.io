@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poll Creator</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212; /* Slight contrast to black */
+            color: white;
+            line-height: 1.6;
+        }
+
+        /* Centered Container */
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h2, h3 {
+            color: white;
+        }
+
+        /* Poll Form */
+        .poll-form, .poll-results, #poll-section {
+            margin-top: 20px;
+            background-color: #1A1A1A; /* Dark gray for poll sections */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        label {
+            font-weight: bold;
+            color: white;
+        }
+
+        input[type="text"], input[type="radio"], select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background-color: #121212;
+            color: white;
+        }
+
+        .poll-options div {
+            margin-bottom: 10px;
+        }
+
+        /* Buttons */
+        .btn {
+            background-color: #E65724;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            text-align: center;
+            display: inline-block;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: white;
+            color: #E65724;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+        }
+
+        /* Reset Button Section */
+        .reset-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Poll Results */
+        .poll-results div {
+            margin-bottom: 10px;
+        }
+
+        /* Navbar Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #000000; /* Navbar stays black */
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .logo img {
+            height: 40px; /* Set logo height */
+            vertical-align: middle;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 1rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #E65724;
+        }
+
+        .cta {
+            padding: 10px 20px;
+            background-color: #E65724;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-size: 1rem;
+        }
+
+        .cta:hover {
+            background-color: white;
+            color: #E65724;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="../main/images/clear.png" alt="Home">
+            </a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="../blogs">Blogs</a></li>
+                <li><a href="../archive">Web Changes</a></li>
+                <li><a href="../links">Social Links</a></li>
+                <li><a href="https://github.com/HuntingStats378/HuntingStats378.github.io">GitHub</a></li>
+                <li><a href="#">Discord</a></li>
+            </ul>
+        </nav>
+        <a href="../rules" class="cta">Rules</a>
+    </header>
+
+    <!-- Poll Section -->
+    <div class="container">
+        <h2>Create Your Poll</h2>
+
+        <!-- Poll creation form -->
+        <div class="poll-form">
+            <label for="poll-question">Poll Question:</label>
+            <input type="text" id="poll-question" placeholder="Enter your poll question"><br><br>
+
+            <!-- Dropdown to select number of options -->
+            <label for="num-options">Number of Options (max 10):</label>
+            <select id="num-options" onchange="generateOptions()">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select><br><br>
+
+            <div class="poll-options" id="poll-options-container">
+                <!-- Poll options will be dynamically inserted here -->
+            </div>
+
+            <button class="btn" onclick="createPoll()">Create Poll</button>
+        </div>
+
+        <!-- Poll voting section -->
+        <div id="poll-section" style="display:none;">
+            <h2 id="poll-question-display"></h2>
+            <form id="poll-voting-form">
+                <div id="poll-options-list"></div>
+                <button class="btn" type="submit">Vote</button>
+            </form>
+            <button class="btn" onclick="showResults()">Show Results</button>
+        </div>
+
+        <!-- Poll results section -->
+        <div class="poll-results" style="display:none;">
+            <h3>Results</h3>
+            <div id="results-list"></div>
+        </div>
+
+        <!-- Reset poll button -->
+        <div class="reset-section" style="display:none;">
+            <button class="btn btn-danger" onclick="resetPoll()">Reset Poll</button>
+        </div>
+    </div>
+
+    <script>
+        let pollOptions = [];
+        let votes = [];
+
+        // Dynamically generate poll options based on user selection
+        function generateOptions() {
+            const numOptions = document.getElementById('num-options').value;
+            const optionsContainer = document.getElementById('poll-options-container');
+            optionsContainer.innerHTML = '';
+
+            for (let i = 1; i <= numOptions; i++) {
+                optionsContainer.innerHTML += `
+                    <div>
+                        <input type="text" class="option" placeholder="Option ${i}">
+                    </div>
+                `;
+            }
+        }
+
+        function createPoll() {
+            const question = document.getElementById('poll-question').value;
+            if (!question) {
+                alert('Please enter a question for the poll.');
+                return;
+            }
+
+            const options = Array.from(document.querySelectorAll('.option'))
+                                .map(option => option.value.trim())
+                                .filter(option => option.length > 0);
+
+            if (options.length < 2 || options.length > 10) {
+                alert('Please enter at least two and no more than ten options.');
+                return;
+            }
+
+            pollOptions = options;
+            votes = new Array(pollOptions.length).fill(0);
+
+            localStorage.setItem('pollQuestion', question);
+            localStorage.setItem('pollOptions', JSON.stringify(pollOptions));
+            localStorage.setItem('votes', JSON.stringify(votes));
+
+            displayPoll(question, pollOptions);
+        }
+
+        function displayPoll(question, options) {
+            document.getElementById('poll-question-display').innerText = question;
+            const pollOptionsList = document.getElementById('poll-options-list');
+            pollOptionsList.innerHTML = '';
+            options.forEach((option, index) => {
+                pollOptionsList.innerHTML += `
+                    <div>
+                        <input type="radio" name="poll-option" value="${index}" id="option-${index}">
+                        <label for="option-${index}">${option}</label>
+                    </div>
+                `;
+            });
+
+            document.querySelector('.poll-form').style.display = 'none';
+            document.getElementById('poll-section').style.display = 'block';
+            document.querySelector('.reset-section').style.display = 'block';
+
+            // Add event listener for voting
+            document.getElementById('poll-voting-form').addEventListener('submit', handleVote);
+        }
+
+        function handleVote(event) {
+            event.preventDefault();
+            const selectedOption = document.querySelector('input[name="poll-option"]:checked');
+            if (!selectedOption) {
+                alert('Please select an option to vote.');
+                return;
+            }
+
+            const selectedIndex = parseInt(selectedOption.value);
+            let votes = JSON.parse(localStorage.getItem('votes')) || [];
+            votes[selectedIndex]++;
+
+            // Store the updated vote counts
+            localStorage.setItem('votes', JSON.stringify(votes));
+
+            alert('Thank you for voting!');
+        }
+
+        function showResults() {
+    const votes = JSON.parse(localStorage.getItem('votes'));
+    const pollOptions = JSON.parse(localStorage.getItem('pollOptions'));
+
+    const resultsList = document.getElementById('results-list');
+    resultsList.innerHTML = '';
+    pollOptions.forEach((option, index) => {
+        resultsList.innerHTML += `<div>${option}: ${votes[index]} vote(s)</div>`;
+    });
+
+    // Disable the voting form and the vote button
+    document.getElementById('poll-voting-form').style.display = 'none'; // Hide voting form
+    document.querySelector('.reset-section').style.display = 'block'; // Show reset section
+    document.querySelector('.poll-results').style.display = 'block';
+}
+
+        function resetPoll() {
+    // Clear localStorage
+    localStorage.removeItem('pollQuestion');
+    localStorage.removeItem('pollOptions');
+    localStorage.removeItem('votes');
+
+    // Reset form fields
+    document.getElementById('poll-question').value = ''; // Clear the question input
+
+    // Reset the number of options to default (2 in this case)
+    document.getElementById('num-options').value = '2';
+    generateOptions(); // Re-generate the default 2 option input fields
+
+    // Hide the poll voting section, poll results, and reset button
+    document.querySelector('.poll-form').style.display = 'block';
+    document.getElementById('poll-section').style.display = 'none';
+    document.querySelector('.poll-results').style.display = 'none';
+    document.querySelector('.reset-section').style.display = 'none';
+}
+
+
+        // Initialize poll options on page load
+        window.onload = function() {
+            generateOptions();
+        }
+    </script>
+</body>
+</html>
