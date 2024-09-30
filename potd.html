@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poll Creator</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212;
+            color: white;
+            line-height: 1.6;
+        }
+
+        /* Centered Container */
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h2, h3 {
+            color: white;
+        }
+
+        /* Poll Form */
+        .poll-form, .poll-results, #poll-section {
+            margin-top: 20px;
+            background-color: #1A1A1A;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        label {
+            font-weight: bold;
+            color: white;
+        }
+
+        input[type="text"], input[type="radio"], select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background-color: #121212;
+            color: white;
+        }
+
+        .poll-options div {
+            margin-bottom: 10px;
+        }
+
+        /* Buttons */
+        .btn {
+            background-color: #E65724;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            text-align: center;
+            display: inline-block;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: white;
+            color: #E65724;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Create Your Poll</h2>
+
+        <div class="poll-form">
+            <label for="poll-question">Poll Question:</label>
+            <input type="text" id="poll-question" placeholder="Enter your poll question"><br><br>
+
+            <label for="num-options">Number of Options (max 10):</label>
+            <select id="num-options" onchange="generateOptions()">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select><br><br>
+
+            <div class="poll-options" id="poll-options-container"></div>
+
+            <button class="btn" onclick="createPoll()">Create Poll & Send to Discord</button>
+        </div>
+    </div>
+
+    <script>
+        let pollOptions = [];
+
+        // Function to get URL parameters
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            const token = params.get('token');
+            const channel = params.get('channel');
+            const ping = params.get('ping');
+            return { token, channel, ping };
+        }
+
+        // Function to store values in local storage under "discordPollValues"
+        function storeInLocalStorage(token, channel, ping) {
+            const discordPollValues = {
+                token,
+                channel,
+                ping
+            };
+            localStorage.setItem('discordPollValues', JSON.stringify(discordPollValues));
+        }
+
+        // Function to get values from local storage
+        function getFromLocalStorage() {
+            const storedValues = localStorage.getItem('discordPollValues');
+            return storedValues ? JSON.parse(storedValues) : null;
+        }
+
+        // Function to initialize the poll form
+        function initializePoll() {
+            // Check URL params
+            const { token, channel, ping } = getUrlParams();
+
+            // If values found in URL, store them in local storage
+            if (token && channel && ping) {
+                storeInLocalStorage(token, channel, ping);
+            }
+
+            // Get stored values from local storage
+            const discordPollValues = getFromLocalStorage();
+
+            if (!discordPollValues || !discordPollValues.token || !discordPollValues.channel || !discordPollValues.ping) {
+                alert('Please provide valid URL parameters for token, channel, and ping.');
+                return;
+            }
+
+            window.discordConfig = {
+                token: discordPollValues.token,
+                channel: discordPollValues.channel,
+                ping: discordPollValues.ping
+            };
+        }
+
+        // Dynamically generate poll options based on user selection
+        function generateOptions() {
+            const numOptions = document.getElementById('num-options').value;
+            const optionsContainer = document.getElementById('poll-options-container');
+            optionsContainer.innerHTML = '';
+
+            for (let i = 1; i <= numOptions; i++) {
+                optionsContainer.innerHTML += `
+                    <div>
+                        <input type="text" class="option" placeholder="Option ${i}">
+                    </div>
+                `;
+            }
+        }
+
+        function createPoll() {
+            const question = document.getElementById('poll-question').value;
+            if (!question) {
+                alert('Please enter a question for the poll.');
+                return;
+            }
+
+            const options = Array.from(document.querySelectorAll('.option'))
+                                .map(option => option.value.trim())
+                                .filter(option => option.length > 0);
+
+            if (options.length < 2 || options.length > 10) {
+                alert('Please enter at least two and no more than ten options.');
+                return;
+            }
+
+            pollOptions = options;
+
+            // Send the poll to Discord
+            sendPollToDiscord(question, pollOptions);
+        }
+
+        function sendPollToDiscord(question, options) {
+            const { token, channel, ping } = window.discordConfig;
+
+            // Create the poll structure
+            const pollData = {
+                content: `<@${ping}>`,  // Mention user with ping
+                tts: false,
+                flags: 0,
+                poll: {
+                    question: { text: question },
+                    answers: options.map(option => ({ poll_media: { text: option } })),
+                    allow_multiselect: false,
+                    duration: 24,
+                    layout_type: 1
+                }
+            };
+
+            // Send the poll to the Discord channel
+            fetch(`https://discord.com/api/v9/channels/${channel}/messages`, {
+                method: 'POST',
+                headers: {
+                    authorization: `${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(pollData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Poll sent to Discord successfully!');
+                } else {
+                    alert('Failed to send poll to Discord. Please check your permissions or token.');
+                }
+            })
+            .catch(error => {
+                console.error('Error sending poll to Discord:', error);
+            });
+        }
+
+        // Initialize poll options on page load
+        window.onload = function() {
+            initializePoll();
+            generateOptions();
+        }
+    </script>
+</body>
+</html>
