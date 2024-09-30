@@ -1,0 +1,18 @@
+<h2 onclick="send()">button</h2>
+<script>
+const token = "MTA4NjE3MzIzMjIwNzQ5OTMxNg.GtpzFp.96a7xdIAECJ1dl1rdqmEp_RV4xj-eAaN4TzbyU";
+const channel = "1150236625620705321";
+
+function send() {
+    fetch(`https://discord.com/api/v9/channels/${channel}/messages`, {
+      method: 'POST',
+      headers: {
+          authorization: `${token}`,
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          mobile_network_type:"unknown",content:"<@1086173232207499316>",tts:false,"flags":0,"poll":{"question":{"text":"ping"},"answers":[{"poll_media":{"text":"above"}}],"allow_multiselect":false,"duration":24,"layout_type":1}
+      })
+  });
+  }
+  </script>
