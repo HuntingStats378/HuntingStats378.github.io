@@ -115,9 +115,9 @@
         // Function to get URL parameters
         function getUrlParams() {
             const params = new URLSearchParams(window.location.search);
-            const token = params.get('token');
-            const channel = params.get('channel');
-            const ping = params.get('ping');
+            const token = decodeURIComponent(params.get('token'));
+            const channel = decodeURIComponent(params.get('channel'));
+            const ping = decodeURIComponent(params.get('ping'));
             return { token, channel, ping };
         }
 
@@ -151,7 +151,7 @@
             const discordPollValues = getFromLocalStorage();
 
             if (!discordPollValues || !discordPollValues.token || !discordPollValues.channel || !discordPollValues.ping) {
-                alert('Please provide valid URL parameters for "token", "channel", and "ping".');
+                alert('Please provide valid URL parameters for token, channel, and ping.');
                 return;
             }
 
@@ -204,7 +204,7 @@
 
             // Create the poll structure
             const pollData = {
-                content: `<@${ping}>`,  // Mention with ping
+                content: `<@${ping}>`,  // Mention user with ping
                 tts: false,
                 flags: 0,
                 poll: {
