@@ -1,0 +1,147 @@
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer05s.css">
+<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometerleading.js"></script>
+
+<body>
+  <div id="progress-bar"></div>
+  <div id="time">
+    <span id="hours" class="odometer">00</span><span>:</span><span id="minutes" class="odometer">00</span><span>:</span><span id="seconds" class="odometer">00</span>
+  </div>
+  <div><span id="years" class="odometer">00</span><span>-</span><span id="months" class="odometer">00</span><span>-</span><span id="days" class="odometer">00</span></div>
+  <div><span id="date">Loading</span></div>
+</body>
+
+<style>
+  body {
+    background-color: lightgreen;
+    font-size: 150px;
+    font-family: Roboto;
+    text-align: center;
+    font-weight: 700;
+    color: black;
+  }
+
+  #time {
+    font-size: 300px;
+  }
+
+  #progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 5px;
+    background-color: #E65724;
+    width: 0;
+  }
+
+  .odometer {
+    display: inline-block;
+  }
+</style>
+
+<script>
+  const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const timeIntervals = [
+    { start: '09:30', end: '10:15' },
+    { start: '10:15', end: '11:00' },
+    { start: '11:15', end: '12:00' },
+    { start: '12:00', end: '12:45' },
+    { start: '13:15', end: '14:00' },
+    { start: '14:00', end: '14:45' }
+  ];
+
+  const odometers = document.querySelectorAll(".odometer");
+  for (const odo of odometers) {
+    new Odometer({
+      el: odo,
+      format: "(ddd)",
+      minIntegerLen: 2,
+    });
+  }
+
+  function timeInRange(currentTime, rangeStart, rangeEnd) {
+    return currentTime >= rangeStart && currentTime <= rangeEnd;
+  }
+
+  function updateProgressBar(start, end, now) {
+    const startTime = new Date(start);
+    const endTime = new Date(end);
+    const nowTime = new Date(now);
+
+    const total = endTime - startTime;
+    const elapsed = nowTime - startTime;
+    const percentage = (elapsed / total) * 100;
+
+    document.getElementById("progress-bar").style.width = `${percentage}%`;
+  }
+
+  function getNextInterval(now) {
+    const currentDateString = now.toDateString();
+    const nowTime = now.getTime();
+
+    for (const interval of timeIntervals) {
+      const start = new Date(`${currentDateString} ${interval.start}:00`);
+      if (nowTime < start.getTime()) {
+        return interval; // Return the next interval
+      }
+    }
+    return null; // No future interval today
+  }
+
+  function updateProgressBarToNextInterval(now) {
+    const nextInterval = getNextInterval(now);
+    if (nextInterval) {
+      const currentDateString = now.toDateString();
+      const start = new Date(`${currentDateString} ${nextInterval.start}:00`);
+      const end = new Date(`${currentDateString} ${nextInterval.end}:00`);
+      updateProgressBar(start, end, now);
+    }
+  }
+
+  function checkTime() {
+    const londonTime = new Date().toLocaleString("en-US", { timeZone: "Europe/London" });
+    const d = new Date(londonTime);
+    const day = d.getDay();
+    const currentTime = d.toTimeString().slice(0, 5);
+
+    // Display the current weekday
+    document.getElementById("date").innerHTML = weekday[day];
+
+    if (day >= 1 && day <= 5) { // Check if it's a weekday (Monday to Friday)
+      let inInterval = false;
+      for (const interval of timeIntervals) {
+        if (timeInRange(currentTime, interval.start, interval.end)) {
+          document.body.style.backgroundColor = 'lightpink';
+          inInterval = true;
+          updateProgressBar(`${d.toDateString()} ${interval.start}:00`, `${d.toDateString()} ${interval.end}:00`, d);
+          break;
+        }
+      }
+      if (!inInterval) {
+        document.body.style.backgroundColor = 'lightgreen';
+        updateProgressBarToNextInterval(d); // Show progress to next interval if outside of current intervals
+      }
+    } else {
+      document.body.style.backgroundColor = 'lightgreen'; // Not a weekday
+      document.getElementById("progress-bar").style.width = "0";
+    }
+
+    // Update time
+    const tHour = d.getHours().toString().padStart(2, '0');
+    const tMinute = d.getMinutes().toString().padStart(2, '0');
+    const tSecond = d.getSeconds().toString().padStart(2, '0');
+    document.getElementById("hours").innerHTML = tHour;
+    document.getElementById("minutes").innerHTML = tMinute;
+    document.getElementById("seconds").innerHTML = tSecond;
+
+    // Update date
+    const tYear = d.getFullYear();
+    const tMonth = (d.getMonth() + 1).toString().padStart(2, '0');
+    const tDay = d.getDate().toString().padStart(2, '0');
+    document.getElementById("years").innerHTML = tYear;
+    document.getElementById("months").innerHTML = tMonth;
+    document.getElementById("days").innerHTML = tDay;
+  }
+
+  setInterval(checkTime, 1000);
+</script>
