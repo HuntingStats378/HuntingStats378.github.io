@@ -3,7 +3,7 @@
 <script src="https://lcedit.com/odometer/odometer.js"></script>
 
 <body>
-    <span id="count" class="odometer">0</span>
+    <div id="chart" class="chart"></div>
 </body>
 <style>
     body {
@@ -12,24 +12,22 @@
         font-family: var(--font);
         text-align: var(--fontalign);
         font-weight: var(--fontweight);
-        color: var(--fontcolor);
     }
-
+ 
     html {
         --backcolor: black;
         --fontcolor: white;
-        --size: 50px;
+        --size: 100%;
         --fontalign: center;
         --fontweight: 400;
         --font: Roboto;
     }
-
-
-    #count {
-        font-size: var(--size);
+ 
+    .chart {
+        width: 100%;
+        height: 100%;
+        font-weight: var(--fontweight);
         font-family: var(--font);
-        text-align: var(--fontalign);
-        color: var(--fontcolor);
     }
 </style>
 <script>
@@ -52,7 +50,7 @@ for (const [key, value] of urlParams.entries()) {
 
 // Fetch the values directly from `urlParams` using `.get()`
 var bg = urlParams.get("background") || "black";
-var fc = urlParams.get("fontcolor") || "white";
+var fc = urlParams.get("fccolor") || "white";
 var fa = urlParams.get("fontalign") || "center";
 var id = urlParams.get("id") || "UClOyuxZvQkoHoIn15kNbkUw";
 var font = urlParams.get("font") || "Roboto";
@@ -93,34 +91,6 @@ function durationNumber(num) {
 }
 
 setInterval(() => {
-if (clock == true) {
-    odometers[0].options = {
-        animation: ['default','byDigit','count', 'minimal'][animation],
-        downColor: down,
-        duration: durationNumber(duration) * 1000,
-        removeLeadingZeros: true,
-        reverseAnimation: false,
-        format: [',ddd','ddd',' ddd',':dd'][3],
-        upColor: up
-}
-
-const now = new Date();
-const hours = now.getHours().toString().padStart(2, '0');
-const minutes = now.getMinutes().toString().padStart(2, '0');
-const seconds = now.getSeconds().toString().padStart(2, '0');
-
-// Concatenate time parts and convert to a number
-document.getElementById("count").innerHTML = parseInt(hours + minutes + seconds);
-} else {
-    odometers[0].options = {
-        animation: ['default','byDigit','count', 'minimal'][animation],
-        downColor: down,
-        duration: durationNumber(duration) * 1000,
-        removeLeadingZeros: true,
-        reverseAnimation: false,
-        format: [',ddd','ddd',' ddd',':dd'][format],
-        upColor: up
-}
 if (studio == true) {
     fetch(`https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${id}`)
         .then((res) => res.json())
@@ -132,18 +102,80 @@ if (est === 0) {
     fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
         .then((res) => res.json())
         .then((data) => {
-            document.getElementById("count").innerHTML = data.counts[counter].count;
+            if (chart.series[0].points.length == 1500) chart.series[0].data[0].remove();
+                chart.series[0].addPoint([Date.now(), data.counts[counter].count])
         });
 }
 if (est === 1) {
     fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
         .then((res) => res.json())
         .then((data) => {
-            document.getElementById("count").innerHTML = data.counts[counter].count;
-        });
+            if (chart.series[0].points.length == 1500) chart.series[0].data[0].remove();
+                chart.series[0].addPoint([Date.now(), data.counts[counter].count])
+            });
 }
-}
-}, 2000);
+    }, 2000);
+ 
+    var textBright = "#bdbdbd"
+    var lineColor = fc
+    var maxPoints = 20000;
+    var chart = new Highcharts.chart({
+        chart: {
+            renderTo: 'chart',
+            type: 'line',
+            zoomType: 'x',
+            backgroundColor: 'transparent',
+            plotBorderColor: 'transparent'
+        },
+        title: {
+            text: ' '
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 500,
+            gridLineColor: textBright,
+            labels: {
+                style: {
+                    color: textBright
+                }
+            },
+            lineColor: textBright,
+            minorGridLineColor: '#bdbdbd',
+            tickColor: textBright,
+            title: {
+                style: {
+                    color: textBright
+                }
+            }
+        },
+        yAxis: {
+            title: {
+                text: ''
+            },
+            gridLineColor: textBright,
+            labels: {
+                style: {
+                    color: textBright
+                }
+            },
+            lineColor: textBright,
+            minorGridLineColor: '#bdbdbd',
+            tickColor: textBright
+        },
+        credits: {
+            enabled: false
+        },
+ 
+        series: [{
+            showInLegend: false,
+            name: 'Subscribers',
+            marker: {
+                enabled: false
+            },
+            color: '#000000',
+            lineColor: lineColor
+        }]
+    });
 
 // Apply styles using the fetched parameters
 document.documentElement.style.setProperty('--backcolor', bg);
