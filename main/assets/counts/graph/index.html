@@ -49,6 +49,7 @@ for (const [key, value] of urlParams.entries()) {
 }
 
 // Fetch the values directly from `urlParams` using `.get()`
+var axis = urlParams.get("axis") || false;
 var bg = urlParams.get("background") || "black";
 var fc = urlParams.get("fccolor") || "white";
 var fa = urlParams.get("fontalign") || "center";
@@ -116,7 +117,11 @@ if (est === 1) {
 }
     }, 2000);
  
-    var textBright = "#bdbdbd"
+    if (axis === false) {
+    var textBright = "transparent"
+    } else {
+    var textBright = axis
+    }
     var lineColor = fc
     var maxPoints = 20000;
     var chart = new Highcharts.chart({
