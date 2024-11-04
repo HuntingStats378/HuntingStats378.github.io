@@ -71,6 +71,9 @@
     <script src="https://lcedit.com/counter.js"></script>
     <script src="https://lcedit.com/livecountsedit/lcedit.js"></script>
     <script>
+        const urlParams = new URLSearchParams(window.location.search);
+
+        
         setInterval(() => {
             fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
         .then((res) => res.json())
