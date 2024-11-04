@@ -1,0 +1,73 @@
+<html>
+
+<head>
+    <title>Livecountsedit - Fake Channel</title>
+    <link href="https://lcedit.com/odometer/odometer.css" rel="stylesheet">
+    <link href="https://lcedit.com/bootstrap.css" rel="stylesheet">
+    <link href="https://lcedit.com/livecountsedit/index.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="https://lcedit.com/logo.png">
+    <meta charSet="utf-8" />
+    <meta name="description"
+        content="Livecountsedit - BEST LIVE PLATFORM FOR FAKE SUB COUNTS OF YOUTUBE, SOCIALBLADE, YT Studio, TOP 50, FYSC, FSCW" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title"
+        content="Livecountsedit - BEST LIVE PLATFORM FOR FAKE SUB COUNTS OF YOUTUBE, SOCIALBLADE, YT Studio, TOP 50, FYSC, FSCW" />
+    <meta name="twitter:description"
+        content="Livecountsedit - BEST LIVE PLATFORM FOR FAKE SUB COUNTS OF YOUTUBE, SOCIALBLADE, YT Studio, TOP 50, FYSC, FSCW" />
+    <meta name="twitter:image" content="https://lcedit.com/images/livecountsedit.png" />
+    <meta property="og:title"
+        content="Livecountsedit - BEST LIVE PLATFORM FOR FAKE SUB COUNTS OF YOUTUBE, SOCIALBLADE, YT Studio, TOP 50, FYSC, FSCW" />
+    <meta property="og:description"
+        content="Livecountsedit - BEST LIVE PLATFORM FOR FAKE SUB COUNTS OF YOUTUBE, SOCIALBLADE, YT Studio, TOP 50, FYSC, FSCW" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://lcedit.com" />
+    <meta property="og:image" content="https://lcedit.com/images/livecountsedit.png" />
+    <style></style>
+</head> 
+<body>
+    <div class="lcedit-container">
+        <div class="tabs">
+            <div class="tab-buttons"></div>
+            <button class="btn btn-primary" onclick="submit()">Save settings</button><br>
+            <button class="btn btn-primary" onclick="refreshCount()">Refresh count</button>
+            <button class="btn btn-danger" onclick="reset()">Reset</button><br>
+            <button class="btn btn-danger" onclick="resetChart()">Reset chart</button><br>
+            <button id="pause-button" class="btn btn-secondary" onclick="togglePause()">Pause</button><br>
+            <button class="btn btn-secondary" onclick="version()">Check version</button>
+            <button class="btn btn-secondary" onclick="exportToJSON()">Export data (public)</button>
+            <button class="btn btn-danger" onclick="exportToJSON(true)">Export data (private)</button>
+            <button class="btn btn-secondary" onclick="document.querySelector('#import-data-v7').click()">Import data (v7)</button>
+            <input type="file" class="file-import" id="import-data-v7" accept=".json">
+            
+        </div>
+        <div class="tab-stuff"></div>
+        <div class="counter-content">
+            <div class="counter-area">
+                <img class="banner" src="https://lcedit.com/default_banner.png" id="counter-banner">
+                <img class="avatar" src="https://lcedit.com/default.png" id="counter-avatar">
+                <div class="counter-title" id="counter-title">Username</div>
+                <div class="counter-container">
+                    <div class="counter odometer" id="counter-counter">0</div>
+                    <div class="counter odometer" id="counter-gap">0</div>
+                </div>
+                <div class="footer" id="counter-footer">Followers</div>
+                <br>
+                <div id="counter-chart" style="height: 45%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="page-footer">
+        <span>Version 7.1.5 - <a href="https://lcedit.com/index.html">Back to main page</a> - <a href="https://github.com/livecountsedit/livecountsedit.github.io/wiki/New-Updates-Not-Working%3F">Not working?</a> - <a href="../about/discord.html">Join the Livecountsedit Discord Server.</a> This site is a parody of popular realtime counters. <button class="btn btn-secondary" onclick="toggleFullScreen()">Toggle Full Screen</button></span>
+    </div>
+    <script src="https://lcedit.com/odometer/odometer.js"></script>
+    <script src="https://lcedit.com/highstock.js"></script>
+    <script src="https://lcedit.com/jquery.js"></script>
+    <script src="https://lcedit.com/drawMenu.js"></script>
+    <script src="https://lcedit.com/bootstrap.js"></script>
+    <script src="https://lcedit.com/counter.js"></script>
+    <script src="https://lcedit.com/livecountsedit/lcedit.js"></script>
+</body>
+</html>
