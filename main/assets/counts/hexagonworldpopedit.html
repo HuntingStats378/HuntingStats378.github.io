@@ -72,9 +72,12 @@
     <script src="https://lcedit.com/livecountsedit/lcedit.js"></script>
     <script>
         setInterval(() => {
-            fetch("")
-            
+            fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+            document.getElementById("counter-gap").innerHTML = data.counts[0].count;
         });
+        }, 2000);
     </script>
 </body>
 </html>
