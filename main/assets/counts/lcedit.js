@@ -151,6 +151,16 @@ function updateStuff() {
         upColor: counter.settings.upColor
     }
     odometers[0].render();
+    odometers[1].options = {
+        animation: ['default','byDigit','count', 'minimal'][counter.settings.animationType],
+        downColor: counter.settings.downColor,
+        duration: counter.settings.animationDuration * 1000,
+        removeLeadingZeros: counter.settings.animationType === 1,
+        reverseAnimation: counter.settings.reverseAnimation,
+        format: counter.settings.numberFormat || ",ddd",
+        upColor: counter.settings.upColor
+    }
+    odometers[1].render();
     document.querySelector('#counter-banner').src = counter.settings.bannerURL;
     document.querySelector('#counter-avatar').src = counter.settings.imageURL;
     saveData.allowHTML ? document.querySelector('#counter-title').innerHTML = counter.settings.title : document.querySelector('#counter-title').innerText = counter.settings.title
