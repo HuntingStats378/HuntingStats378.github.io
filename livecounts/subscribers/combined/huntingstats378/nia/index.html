@@ -44,15 +44,20 @@
       }
 
       async function datas() {
-        for (let i = 0; i < Channels.length; i++) {
-  await fetch(`https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${Channels[i]}`)
+    for (let i = 0; i < Channels.length; i++) {
+        await fetch(`https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${Channels[i]}`)
             .then((res) => res.json())
             .then((data) => {
-              work[i] = (data.success !== false && data.channels?.counts?.[2]?.count) || 0;
+                work[i] = data.success !== false ? (data.channels?.counts?.[2]?.count || 0) : 0;
+            })
+            .catch((error) => {
+                console.error(`Error fetching data for channel ${Channels[i]}:`, error);
+                work[i] = 0; // Set to 0 if there is an error
             });
-        }
-        Promise.resolve()
-      }
+    }
+    Promise.resolve();
+}
+
 
 
 
