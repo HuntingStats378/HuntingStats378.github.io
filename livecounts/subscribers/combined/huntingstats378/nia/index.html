@@ -48,8 +48,7 @@
   await fetch(`https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${Channels[i]}`)
             .then((res) => res.json())
             .then((data) => {
-              work[i] = data.channels.counts[2].count || 0;
-
+              work[i] = (data.success !== false && data.channels?.counts?.[2]?.count) || 0;
             });
         }
         Promise.resolve()
