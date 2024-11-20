@@ -80,6 +80,18 @@
         return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
     }
 
+    function calcGain(arr, len) {
+    if (len !== undefined) {
+      if (arr.length > len) {
+        return arr[arr.length-1] - arr[((arr.length-1) - len)];
+      } else {
+        return arr[arr.length-1] - arr[0];
+      }
+    } else {
+      return arr[arr.length-1] - arr[0];
+    }
+  }
+
     function calPrefixOfCount(x, gain, lose, none) {
         gain = gain || "lime";
         lose = lose || "red";
@@ -100,7 +112,7 @@
     var db = {
     len: 0,
     time: [],
-    subs1: []
+    subs: []
   };
 
     setInterval(() => {
@@ -113,5 +125,40 @@
               sh0 = Math.floor(data.hourlystats.totalSubscribersGained);
                 sm0 = Math.floor(data.hourlystats.totalSubscribersGained / 60);
   });
-      }, 10000);
+      }, 60000);
+
+    setInterval(() => {
+  fetch(
+          `https://mixerno.space/api/youtube-channel-counter/user/${id1}`
+      )
+      .then((res) => res.json())
+      .then((data) => {
+              db.subs.push(data.counts[0].count);
+          db.time.push(Date.now());
+          let sm1 = calcGain(db.subs, 30);
+              let sh1 = calcGain(db.subs, 1800);
+          let sd1 = calcGain(db.subs, 43200);
+        if (calcGain(db.time) < 86400000) {
+          document.getElementById('day').textContent = calPrefixOfCount(sd0)[0] + numberWithCommas(sd0);
+          document.getElementById('day').style.color = calPrefixOfCount(sd0)[1];
+        } else {
+          document.getElementById('day').textContent = calPrefixOfCount(sd1)[0] + numberWithCommas(sd1);
+          document.getElementById('day').style.color = calPrefixOfCount(sd1)[1];
+        }
+          if (calcGain(db.time) < 3600000) {
+          document.getElementById('hr').textContent = calPrefixOfCount(sh0)[0] + numberWithCommas(sh0);
+          document.getElementById('hr').style.color = calPrefixOfCount(sh0)[1];
+        } else {
+          document.getElementById('hr').textContent = calPrefixOfCount(sh1)[0] + numberWithCommas(sh1);
+          document.getElementById('hr').style.color = calPrefixOfCount(sh1)[1];
+        }
+          if (calcGain(db.time) < 60000) {
+          document.getElementById('min').textContent = calPrefixOfCount(sm0)[0] + numberWithCommas(sm0);
+          document.getElementById('min').style.color = calPrefixOfCount(sm0)[1];
+        } else {
+          document.getElementById('min').textContent = calPrefixOfCount(sm1)[0] + numberWithCommas(sm1);
+          document.getElementById('min').style.color = calPrefixOfCount(sm1)[1];
+        }
+      });
+  }, 2000);
 </script>
