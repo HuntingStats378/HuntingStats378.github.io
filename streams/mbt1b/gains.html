@@ -97,6 +97,12 @@
         }
     }
 
+    var db = {
+    len: 0,
+    time: [],
+    subs1: []
+  };
+
     setInterval(() => {
         fetch(
             `https://api.communitrics.com/mrbeaststats`
