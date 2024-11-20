@@ -121,9 +121,9 @@
           )
             .then((res) => res.json())
             .then((data) => {
-                sd0 = Math.floor(data.averageSubscribersGainedPerDay);
-              sh0 = Math.floor(data.hourlystats.totalSubscribersGained);
-                sm0 = Math.floor(data.hourlystats.totalSubscribersGained / 60);
+                let sd0 = Math.floor(data.averageSubscribersGainedPerDay);
+              let sh0 = Math.floor(data.hourlystats.totalSubscribersGained);
+                let sm0 = Math.floor(data.hourlystats.totalSubscribersGained / 60);
   });
       }, 60000);
 
