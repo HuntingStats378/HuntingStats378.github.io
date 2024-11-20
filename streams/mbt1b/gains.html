@@ -1,0 +1,11 @@
+setInterval(() => {
+        fetch(
+            `https://api.communitrics.com/mrbeaststats`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+                sd0 = Math.floor(data.averageSubscribersGainedPerDay);
+              sh0 = Math.floor(data.hourlystats.totalSubscribersGained);
+                sm0 = Math.floor(data.hourlystats.totalSubscribersGained / 60);
+  });
+      }, 10000);
