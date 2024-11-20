@@ -126,21 +126,33 @@ if (studio == true) {
     fetch(`https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${id}`)
         .then((res) => res.json())
         .then((data) => {
-            document.getElementById("count").innerHTML = data.channels.counts[counter].count;
+            count = goal - data.channels.counts[counter].count;
+            if (count < 0) {
+            document.getElementById("count").innerHTML = Math.abs(count);
+            } else
+            document.getElementById("count").innerHTML = count;
         });
 }
 if (est === 0) {
     fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
         .then((res) => res.json())
         .then((data) => {
-            document.getElementById("count").innerHTML = data.counts[counter].count;
+            count = goal - data.counts[counter].count;
+            if (count < 0) {
+            document.getElementById("count").innerHTML = Math.abs(count);
+            } else
+            document.getElementById("count").innerHTML = count;
         });
 }
 if (est === 1) {
     fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
         .then((res) => res.json())
         .then((data) => {
-            document.getElementById("count").innerHTML = data.counts[counter].count;
+            count = goal - data.counts[counter].count;
+            if (count < 0) {
+            document.getElementById("count").innerHTML = Math.abs(count);
+            } else
+            document.getElementById("count").innerHTML = count;
         });
 }
 }
