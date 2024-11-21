@@ -75,6 +75,9 @@
 <script>
     const searchParams = new URLSearchParams(window.location.search);
     const id = searchParams.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
+    var sd0;
+    var sh0;
+    var sm0;
 
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
@@ -121,19 +124,19 @@
           )
             .then((res) => res.json())
             .then((data) => {
-                let sd0 = Math.floor(data.averageSubscribersGainedPerDay);
-              let sh0 = Math.floor(data.hourlystats.totalSubscribersGained);
-                let sm0 = Math.floor(data.hourlystats.totalSubscribersGained / 60);
+                sd0 = Math.floor(data.averageSubscribersGainedPerDay);
+              sh0 = Math.floor(data.hourlystats.totalSubscribersGained);
+                sm0 = Math.floor(data.hourlystats.totalSubscribersGained / 60);
   });
       }, 60000);
 
     setInterval(() => {
   fetch(
-          `https://livecounts.xyz/api/youtube-live-subscriber-count/live/${id}`
+          `https://mixerno.space/api/youtube-channel-counter/user/${id}`
       )
       .then((res) => res.json())
       .then((data) => {
-              db.subs.push(data.counts[0]);
+              db.subs.push(data.counts[0].count);
           db.time.push(Date.now());
           let sm1 = calcGain(db.subs, 30);
               let sh1 = calcGain(db.subs, 1800);
