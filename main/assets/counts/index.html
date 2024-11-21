@@ -134,10 +134,10 @@ if (studio == true) {
         });
 }
 if (est === 0) {
-    fetch(`https://livecounts.xyz/api/youtube-live-subscriber-count/live/${id}`)
+    fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
         .then((res) => res.json())
         .then((data) => {
-            count = goal - data.counts[counter];
+            count = goal - data.counts[counter].count;
             if (count < 0) {
             document.getElementById("count").innerHTML = Math.abs(count);
             } else
@@ -145,10 +145,10 @@ if (est === 0) {
         });
 }
 if (est === 1) {
-    fetch(`https://livecounts.xyz/api/youtube-live-subscriber-count/live/${id}`)
+    fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
         .then((res) => res.json())
         .then((data) => {
-            count = goal - data.counts[counter];
+            count = goal - data.counts[counter].count;
             if (count < 0) {
             document.getElementById("count").innerHTML = Math.abs(count);
             } else
