@@ -108,6 +108,7 @@
               const vc0 = lastItem.views;
               const lc0 = lastItem.likes;
               const cc0 = lastItem.comments;
+              const myVariable4 = lastItem.uploads;
               const tc0 = (new Date(lastItem.time).getTime() / 1000);
 
               const vl0 = lastTime.views;
@@ -153,6 +154,7 @@
       views.innerHTML = Math.floor(myVariable1);
       likes.innerHTML = Math.floor(myVariable2);
       comments.innerHTML = Math.floor(myVariable3);
+      uploads.innerHTML = Math.floor(myVariable4);
   }
 
   // Fetch data initially and set the increment amount, then start the intervals
