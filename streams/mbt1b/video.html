@@ -143,6 +143,7 @@
         <span id="sinceupload">DD:HH:MM:SS</span>
     </div>
     <script>
+        var id;
         odometers = Odometer.init();
     let opts = {
         animation: ['default', 'byDigit', 'count', 'minimal'][1],
@@ -163,6 +164,7 @@
                 )
                 .then((res) => res.json())
                 .then((data) => {
+                    id = data.videos[0].videoId;
                 });
         }, 60000);
 
