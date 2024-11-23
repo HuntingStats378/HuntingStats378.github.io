@@ -108,13 +108,14 @@
               const vc0 = lastItem.views;
               const lc0 = lastItem.likes;
               const cc0 = lastItem.comments;
-              const myVariable4 = lastItem.uploads;
               const tc0 = (new Date(lastItem.time).getTime() / 1000);
 
               const vl0 = lastTime.views;
               const ll0 = lastTime.likes;
               const cl0 = lastTime.comments;
               const tl0 = (new Date(lastTime.time).getTime() / 1000);
+
+              const myVariable4 = lastItem.uploadCount;
 
              if ((Math.floor(new Date().getTime() / 1000) * 1000) - (Math.floor(new Date(lastItem.time).getTime() / 1000) * 1000) < 12000) {
                  myVariable1 = vc0;
