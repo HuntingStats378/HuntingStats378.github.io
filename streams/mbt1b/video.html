@@ -188,7 +188,7 @@
                 });
         }, 2000);
 
-        function time() {
+        setInterval(() {
              uploadTime = ((new Date().getTime()) - (new Date(uploadDate).getTime()));
          var days = Math.floor(uploadTime / (1000 * 60 * 60 * 24));
          var hours = Math.floor((uploadTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -210,21 +210,7 @@
              seconds = "0" + seconds
          }
             document.getElementById("sinceupload").textContent = `${days}:${hours}:${minutes}:${seconds}`
-         }
-
-        setInterval(time, 1000);
-        
-        function search() {
-            const prompt = window.prompt("Enter channel name, ID, or URL.");
-            if (prompt)
-                fetch(
-                    `https://axern.space/api/search?platform=youtube&type=channel&query=${prompt}`
-                )
-                .then((res) => res.json())
-                .then((data) => {
-                    window.location.href = "?id=" + data[0].id;
-                });
-        }
+         }, 1000);
     </script>
 </body>
 
