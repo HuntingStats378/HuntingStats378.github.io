@@ -2,7 +2,8 @@
 
 <head>
     <title>HuntingStats378 - Compare</title>
-    <link href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css" rel="stylesheet">
+    <link rel=stylesheet href="https://lcedit.com/odometer/odometer.css">
+    <script src="https://lcedit.com/odometer/odometer.js"></script>
     <link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
     <meta charSet="utf-8" />
     <meta name="description" content="HuntingStats378 - Compare" />
@@ -85,6 +86,15 @@
   let incrementAmount2 = 0;
   let incrementAmount3 = 0;
   let combined2 = [0, 0, 0]; // Initialize combined2 to prevent reference error
+
+    odometers[0].options = {
+        animation: ['default','byDigit','count', 'minimal'][animation],
+        downColor: down,
+        duration: durationNumber(duration) * 1000,
+        removeLeadingZeros: true,
+        reverseAnimation: false,
+        format: [',ddd','ddd',' ddd',':dd'][format],
+        upColor: up
 
   fetch(`https://api.communitrics.com/combined-history?recent=true`)
   .then((res) => res.json())
