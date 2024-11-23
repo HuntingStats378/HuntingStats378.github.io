@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Latest Video</title>
+    <title>MrBeast Latest Video</title>
     <link rel=stylesheet href="https://lcedit.com/odometer/odometer.css">
     <script src="https://lcedit.com/odometer/odometer.js"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.0-beta.3/iconify-icon.min.js"></script>
@@ -143,9 +143,6 @@
         <span id="sinceupload">DD:HH:MM:SS</span>
     </div>
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
-
         odometers = Odometer.init();
     let opts = {
         animation: ['default', 'byDigit', 'count', 'minimal'][1],
@@ -162,11 +159,19 @@
 
         setInterval(() => {
             fetch(
+                    `https://api.communitrics.com/videos/all`
+                )
+                .then((res) => res.json())
+                .then((data) => {
+                });
+        }, 60000);
+
+        setInterval(() => {
+            fetch(
                     `https://axern.space/api/get?platform=youtube&type=video&id=${id}`
                 )
                 .then((res) => res.json())
                 .then((data) => {
-                    name = data.snippet.channelTitle
                     uploadDate = data.snippet.publishedAt
                     document.getElementById("views").innerHTML =
                         data.estViewCount;
@@ -178,7 +183,6 @@
                         data.apiCommentCount;
                     document.getElementById("thumbnail").src = data.snippet.thumbnails.maxres.url;
                     document.getElementById("title").innerHTML = data.snippet.title;
-                    document.title = `${name}'s Lastest Video`;
                 });
         }, 2000);
 
