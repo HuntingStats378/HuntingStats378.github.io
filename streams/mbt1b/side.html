@@ -87,15 +87,19 @@
   let incrementAmount3 = 0;
   let combined2 = [0, 0, 0]; // Initialize combined2 to prevent reference error
 
-    odometers[0].options = {
-        animation: ['default','byDigit','count', 'minimal'][animation],
-        downColor: down,
-        duration: durationNumber(duration) * 1000,
+    odometers = Odometer.init();
+    let opts = {
+        animation: ['default', 'byDigit', 'count', 'minimal'][1],
+        downColor: "white",
+        duration: 2 * 1000,
         removeLeadingZeros: true,
         reverseAnimation: false,
-        format: [',ddd','ddd',' ddd',':dd'][format],
-        upColor: up
-
+        format: ",ddd",
+        upColor: "white"
+    }
+    odometers[0].options = opts;
+    odometers[1].options = opts;
+    
   fetch(`https://api.communitrics.com/combined-history?recent=true`)
   .then((res) => res.json())
   .then((data) => {
