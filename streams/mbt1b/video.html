@@ -164,7 +164,7 @@
                 )
                 .then((res) => res.json())
                 .then((data) => {
-                    id = data.videos[0].videoId;
+                    id = data.videos.find(video => video.isShort === false)?.videoId;
                 });
         }, 60000);
 
