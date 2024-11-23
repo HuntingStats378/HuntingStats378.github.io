@@ -143,8 +143,8 @@
         <span id="sinceupload">DD:HH:MM:SS</span>
     </div>
     <script>
-        var id;
-        odometers = Odometer.init();
+    var id;
+    odometers = Odometer.init();
     let opts = {
         animation: ['default', 'byDigit', 'count', 'minimal'][1],
         downColor: "white",
@@ -158,60 +158,53 @@
     odometers[1].options = opts;
     odometers[2].options = opts;
 
-        setInterval(() => {
-            fetch(
-                    `https://api.communitrics.com/videos/all`
-                )
-                .then((res) => res.json())
-                .then((data) => {
-                    id = data.videos.find(video => video.isShort === false)?.videoId;
-                });
-        }, 60000);
+    // Function to fetch the first video ID
+    function fetchFirstVideoId() {
+        fetch(`https://api.communitrics.com/videos/all`)
+            .then((res) => res.json())
+            .then((data) => {
+                id = data.videos.find(video => video.isShort === false)?.videoId;
+            });
+    }
 
-        setInterval(() => {
-            fetch(
-                    `https://axern.space/api/get?platform=youtube&type=video&id=${id}`
-                )
-                .then((res) => res.json())
-                .then((data) => {
-                    uploadDate = data.snippet.publishedAt
-                    document.getElementById("views").innerHTML =
-                        data.estViewCount;
-                    document.getElementById("apiView").innerHTML =
-                        data.apiViewCount;
-                    document.getElementById("likes").innerHTML =
-                        data.apiLikeCount;
-                    document.getElementById("comments").innerHTML =
-                        data.apiCommentCount;
-                    document.getElementById("thumbnail").src = data.snippet.thumbnails.maxres.url;
-                    document.getElementById("title").innerHTML = data.snippet.title;
-                });
-        }, 2000);
+    // Execute immediately and then every 60 seconds
+    fetchFirstVideoId();
+    setInterval(fetchFirstVideoId, 60000);
 
-        setInterval(() {
-             uploadTime = ((new Date().getTime()) - (new Date(uploadDate).getTime()));
-         var days = Math.floor(uploadTime / (1000 * 60 * 60 * 24));
-         var hours = Math.floor((uploadTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-         var minutes = Math.floor((uploadTime % (1000 * 60 * 60)) / (1000 * 60));
-         var seconds = Math.floor((uploadTime % (1000 * 60)) / 1000);
-         if (days < 10) {
-             days = "0" + days
-         }
+    // Function to fetch video details
+    function fetchVideoDetails() {
+        fetch(`https://axern.space/api/get?platform=youtube&type=video&id=${id}`)
+            .then((res) => res.json())
+            .then((data) => {
+                uploadDate = data.snippet.publishedAt;
+                document.getElementById("views").innerHTML = data.estViewCount;
+                document.getElementById("apiView").innerHTML = data.apiViewCount;
+                document.getElementById("likes").innerHTML = data.apiLikeCount;
+                document.getElementById("comments").innerHTML = data.apiCommentCount;
+                document.getElementById("thumbnail").src = data.snippet.thumbnails.maxres.url;
+                document.getElementById("title").innerHTML = data.snippet.title;
+            });
+    }
 
-         if (hours < 10) {
-             hours = "0" + hours 
-         }
+    // Execute immediately and then every 2 seconds
+    fetchVideoDetails();
+    setInterval(fetchVideoDetails, 2000);
 
-         if (minutes < 10) {
-             minutes = "0" + minutes
-         }
+    // Function to update time since upload
+    function updateTimeSinceUpload() {
+        const uploadTime = ((new Date().getTime()) - (new Date(uploadDate).getTime()));
+        const days = String(Math.floor(uploadTime / (1000 * 60 * 60 * 24))).padStart(2, '0');
+        const hours = String(Math.floor((uploadTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+        const minutes = String(Math.floor((uploadTime % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+        const seconds = String(Math.floor((uploadTime % (1000 * 60)) / 1000)).padStart(2, '0');
+        document.getElementById("sinceupload").textContent = `${days}:${hours}:${minutes}:${seconds}`;
+    }
 
-         if (seconds < 10) {
-             seconds = "0" + seconds
-         }
-            document.getElementById("sinceupload").textContent = `${days}:${hours}:${minutes}:${seconds}`
-         }, 1000);
-    </script>
+    // Execute immediately and then every 1 second
+    updateTimeSinceUpload();
+    setInterval(updateTimeSinceUpload, 1000);
+</script>
+
 </body>
 
 </html>
