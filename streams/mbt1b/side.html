@@ -16,22 +16,22 @@
     <div class="flex">
         <span class="material-icons"> <iconify-icon icon="bi:eye-fill"></iconify-icon> </span>
         <span class="text">Views:</span>
-        <span id="min">0</span>
+        <span class="odometer" id="views">0</span>
     </div>
     <div class="flex">
         <span class="material-icons"> <iconify-icon icon="bxs:like"></iconify-icon> </span>
         <span class="text">Likes:</span>
-        <span id="hr">0</span>
+        <span class="odometer" id="likes">0</span>
     </div>
     <div class="flex">
         <span class="material-icons"> <iconify-icon icon="fa-solid:comment-dots"></iconify-icon> </span>
         <span class="text">Comments:</span>
-        <span id="day">0</span>
+        <span class="odometer" id="comments">0</span>
     </div>
     <div class="flex">
         <span class="material-icons"> hourglass_full </span>
         <span class="text">Uploads:</span>
-        <span id="day">0</span>
+        <span class="odometer" id="uploads">0</span>
     </div>
 </body>
 <style>
@@ -78,95 +78,89 @@
     }
 </style>
 <script>
-    const searchParams = new URLSearchParams(window.location.search);
-    const id = searchParams.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
-    var sd0;
-    var sh0;
-    var sm0;
+    let gain = sd0;
+  let myVariable1 = 0;
+  let myVariable2 = 0;
+  let myVariable3 = 0;
+  let incrementAmount1 = 0;
+  let incrementAmount2 = 0;
+  let incrementAmount3 = 0;
+  let combined2 = [0, 0, 0]; // Initialize combined2 to prevent reference error
 
-    function numberWithCommas(x) {
-        return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-    }
+  fetch(`https://api.communitrics.com/combined-history?recent=true`)
+  .then((res) => res.json())
+  .then((data) => {
+      const lastItemLol = data[data.length - 1];
 
-    function calcGain(arr, len) {
-    if (len !== undefined) {
-      if (arr.length > len) {
-        return arr[arr.length-1] - arr[((arr.length-1) - len)];
-      } else {
-        return arr[arr.length-1] - arr[0];
-      }
-    } else {
-      return arr[arr.length-1] - arr[0];
-    }
+          myVariable1 = lastItemLol.views;
+      myVariable2 = lastItemLol.likes;
+      myVariable3 = lastItemLol.comments;
+      });
+
+  // Function to fetch data and update the increment amount
+  function fetchDataAndUpdateIncrement() {
+      return fetch(`https://api.communitrics.com/combined-history?recent=true`)
+          .then((res) => res.json())
+          .then((data) => {
+              const lastItem = data[data.length - 1];
+              const lastTime = data[data.length - 2];
+
+              const vc0 = lastItem.views;
+              const lc0 = lastItem.likes;
+              const cc0 = lastItem.comments;
+              const tc0 = (new Date(lastItem.time).getTime() / 1000);
+
+              const vl0 = lastTime.views;
+              const ll0 = lastTime.likes;
+              const cl0 = lastTime.comments;
+              const tl0 = (new Date(lastTime.time).getTime() / 1000);
+
+             if ((Math.floor(new Date().getTime() / 1000) * 1000) - (Math.floor(new Date(lastItem.time).getTime() / 1000) * 1000) < 12000) {
+                 myVariable1 = vc0;
+                 myVariable2 = lc0;
+                 myVariable3 = cc0;
+             }
+
+              const combined1 = [
+                  (vc0 - vl0),
+                  (lc0 - ll0),
+                  (cc0 - cl0),
+                  (Math.floor(tc0 - tl0))
+              ];
+              console.log(combined1);
+
+              combined2 = [
+                  (combined1[0] / combined1[3] * 2 / 5 * 4),
+                  (combined1[1] / combined1[3] * 2 / 5 * 4),
+                  (combined1[2] / combined1[3] * 2 / 5 * 4)
+              ];
+              console.log(combined2);
+
+              incrementAmount1 = combined2[0]; // Set myVariable to the value of vc0
+              incrementAmount2 = combined2[1]; // Set myVariable to the value of vc0
+              incrementAmount3 = combined2[2]; // Set myVariable to the value of vc0
+          })
+          .catch((error) => {
+              console.error('Fetch error:', error);
+          });
   }
 
-    function calPrefixOfCount(x, gain, lose, none) {
-        gain = gain || "lime";
-        lose = lose || "red";
-        none = none || "white";
-        let count = parseFloat(x);
-        if (count > 0) {
-            return ["+",
-                gain];
-        } else if (count == 0) {
-            return ["+",
-                none];
-        } else {
-            return ["",
-                lose];
-        }
-    }
+  // Function to increment the variable
+  function incrementVariable() {
+      myVariable1 += incrementAmount1;
+      myVariable2 += incrementAmount2;
+      myVariable3 += incrementAmount3;
+      views.innerHTML = Math.floor(myVariable1);
+      likes.innerHTML = Math.floor(myVariable2);
+      comments.innerHTML = Math.floor(myVariable3);
+  }
 
-    var db = {
-    len: 0,
-    time: [],
-    subs: []
-  };
+  // Fetch data initially and set the increment amount, then start the intervals
+  fetchDataAndUpdateIncrement().then(() => {
+      // Update the increment amount every 2 seconds
+      setInterval(fetchDataAndUpdateIncrement, 10000);
 
-    setInterval(() => {
-        fetch(
-            `https://api.communitrics.com/mrbeaststats`
-          )
-            .then((res) => res.json())
-            .then((data) => {
-                sd0 = Math.floor(data.averageSubscribersGainedPerDay);
-              sh0 = Math.floor(data.hourlystats.totalSubscribersGained);
-                sm0 = Math.floor(data.hourlystats.totalSubscribersGained / 60);
+      // Increment the variable every 2 seconds
+      setInterval(incrementVariable, 2000);
   });
-      }, 60000);
-
-    setInterval(() => {
-  fetch(
-          `https://mixerno.space/api/youtube-channel-counter/user/${id}`
-      )
-      .then((res) => res.json())
-      .then((data) => {
-              db.subs.push(data.counts[0].count);
-          db.time.push(Date.now());
-          let sm1 = calcGain(db.subs, 30);
-              let sh1 = calcGain(db.subs, 1800);
-          let sd1 = calcGain(db.subs, 43200);
-        if (calcGain(db.time) < 86400000) {
-          document.getElementById('day').textContent = calPrefixOfCount(sd0)[0] + numberWithCommas(sd0);
-          document.getElementById('day').style.color = calPrefixOfCount(sd0)[1];
-        } else {
-          document.getElementById('day').textContent = calPrefixOfCount(sd1)[0] + numberWithCommas(sd1);
-          document.getElementById('day').style.color = calPrefixOfCount(sd1)[1];
-        }
-          if (calcGain(db.time) < 3600000) {
-          document.getElementById('hr').textContent = calPrefixOfCount(sh0)[0] + numberWithCommas(sh0);
-          document.getElementById('hr').style.color = calPrefixOfCount(sh0)[1];
-        } else {
-          document.getElementById('hr').textContent = calPrefixOfCount(sh1)[0] + numberWithCommas(sh1);
-          document.getElementById('hr').style.color = calPrefixOfCount(sh1)[1];
-        }
-          if (calcGain(db.time) < 60000) {
-          document.getElementById('min').textContent = calPrefixOfCount(sm0)[0] + numberWithCommas(sm0);
-          document.getElementById('min').style.color = calPrefixOfCount(sm0)[1];
-        } else {
-          document.getElementById('min').textContent = calPrefixOfCount(sm1)[0] + numberWithCommas(sm1);
-          document.getElementById('min').style.color = calPrefixOfCount(sm1)[1];
-        }
-      });
-  }, 2000);
 </script>
