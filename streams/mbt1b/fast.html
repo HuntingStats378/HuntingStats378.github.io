@@ -1,1 +1,194 @@
+<!DOCTYPE html>
+<html>
 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>MrBeast Latest Video</title>
+    <link rel=stylesheet href="https://lcedit.com/odometer/odometer.css">
+    <script src="https://lcedit.com/odometer/odometer.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.0-beta.3/iconify-icon.min.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700&display=swap');
+
+
+        body {
+            background-color: transparent;
+            color: white;
+        }
+
+        .odometer {
+            font-family: "Roboto";
+            font-weight: 700;
+            font-size: 3em;
+        }
+
+        .viewtitle {
+            font-family: "Readex Pro";
+            font-weight: 400;
+            color: #ffffff;
+            font-size: 25px;
+        }
+
+        #apiView {
+            font-family: "Roboto";
+            font-weight: 400;
+            color: #999999;
+            font-size: 15px;
+        }
+
+        .v {
+            white-space: nowrap;
+        }
+
+        .l {
+            font-family: "Readex Pro";
+            font-weight: 400;
+            color: lime;
+            font-size: 25px;
+        }
+
+        .c {
+            font-family: "Readex Pro";
+            font-weight: 400;
+            color: #FEFF00;
+            font-size: 25px;
+        }
+
+
+        #title {
+            font-family: "Roboto";
+            font-weight: 500;
+            position: absolute;
+            top: -15px;
+            left: 205px;
+            font-size: 20px;
+        }
+
+        #thumbnail {
+            width: 32px;
+            height: 32px;
+        }
+
+        .up {
+            margin-top: 50px;
+            text-align: left;
+        }
+
+        .tsu {
+            color: white;
+            font-family: "Roboto";
+            font-weight: 500;
+            font-size: 30px;
+        }
+
+        #sinceupload {
+            font-family: "Roboto";
+            font-weight: 500;
+            font-size: 69px;
+            color: white;
+        }
+
+        .note {
+            color: #006DFF;
+            font-family: "Ubuntu";
+            font-weight: 500;
+            font-size: 7px;
+        }
+
+        .but {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #set {
+            background: none;
+            border: none;
+            background-color: cyan;
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+            font-family: "Roboto";
+            transition: 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <img src="./loading.png" id="thumbnail" alt="Title">
+    <h1 id="title" onclick="search()">Loading...</h1>
+
+    <div class="v">
+        <span class="viewtitle">Subscribers <iconify-icon icon="bi:eye-fill"></iconify-icon>
+            <span id="gain">0</span>
+        </span>
+    </div>
+    <script>
+    odometers = Odometer.init();
+    let opts = {
+        animation: ['default', 'byDigit', 'count', 'minimal'][1],
+        downColor: "white",
+        duration: 2 * 1000,
+        removeLeadingZeros: true,
+        reverseAnimation: false,
+        format: ",ddd",
+        upColor: "white"
+    }
+    odometers[0].options = opts;
+
+    // Function to fetch the first video ID
+    function fetchFirstVideoId() {
+        fetch(`https://api.communitrics.com/videos/all`)
+            .then((res) => res.json())
+            .then((data) => {
+                id = data.videos.find(video => video.isShort === false)?.videoId;
+            });
+    }
+
+    // Execute immediately and then every 60 seconds
+    fetchFirstVideoId();
+    setInterval(fetchFirstVideoId, 60000);
+
+    // Function to fetch video details
+    function fetchVideoDetails() {
+        fetch(`https://axern.space/api/get?platform=youtube&type=video&id=${id}`)
+            .then((res) => res.json())
+            .then((data) => {
+                uploadDate = data.snippet.publishedAt;
+                document.getElementById("views").innerHTML = data.estViewCount;
+                document.getElementById("apiView").innerHTML = data.apiViewCount;
+                document.getElementById("likes").innerHTML = data.apiLikeCount;
+                document.getElementById("comments").innerHTML = data.apiCommentCount;
+                document.getElementById("thumbnail").src = data.snippet.thumbnails.maxres.url;
+                document.getElementById("title").innerHTML = data.snippet.title;
+            });
+    }
+
+    // Execute immediately and then every 2 seconds
+    fetchVideoDetails();
+    setInterval(fetchVideoDetails, 2000);
+
+    // Function to update time since upload
+    function updateTimeSinceUpload() {
+        const uploadTime = ((new Date().getTime()) - (new Date(uploadDate).getTime()));
+        const days = String(Math.floor(uploadTime / (1000 * 60 * 60 * 24))).padStart(2, '0');
+        const hours = String(Math.floor((uploadTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+        const minutes = String(Math.floor((uploadTime % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+        const seconds = String(Math.floor((uploadTime % (1000 * 60)) / 1000)).padStart(2, '0');
+        document.getElementById("sinceupload").textContent = `${days}:${hours}:${minutes}:${seconds}`;
+    }
+
+    // Execute immediately and then every 1 second
+    updateTimeSinceUpload();
+    setInterval(updateTimeSinceUpload, 1000);
+</script>
+
+</body>
+
+</html>
