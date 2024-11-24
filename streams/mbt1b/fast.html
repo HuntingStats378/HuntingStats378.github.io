@@ -127,7 +127,7 @@
     <div class="v">
         <span class="viewtitle">Subscribers <iconify-icon icon="bi:eye-fill"></iconify-icon>
             <span id="gain">0</span>
-        </span>
+        </span><br>
         <span id="count" class="odometer">0</span>
     </div>
     <script>
@@ -150,6 +150,8 @@
             .then((data) => {
                 document.getElementById("count").innerHTML = data.channels[0].channels.counts[2].count;
                 document.getElementById("gain").innerHTML = data.channels[0].gains.metrics[2].count;
+                document.getElementById("title").textContent = data.channels[0].currentChannels.name;
+                document.getElementById("thumbnail").src = data.channels[0].currentChannels.image;
             });
     }
 
