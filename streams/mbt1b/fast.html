@@ -128,6 +128,7 @@
         <span class="viewtitle">Subscribers <iconify-icon icon="bi:eye-fill"></iconify-icon>
             <span id="gain">0</span>
         </span>
+        <span id="count" class="odometer">0</span>
     </div>
     <script>
     odometers = Odometer.init();
@@ -142,51 +143,19 @@
     }
     odometers[0].options = opts;
 
-    // Function to fetch the first video ID
-    function fetchFirstVideoId() {
-        fetch(`https://api.communitrics.com/videos/all`)
+    // Function to fetch details
+    function fetchDetails() {
+        fetch(`https://corsproxy.io/?https://studio.nia-statistics.com/api/channels?page=0&counter=SUBSCRIBERS_NET_CHANGE&bygains=true`)
             .then((res) => res.json())
             .then((data) => {
-                id = data.videos.find(video => video.isShort === false)?.videoId;
-            });
-    }
-
-    // Execute immediately and then every 60 seconds
-    fetchFirstVideoId();
-    setInterval(fetchFirstVideoId, 60000);
-
-    // Function to fetch video details
-    function fetchVideoDetails() {
-        fetch(`https://axern.space/api/get?platform=youtube&type=video&id=${id}`)
-            .then((res) => res.json())
-            .then((data) => {
-                uploadDate = data.snippet.publishedAt;
-                document.getElementById("views").innerHTML = data.estViewCount;
-                document.getElementById("apiView").innerHTML = data.apiViewCount;
-                document.getElementById("likes").innerHTML = data.apiLikeCount;
-                document.getElementById("comments").innerHTML = data.apiCommentCount;
-                document.getElementById("thumbnail").src = data.snippet.thumbnails.maxres.url;
-                document.getElementById("title").innerHTML = data.snippet.title;
+                document.getElementById("count").innerHTML = data.channels[0].channels.counts[2].count;
+                document.getElementById("gain").innerHTML = data.channels[0].gains.metrics[2].count;
             });
     }
 
     // Execute immediately and then every 2 seconds
-    fetchVideoDetails();
-    setInterval(fetchVideoDetails, 2000);
-
-    // Function to update time since upload
-    function updateTimeSinceUpload() {
-        const uploadTime = ((new Date().getTime()) - (new Date(uploadDate).getTime()));
-        const days = String(Math.floor(uploadTime / (1000 * 60 * 60 * 24))).padStart(2, '0');
-        const hours = String(Math.floor((uploadTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-        const minutes = String(Math.floor((uploadTime % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-        const seconds = String(Math.floor((uploadTime % (1000 * 60)) / 1000)).padStart(2, '0');
-        document.getElementById("sinceupload").textContent = `${days}:${hours}:${minutes}:${seconds}`;
-    }
-
-    // Execute immediately and then every 1 second
-    updateTimeSinceUpload();
-    setInterval(updateTimeSinceUpload, 1000);
+    fetchDetails();
+    setInterval(fetchDetails, 5000);
 </script>
 
 </body>
