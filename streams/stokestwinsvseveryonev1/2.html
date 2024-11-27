@@ -14,7 +14,7 @@
 </head>
 <body>
     <div id="chart1" class="chart1"></div><div id="chart2" class="chart2"></div><div id="chart3" class="chart3"></div>
-    <div id="clock"><div id="date"><span>Date: </span><span id="years" class="odometer">0000</span><span>-</span><span id="months" class="odometer">00</span><span>-</span><span id="days" class="odometer">00</span><span> BST</span></div><div id="time"><span id="hours" class="odometer">00</span><span>:</span><span id="minutes" class="odometer">00</span><span>:</span><span id="seconds" class="odometer">00</span></div></div>
+    <div id="clock"><div id="date"><span>Date: </span><span id="years" class="odometer">0000</span><span>-</span><span id="months" class="odometer">00</span><span>-</span><span id="days" class="odometer">00</span><span> UTC</span></div><div id="time"><span id="hours" class="odometer">00</span><span>:</span><span id="minutes" class="odometer">00</span><span>:</span><span id="seconds" class="odometer">00</span></div></div>
     <p id="lol">number</p>
 </body>
 <style>
@@ -114,12 +114,12 @@
                 }, 2000);
                     setInterval(() => {
                         const d = new Date();
-                      var tYear = d.getFullYear();
-                       var tMonth = (d.getMonth() + 1);
-                       var tDay = d.getDate();
-                      var tHour = d.getHours();
-                           var tMinute = d.getMinutes();
-                           var tSecond = d.getSeconds();
+                      var tYear = d.getUTCFullYear();
+                       var tMonth = (d.getUTCMonth() + 1);
+                       var tDay = d.getUTCDate();
+                      var tHour = d.getUTCHours();
+                           var tMinute = d.getUTCMinutes();
+                           var tSecond = d.getUTCSeconds();
                       document.getElementById("years").innerHTML = tYear;
                       document.getElementById("months").innerHTML = tMonth;
                       document.getElementById("days").innerHTML = tDay;
