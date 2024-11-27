@@ -222,12 +222,12 @@
                       )
                         .then((res) => res.json())
                         .then((datee) => {
-                                                document.getElementById("image1").src = data.snippet.thumbnails.high.url;
-                                                document.getElementById("image2").src = date.snippet.thumbnails.high.url;
-                                                document.getElementById("name1").textContent = `#${datr.second} | ${data.snippet.title}`;
-                                        document.getElementById("name2").textContent = `#${datr.first} | ${date.snippet.title}`;
-                            document.getElementById("username1").textContent = data.snippet.customUrl;
-                            document.getElementById("username2").textContent = date.snippet.customUrl;
+                                                document.getElementById("image1").src = data.user[1].count;
+                                                document.getElementById("image2").src = date.user[1].count;
+                                                document.getElementById("name1").textContent = `#${datr.second} | ${data.user[0].count}`;
+                                        document.getElementById("name2").textContent = `#${datr.first} | ${date.user[0].count}`;
+                            document.getElementById("username1").textContent = dataa.channelDetails.handle;
+                            document.getElementById("username2").textContent = datee.channelDetails.handle;
           
 document.getElementById("subs1").innerHTML = data.counts[0].count;
               document.getElementById("subs2").innerHTML = date.counts[0].count;
