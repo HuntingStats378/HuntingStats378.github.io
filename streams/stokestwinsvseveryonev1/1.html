@@ -203,12 +203,12 @@
                 const id1 = datr.stokes
                 const id2 = datr.other
                 fetch(
-                    `https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id1}`
+                    `https://axern.space/api/get?platform=youtube&type=channel&id=${id1}`
       )
         .then((res) => res.json())
         .then((data) => {
           fetch(
-            `https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id2}`
+            `https://axern.space/api/get?platform=youtube&type=channel&id=${id2}`
           )
             .then((res) => res.json())
             .then((date) => {
