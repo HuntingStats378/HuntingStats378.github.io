@@ -93,21 +93,21 @@
                     const id1 = datr.stokes
                     const id2 = datr.other
                     fetch(
-          `https://axern.space/api/get?platform=youtube&type=channel&id=${id1}`
+          `https://mixerno.space/api/youtube-channel-counter/user/${id1}`
         )
           .then((res) => res.json())
           .then((data) => {
             fetch(
-              `https://axern.space/api/get?platform=youtube&type=channel&id=${id2}`
+              `https://mixerno.space/api/youtube-channel-counter/user/${id2}`
             )
               .then((res) => res.json())
               .then((date) => {
                         if (chart1.series[0].points.length == 1500) chart1.series[0].data[0].remove();
-                                            chart1.series[0].addPoint([Date.now(), data.estSubCount_linear])
+                                            chart1.series[0].addPoint([Date.now(), data.counts[0].count])
                             if (chart2.series[0].points.length == 1500) chart2.series[0].data[0].remove();
-                            chart2.series[0].addPoint([Date.now(), date.estSubCount_linear])
+                            chart2.series[0].addPoint([Date.now(), date.counts[0].count])
                   if (chart3.series[0].points.length == 1500) chart3.series[0].data[0].remove();
-                  chart3.series[0].addPoint([Date.now(), (date.estSubCount_linear - data.estSubCount_linear)])
+                  chart3.series[0].addPoint([Date.now(), (date.counts[0].count - data.counts[0].count)])
                           });
                   });
             });
