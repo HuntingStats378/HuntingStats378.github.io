@@ -249,17 +249,17 @@ document.getElementById("subs1").innerHTML = data.counts[0].count;
 
     setInterval(() => {
           fetch(
-            `https://api-v2.nextcounts.com/api/youtube/channel/${id3}`
+            `https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${id3}`
           )
             .then((res) => res.json())
             .then((data) => {
               fetch(
-                `https://api-v2.nextcounts.com/api/youtube/channel/${id4}`
+                `https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${id4}`
               )
                 .then((res) => res.json())
                 .then((date) => {
-                    document.getElementById("subs3").innerHTML = data.subcount;
-                    document.getElementById("subs4").innerHTML = date.subcount;
+                    document.getElementById("subs3").innerHTML = data.channels.counts[2].count;
+                    document.getElementById("subs4").innerHTML = date.channels.counts[2].count;
             });
               });
                   }, 2000);
