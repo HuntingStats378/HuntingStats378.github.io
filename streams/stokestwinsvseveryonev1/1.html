@@ -54,13 +54,13 @@
     #subs1 {
         font-size: 90px;
         margin-top: 95px;
-        margin-left: 35px;
+        margin-left: 20px;
     }
 
     #subs2 {
         font-size: 90px;
         margin-top: -140px;
-        margin-right: 35px;
+        margin-right: 20px;
     }
 
 
@@ -203,12 +203,12 @@
                 const id1 = datr.stokes
                 const id2 = datr.other
                 fetch(
-                    `https://axern.space/api/get?platform=youtube&type=channel&id=${id1}`
+                    `https://mixerno.space/api/youtube-channel-counter/user/${id1}`
       )
         .then((res) => res.json())
         .then((data) => {
           fetch(
-            `https://axern.space/api/get?platform=youtube&type=channel&id=${id2}`
+            `https://mixerno.space/api/youtube-channel-counter/user/${id2}`
           )
             .then((res) => res.json())
             .then((date) => {
@@ -229,11 +229,11 @@
                             document.getElementById("username1").textContent = data.snippet.customUrl;
                             document.getElementById("username2").textContent = date.snippet.customUrl;
           
-document.getElementById("subs1").innerHTML = data.estSubCount_linear;
-              document.getElementById("subs2").innerHTML = date.estSubCount_linear;
-                document.getElementById("gap").innerHTML = date.estSubCount_linear - data.estSubCount_linear;
-                document.getElementById("views1").innerHTML = data.estViewCount;
-                  document.getElementById("views2").innerHTML = date.estViewCount;
+document.getElementById("subs1").innerHTML = data.counts[0].count;
+              document.getElementById("subs2").innerHTML = date.counts[0].count;
+                document.getElementById("gap").innerHTML = date.counts[0].count - data.counts[0].count;
+                document.getElementById("views1").innerHTML = data.counts[3].count;
+                  document.getElementById("views2").innerHTML = date.counts[3].count;
                             document.getElementById("mbday").innerHTML = (dataa.channelDetails.mostRecentAverage / 1);
                             document.getElementById("mbhr").innerHTML = (dataa.channelDetails.mostRecentAverage / 24);
                             document.getElementById("mbmin").innerHTML = (dataa.channelDetails.mostRecentAverage / 1440);
