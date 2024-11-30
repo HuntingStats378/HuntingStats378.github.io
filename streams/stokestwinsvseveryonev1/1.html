@@ -249,12 +249,12 @@ document.getElementById("subs1").innerHTML = data.counts[0].count;
 
     setInterval(() => {
           fetch(
-            `https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${id3}`
+            `https://cors.stats100.xyz/https://studio.nia-statistics.com/api/channel/${id3}`
           )
             .then((res) => res.json())
             .then((data) => {
               fetch(
-                `https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${id4}`
+                `https://cors.stats100.xyz/https://studio.nia-statistics.com/api/channel/${id4}`
               )
                 .then((res) => res.json())
                 .then((date) => {
