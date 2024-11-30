@@ -59,7 +59,7 @@
   }
 
   async function fetchChannelIds() {
-        await fetch(`https://corsproxy.io/?https://www.noxinfluencer.com/ws/mobile/channel?pageSize=199&rankSize=10000`)
+        await fetch(`https://cors.stats100.xyz/https://www.noxinfluencer.com/ws/mobile/channel?pageSize=199&rankSize=10000`)
             .then((res) => res.json())
             .then((data) => {
                 for (let i = 0; i < data.retDataList.length; i++) {
