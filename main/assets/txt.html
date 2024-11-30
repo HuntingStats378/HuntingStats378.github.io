@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timestamp Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #282c34;
+            color: white;
+        }
+        table {
+            border-collapse: collapse;
+            margin: 20px 0;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        button, a {
+            background-color: #E65724;
+            color: white;
+            text-decoration: none;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px 0;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+        }
+        button:hover, a:hover {
+            background-color: #d14620;
+        }
+    </style>
+</head>
+<body>
+    <h1>Timestamp to Date Converter</h1>
+    <p>Upload your file with timestamped data to convert it into the specified format.</p>
+    <input type="file" id="fileInput">
+    <a id="downloadBtn" href="#" download="converted_data.csv" style="display: none;">Download as CSV</a>
+    <div id="output"></div>
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const output = document.getElementById('output');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        fileInput.addEventListener('change', handleFile);
+
+        function handleFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const rawData = e.target.result;
+                processFile(rawData);
+            };
+            reader.readAsText(file);
+        }
+
+        function processFile(data) {
+            const rows = JSON.parse(data);
+            const dates = rows.map(row => new Date(row[0]).toISOString().split('T')[0]);
+            const values = rows.map(row => row[1]);
+
+            let html = `<table>
+                <tr>${dates.map(date => `<th>${date}</th>`).join('')}</tr>
+                <tr>${values.map(value => `<td>${value}</td>`).join('')}</tr>
+            </table>`;
+            output.innerHTML = html;
+
+            const csvContent = `${dates.join('\t')}\n${values.join('\t')}`;
+            enableDownload(csvContent);
+        }
+
+        function enableDownload(content) {
+            const blob = new Blob([content], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            downloadBtn.href = url;
+            downloadBtn.style.display = 'inline-block';
+        }
+    </script>
+</body>
+</html>
