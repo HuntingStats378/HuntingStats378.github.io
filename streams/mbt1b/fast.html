@@ -146,7 +146,7 @@
 
     // Function to fetch details
     function fetchDetails() {
-        fetch(`https://corsproxy.io/?https://studio.nia-statistics.com/api/channels?page=0&counter=SUBSCRIBERS_NET_CHANGE&bygains=true`)
+        fetch(`https://cors.stats100.xyz/https://studio.nia-statistics.com/api/channels?page=0&counter=SUBSCRIBERS_NET_CHANGE&bygains=true`)
             .then((res) => res.json())
             .then((data) => {
                 document.getElementById("count").innerHTML = data.channels[0].channels.counts[2].count;
