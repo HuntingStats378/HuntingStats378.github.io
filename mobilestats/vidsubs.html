@@ -53,25 +53,25 @@
 
   setInterval(() => {
     fetch(
-      `https://axern.space/api/get?platform=youtube&type=channel&id=${id1}`
+      `https://mixerno.space/api/youtube-channel-counter/user/${id1}`
     )
       .then((res) => res.json())
       .then((data1) => {
         fetch(
-          `https://axern.space/api/get?platform=youtube&type=channel&id=${id2}`
+          `https://mixerno.space/api/youtube-channel-counter/user/${id2}`
         )
           .then((res) => res.json())
           .then((data2) => {
             
             document.getElementById("banner1").src = `https://banner.tf/${id1}`
-            document.getElementById("image1").src = data1.snippet.thumbnails.high.url;
-            document.getElementById("name1").textContent = data1.snippet.title;
-            document.getElementById("views1").innerHTML = data1.estSubCount;
+            document.getElementById("image1").src = data1.user[1].count;
+            document.getElementById("name1").textContent = data1.user[0].count;
+            document.getElementById("views1").innerHTML = data1.counts[0].count;
               document.getElementById("banner2").src = `https://banner.tf/${id2}`
             
-document.getElementById("image2").src = data2.snippet.thumbnails.high.url;
-            document.getElementById("name2").textContent = data2.snippet.title;
-                document.getElementById("views2").innerHTML = data2.estSubCount;
+document.getElementById("image2").src = data2.user[1].count;
+            document.getElementById("name2").textContent = data2.user[0].count;
+                document.getElementById("views2").innerHTML = data2.counts[0].count;
                     });
                 });
             }, 2000);
