@@ -78,25 +78,25 @@ document.getElementById("image2").src = data2.user[1].count;
 
             setInterval(() => {
     fetch(
-      `https://axern.space/api/get?platform=youtube&type=video&id=${id3}`
+      `https://mixerno.space/api/youtube-video-counter/user/${id3}`
     )
       .then((res) => res.json())
       .then((data3) => {
         fetch(
-          `https://axern.space/api/get?platform=youtube&type=video&id=${id4}`
+          `https://mixerno.space/api/youtube-video-counter/user/${id4}`
         )
           .then((res) => res.json())
           .then((data4) => {
             
-            document.getElementById("banner3").src = data3.snippet.thumbnails.medium.url;
-            document.getElementById("image3").src = data3.snippet.thumbnails.medium.url;
-            document.getElementById("name3").textContent = data3.snippet.title;
-            document.getElementById("views3").innerHTML = data3.estViewCount;
-              document.getElementById("banner4").src = data4.snippet.thumbnails.medium.url;
+            document.getElementById("banner3").src = data3.user[2].count;
+            document.getElementById("image3").src = data3.user[1].count;
+            document.getElementById("name3").textContent = data3.user[0].count;
+            document.getElementById("views3").innerHTML = data3.counts[0].count;
+              document.getElementById("banner4").src = data4.user[2].count;
             
-document.getElementById("image4").src = data4.snippet.thumbnails.medium.url;
-            document.getElementById("name4").textContent = data4.snippet.title;
-                document.getElementById("views4").innerHTML = data4.estViewCount;
+document.getElementById("image4").src = data4.user[1].count;
+            document.getElementById("name4").textContent = data4.user[0].count;
+                document.getElementById("views4").innerHTML = data4.counts[0].count;
                     });
                 });
             }, 2000);
