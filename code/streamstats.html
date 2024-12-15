@@ -118,8 +118,8 @@
                                 .then((data) => {
                                     document.getElementById("watching").innerHTML = data.counts[0].count;
                                 });
-
-                          fetch(`https://cors.stats100.xyz/https://studio.nia-statistics.com/api/video/${latestVidID}`)
+                            
+                            fetch(`https://cors.stats100.xyz/https://studio.nia-statistics.com/api/video/${latestVidID}`)
                                 .then((res) => res.json())
                                 .then((data) => {
                                     document.getElementById("impressions").innerHTML = data.counts[0].count;
