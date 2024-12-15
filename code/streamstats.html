@@ -94,7 +94,7 @@
     odometers[2].options = opts;
     odometers[3].options = opts;
 
-  setInterval(() {
+  setInterval(() => {
   fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&fields=items/snippet/resourceId/videoId&order=date&maxResults=50&playlistId=UUlOyuxZvQkoHoIn15kNbkUw&key=AIzaSyCGPYa3DGYGJNHWRMFSeLjBjyD2_gv_AZY`)
             .then((res) => res.json())
             .then((data) => {
