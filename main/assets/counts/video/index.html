@@ -123,7 +123,7 @@ document.getElementById("count").innerHTML = parseInt(hours + minutes + seconds)
         upColor: up
 }
 if (studio == true) {
-    fetch(`https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${id}`)
+    fetch(`https://corsproxy.io/?https://studio.nia-statistics.com/api/video/${id}`)
         .then((res) => res.json())
         .then((data) => {
             count = goal - data.channels.counts[counter].count;
