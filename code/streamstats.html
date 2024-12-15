@@ -95,7 +95,7 @@
     odometers[3].options = opts;
 
   setInterval(() => {
-  fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&fields=items/snippet/resourceId/videoId&order=date&maxResults=50&playlistId=UUlOyuxZvQkoHoIn15kNbkUw&key=AIzaSyCGPYa3DGYGJNHWRMFSeLjBjyD2_gv_AZY`)
+  fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&fields=items/snippet/resourceId/videoId&order=date&maxResults=50&playlistId=UUlOyuxZvQkoHoIn15kNbkUw&key=AIzaSyAsBzwckdS_WfZVqTvlQC1KTLKtRKv2THQ`)
             .then((res) => res.json())
             .then((data) => {
                 let vidIds = data.items.map((video) => {
@@ -103,7 +103,7 @@
                 });
 
                 if (vidIds.length > 0) {
-                    fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,liveStreamingDetails,contentDetails&fields=items(id,snippet/publishedAt,liveStreamingDetails,contentDetails/duration)&id=${vidIds.join(",")}&key=AIzaSyCGPYa3DGYGJNHWRMFSeLjBjyD2_gv_AZY`)
+                    fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,liveStreamingDetails,contentDetails&fields=items(id,snippet/publishedAt,liveStreamingDetails,contentDetails/duration)&id=${vidIds.join(",")}&key=AIzaSyAsBzwckdS_WfZVqTvlQC1KTLKtRKv2THQ`)
                         .then((res) => res.json())
                         .then((streams) => {
 
