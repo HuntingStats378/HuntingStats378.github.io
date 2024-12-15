@@ -126,7 +126,7 @@ if (studio == true) {
     fetch(`https://corsproxy.io/?https://studio.nia-statistics.com/api/video/${id}`)
         .then((res) => res.json())
         .then((data) => {
-            count = goal - data.channels.counts[counter].count;
+            count = goal - data.counts[counter].count;
             if (count < 0) {
             document.getElementById("count").innerHTML = Math.abs(count);
             } else
