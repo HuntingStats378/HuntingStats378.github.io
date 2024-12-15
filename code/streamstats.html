@@ -1,0 +1,133 @@
+<html>
+
+<head>
+    <title>HuntingStats378 - Compare</title>
+    <link rel=stylesheet href="https://lcedit.com/odometer/odometer.css">
+    <script src="https://lcedit.com/odometer/odometer.js"></script>
+    <link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+    <meta charSet="utf-8" />
+    <meta name="description" content="HuntingStats378 - Compare" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.0-beta.3/iconify-icon.min.js"></script>
+</head>
+
+<body class="flex">
+    <div class="flex">
+        <span class="material-icons"><iconify-icon icon="bi:eye-fill"></iconify-icon></span>
+        <span class="text"> Watching:</span>
+        <span class="odometer" id="watching">0</span>
+    </div>
+    <div class="flex">
+        <span class="material-icons"><iconify-icon icon="bi:eye-fill"></iconify-icon></span>
+        <span class="text"> Impressions:</span>
+        <span class="odometer" id="impressions">0</span>
+    </div>
+    <div class="flex">
+        <span class="material-icons"><iconify-icon icon="bi:eye-fill"></iconify-icon></span>
+        <span class="text"> Views:</span>
+        <span class="odometer" id="views">0</span>
+    </div>
+    <div class="flex">
+        <span class="material-icons"><iconify-icon icon="bxs:like"></iconify-icon></span>
+        <span class="text"> Likes:</span>
+        <span class="odometer" id="likes">0</span>
+    </div>
+</body>
+<style>
+    @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
+    @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap");
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background-color: transparent;
+        color: white;
+        text-align: center;
+        font-family: roboto;
+        font-weight: 700;
+    }
+
+    body {
+        --font-size: 50px;
+        font-size: var(--font-size);
+    }
+
+    .flex {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 15px;
+    }
+
+    #mins,
+    #hrs,
+    #days {
+        line-height: 1.1em;
+        font-size: calc(var(--font-size) + 10px);
+    }
+
+    .material-icons {
+        font-size: calc(var(--font-size) + 10px);
+        margin-right: -12px;
+    }
+</style>
+<script>
+  odometers = Odometer.init();
+    let opts = {
+        animation: ['default', 'byDigit', 'count', 'minimal'][0],
+        downColor: "white",
+        duration: 2 * 1000,
+        removeLeadingZeros: true,
+        reverseAnimation: false,
+        format: ",ddd",
+        upColor: "white"
+    }
+    odometers[0].options = opts;
+    odometers[1].options = opts;
+    odometers[2].options = opts;
+    odometers[3].options = opts;
+
+  setInterval(() {
+  fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&fields=items/snippet/resourceId/videoId&order=date&maxResults=50&playlistId=UUlOyuxZvQkoHoIn15kNbkUw&key=AIzaSyCGPYa3DGYGJNHWRMFSeLjBjyD2_gv_AZY`)
+            .then((res) => res.json())
+            .then((data) => {
+                let vidIds = data.items.map((video) => {
+                    return video.snippet.resourceId.videoId;
+                });
+
+                if (vidIds.length > 0) {
+                    fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,liveStreamingDetails,contentDetails&fields=items(id,snippet/publishedAt,liveStreamingDetails,contentDetails/duration)&id=${vidIds.join(",")}&key=AIzaSyCGPYa3DGYGJNHWRMFSeLjBjyD2_gv_AZY`)
+                        .then((res) => res.json())
+                        .then((streams) => {
+
+                            let filteredVids = streams.items.filter(filteredVideo =>
+                                filteredVideo.liveStreamingDetails !== null ||
+                                filteredVideo.snippet.publishedAt !== filteredVideo.liveStreamingDetails?.actualStartTime
+                            );
+
+                            let latestVidID = filteredVids[0].id;
+                            fetch(`https://mixerno.space/api/youtube-stream-counter/user/${latestVidID}`)
+                                .then((res) => res.json())
+                                .then((data) => {
+                                    document.getElementById("watching").innerHTML = data.counts[0].count;
+                                });
+
+                          fetch(`https://cors.stats100.xyz/https://studio.nia-statistics.com/api/video/${latestVidID}`)
+                                .then((res) => res.json())
+                                .then((data) => {
+                                    document.getElementById("impressions").innerHTML = data.counts[0].count;
+                                    document.getElementById("views").innerHTML = data.counts[1].count;
+                                    document.getElementById("likes").innerHTML = data.counts[2].count;
+                                });
+                        });
+                }
+            });
+  }, 10000);
+</script>
