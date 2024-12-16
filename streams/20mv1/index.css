@@ -1,0 +1,161 @@
+body {
+  transition: color 2s;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+}
+
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  color: #000;
+}
+
+.main {
+  width: 100%;
+  transition: color 2s;
+}
+
+.num {
+  font-family: 'Roboto', roboto;
+  float: left;
+  font-weight: 900;
+  margin-right: 0.2vw;
+  margin-left: 0.2vw;
+  font-size: 1.25vw;
+}
+
+.num2 {
+  font-family: 'Roboto', roboto;
+  float: left;
+  font-weight: 900;
+  margin-top: -4vw;
+  margin-left: 13.55vw;
+  font-size: 1.25vw;
+}
+
+.card {
+  height: 4.25vw;
+  padding: 0.1vw;
+  margin: 0.2vw;
+  text-align: left;
+  background: #141414;
+  border: 0.1em solid #ffffff;
+  transition: margin-top 500ms;
+  background-color: rgb(247, 245, 254);
+}
+
+.image {
+  height: 4.25vw;
+  width: 4.25vw;
+  float: left;
+  border-radius: 50%;
+  z-index: 10;
+  border: solid 0.1vw #000;
+}
+
+.count {
+  transition: color 2s;
+  font-size: 1.77vw;
+  font-family: 'Roboto', sans-serif;
+  padding-left: 0.2vw;
+  margin-top: 0.25vw;
+}
+
+.count2 {
+  transition: color 2s;
+  font-size: 1.77vw;
+  font-family: 'Roboto', sans-serif;
+  padding-left: 0.2vw;
+  margin-top: 0.25vw;
+  margin-left: 13.5vw;
+}
+
+.name {
+  font-family: 'Roboto', sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-left: 0.1vw;
+  font-size: 1.25vw;
+}
+
+.stats {
+  font-size: 1.11vw;
+  text-align: right;
+}
+
+.stats .odometer {
+  margin-top: -0.15vw;
+}
+
+.RightToLeft {
+  animation: RightToLeft 10s infinite linear;
+}
+
+@keyframes  RightToLeft {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+#info {
+      overflow: hidden;
+}
+
+.fire {
+  height: 2.25vw;
+  width: 1.44vw;
+  margin-top: 2vw;
+  margin-left: -1.7vw;
+  float: left;
+  border-radius: 50%;
+  z-index: 10;
+  }
+
+.fire2 {
+  height: 2.25vw;
+  width: 1.44vw;
+  margin-top: -2vw;
+  margin-left: 13.75vw;
+  float: left;
+  border-radius: 50%;
+  z-index: 10;
+  }
+
+.image2 {
+  height: 4.25vw;
+  width: 4.25vw;
+  float: left;
+  border-radius: 50%;
+  z-index: 10;
+  border: solid 0.1vw #000;
+  margin-top: -4vw;
+}
+
+.name2 {
+  font-family: 'Roboto', sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-left: 0.1vw;
+  font-size: 1.25vw;
+  margin-top: -3.9vw;
+  margin-left: 26vw;
+}
+
+.name3 {
+  font-family: 'Roboto', sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-left: 0.1vw;
+  font-size: 1.25vw;
+  margin-top: -3.9vw;
+  margin-left: 39.5vw;
+}
