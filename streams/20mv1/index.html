@@ -1,0 +1,812 @@
+<link href="./index.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900,1000&display=swap"
+    rel="stylesheet">
+<link href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css" rel="stylesheet">
+<script src="https://huntingstats378.github.io/main/assets/ess/odometer.js"></script>
+
+<body style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">
+    <div class="bar" id="bar" style="margin-top: 0px; display: grid; grid-template-columns: repeat(2, 1fr);">
+        <div class="card" id="battle">
+            <div class="num" id="battle_num_1">00</div>
+            <img src="./blank.png" alt id="battle_fire_1" class="fire">
+            <img src="./default.png" alt id="battle_image_1" class="image">
+            <div class="name" id="battle_name_1">Loading</div>
+            <div class="count odometer" id="battle_count_1">0</div>
+            <div class="num num2" id="battle_num_2">00</div>
+            <img src="./blank.png" alt id="battle_fire_2" class="fire fire2">
+            <img src="./default.png" alt id="battle_image_2" class="image image2">
+            <div class="name name2" id="battle_name_2">Loading</div>
+            <div class="count odometer" id="battle_count_2">0</div>
+            <div class="name name3" id="battle_text">Difference</div>
+            <div class="count2 odometer" id="battle_gap">0</div>
+        </div>
+        <div class="card" id="info">
+            <div class="stats"><span> Top 100 Combined: <a class="odometer" id="combined">0</a>, Watching: <a
+                        class="odometer" id="watching">0</a>, Likes: <a class="odometer" id="likes">0</a>, Subscribers:
+                    <a class="odometer" id="subscribers">0</a>, Time: <a id="time">00:00:00</a></span></div>
+            <div class="RightToleft stats" style="display: flex; margin-top: -1vw;">
+                <p id="stats">Still Working On This.</p>
+            </div>
+            <div class="RightToleft stats" style="display: flex; margin-top: -2vw;">
+                <p id="info">Hopefully Fixed In A Few Days.</p>
+            </div>
+        </div>
+    </div>
+    <div class="main" id="main" style="margin-top: 7.5px; display: grid; grid-template-columns: repeat(5, 1fr);">
+        <div class="column_1 column">
+            <div class="card card_0" id="card_0">
+                <div class="num" id="num_0">01</div>
+                <img src="./blank.png" alt id="fire_0" class="fire">
+                <img src="./default.png" alt id="image_0" class="image">
+                <div class="name" id="name_0">Loading</div>
+                <div class="count odometer" id="count_0">0</div>
+            </div>
+            <div class="card card_1" id="card_1">
+                <div class="num" id="num_1">02</div>
+                <img src="./blank.png" alt id="fire_1" class="fire">
+                <img src="./default.png" alt id="image_1" class="image">
+                <div class="name" id="name_1">Loading</div>
+                <div class="count odometer" id="count_1">0</div>
+            </div>
+            <div class="card card_2" id="card_2">
+                <div class="num" id="num_2">03</div>
+                <img src="./blank.png" alt id="fire_2" class="fire">
+                <img src="./default.png" alt id="image_2" class="image">
+                <div class="name" id="name_2">Loading</div>
+                <div class="count odometer" id="count_2">0</div>
+            </div>
+            <div class="card card_3" id="card_3">
+                <div class="num" id="num_3">04</div>
+                <img src="./blank.png" alt id="fire_3" class="fire">
+                <img src="./default.png" alt id="image_3" class="image">
+                <div class="name" id="name_3">Loading</div>
+                <div class="count odometer" id="count_3">0</div>
+            </div>
+            <div class="card card_4" id="card_4">
+                <div class="num" id="num_4">05</div>
+                <img src="./blank.png" alt id="fire_4" class="fire">
+                <img src="./default.png" alt id="image_4" class="image">
+                <div class="name" id="name_4">Loading</div>
+                <div class="count odometer" id="count_4">0</div>
+            </div>
+            <div class="card card_5" id="card_5">
+                <div class="num" id="num_5">06</div>
+                <img src="./blank.png" alt id="fire_5" class="fire">
+                <img src="./default.png" alt id="image_5" class="image">
+                <div class="name" id="name_5">Loading</div>
+                <div class="count odometer" id="count_5">0</div>
+            </div>
+            <div class="card card_6" id="card_6">
+                <div class="num" id="num_6">07</div>
+                <img src="./blank.png" alt id="fire_6" class="fire">
+                <img src="./default.png" alt id="image_6" class="image">
+                <div class="name" id="name_6">Loading</div>
+                <div class="count odometer" id="count_6">0</div>
+            </div>
+            <div class="card card_7" id="card_7">
+                <div class="num" id="num_7">08</div>
+                <img src="./blank.png" alt id="fire_7" class="fire">
+                <img src="./default.png" alt id="image_7" class="image">
+                <div class="name" id="name_7">Loading</div>
+                <div class="count odometer" id="count_7">0</div>
+            </div>
+            <div class="card card_8" id="card_8">
+                <div class="num" id="num_8">09</div>
+                <img src="./blank.png" alt id="fire_8" class="fire">
+                <img src="./default.png" alt id="image_8" class="image">
+                <div class="name" id="name_8">Loading</div>
+                <div class="count odometer" id="count_8">0</div>
+            </div>
+            <div class="card card_9" id="card_9">
+                <div class="num" id="num_9">10</div>
+                <img src="./blank.png" alt id="fire_9" class="fire">
+                <img src="./default.png" alt id="image_9" class="image">
+                <div class="name" id="name_9">Loading</div>
+                <div class="count odometer" id="count_9">0</div>
+            </div>
+        </div>
+        <div class="column_2 column">
+            <div class="card card_10" id="card_10">
+                <div class="num" id="num_10">11</div>
+                <img src="./blank.png" alt id="fire_10" class="fire">
+                <img src="./default.png" alt id="image_10" class="image">
+                <div class="name" id="name_10">Loading</div>
+                <div class="count odometer" id="count_10">0</div>
+            </div>
+            <div class="card card_11" id="card_11">
+                <div class="num" id="num_11">12</div>
+                <img src="./blank.png" alt id="fire_11" class="fire">
+                <img src="./default.png" alt id="image_11" class="image">
+                <div class="name" id="name_11">Loading</div>
+                <div class="count odometer" id="count_11">0</div>
+            </div>
+            <div class="card card_12" id="card_12">
+                <div class="num" id="num_12">13</div>
+                <img src="./blank.png" alt id="fire_12" class="fire">
+                <img src="./default.png" alt id="image_12" class="image">
+                <div class="name" id="name_12">Loading</div>
+                <div class="count odometer" id="count_12">0</div>
+            </div>
+            <div class="card card_13" id="card_13">
+                <div class="num" id="num_13">14</div>
+                <img src="./blank.png" alt id="fire_13" class="fire">
+                <img src="./default.png" alt id="image_13" class="image">
+                <div class="name" id="name_13">Loading</div>
+                <div class="count odometer" id="count_13">0</div>
+            </div>
+            <div class="card card_14" id="card_14">
+                <div class="num" id="num_14">15</div>
+                <img src="./blank.png" alt id="fire_14" class="fire">
+                <img src="./default.png" alt id="image_14" class="image">
+                <div class="name" id="name_14">Loading</div>
+                <div class="count odometer" id="count_14">0</div>
+            </div>
+            <div class="card card_15" id="card_15">
+                <div class="num" id="num_15">16</div>
+                <img src="./blank.png" alt id="fire_15" class="fire">
+                <img src="./default.png" alt id="image_15" class="image">
+                <div class="name" id="name_15">Loading</div>
+                <div class="count odometer" id="count_15">0</div>
+            </div>
+            <div class="card card_16" id="card_16">
+                <div class="num" id="num_16">17</div>
+                <img src="./blank.png" alt id="fire_16" class="fire">
+                <img src="./default.png" alt id="image_16" class="image">
+                <div class="name" id="name_16">Loading</div>
+                <div class="count odometer" id="count_16">0</div>
+            </div>
+            <div class="card card_17" id="card_17">
+                <div class="num" id="num_17">18</div>
+                <img src="./blank.png" alt id="fire_17" class="fire">
+                <img src="./default.png" alt id="image_17" class="image">
+                <div class="name" id="name_17">Loading</div>
+                <div class="count odometer" id="count_17">0</div>
+            </div>
+            <div class="card card_18" id="card_18">
+                <div class="num" id="num_18">19</div>
+                <img src="./blank.png" alt id="fire_18" class="fire">
+                <img src="./default.png" alt id="image_18" class="image">
+                <div class="name" id="name_18">Loading</div>
+                <div class="count odometer" id="count_18">0</div>
+            </div>
+            <div class="card card_19" id="card_19">
+                <div class="num" id="num_19">20</div>
+                <img src="./blank.png" alt id="fire_19" class="fire">
+                <img src="./default.png" alt id="image_19" class="image">
+                <div class="name" id="name_19">Loading</div>
+                <div class="count odometer" id="count_19">0</div>
+            </div>
+        </div>
+        <div class="column_3 column">
+            <div class="card card_20" id="card_20">
+                <div class="num" id="num_20">21</div>
+                <img src="./blank.png" alt id="fire_20" class="fire">
+                <img src="./default.png" alt id="image_20" class="image">
+                <div class="name" id="name_20">Loading</div>
+                <div class="count odometer" id="count_20">0</div>
+            </div>
+            <div class="card card_21" id="card_21">
+                <div class="num" id="num_21">22</div>
+                <img src="./blank.png" alt id="fire_21" class="fire">
+                <img src="./default.png" alt id="image_21" class="image">
+                <div class="name" id="name_21">Loading</div>
+                <div class="count odometer" id="count_21">0</div>
+            </div>
+            <div class="card card_22" id="card_22">
+                <div class="num" id="num_22">23</div>
+                <img src="./blank.png" alt id="fire_22" class="fire">
+                <img src="./default.png" alt id="image_22" class="image">
+                <div class="name" id="name_22">Loading</div>
+                <div class="count odometer" id="count_22">0</div>
+            </div>
+            <div class="card card_23" id="card_23">
+                <div class="num" id="num_23">24</div>
+                <img src="./blank.png" alt id="fire_23" class="fire">
+                <img src="./default.png" alt id="image_23" class="image">
+                <div class="name" id="name_23">Loading</div>
+                <div class="count odometer" id="count_23">0</div>
+            </div>
+            <div class="card card_24" id="card_24">
+                <div class="num" id="num_24">25</div>
+                <img src="./blank.png" alt id="fire_24" class="fire">
+                <img src="./default.png" alt id="image_24" class="image">
+                <div class="name" id="name_24">Loading</div>
+                <div class="count odometer" id="count_24">0</div>
+            </div>
+            <div class="card card_25" id="card_25">
+                <div class="num" id="num_25">26</div>
+                <img src="./blank.png" alt id="fire_25" class="fire">
+                <img src="./default.png" alt id="image_25" class="image">
+                <div class="name" id="name_25">Loading</div>
+                <div class="count odometer" id="count_25">0</div>
+            </div>
+            <div class="card card_26" id="card_26">
+                <div class="num" id="num_26">27</div>
+                <img src="./blank.png" alt id="fire_26" class="fire">
+                <img src="./default.png" alt id="image_26" class="image">
+                <div class="name" id="name_26">Loading</div>
+                <div class="count odometer" id="count_26">0</div>
+            </div>
+            <div class="card card_27" id="card_27">
+                <div class="num" id="num_27">28</div>
+                <img src="./blank.png" alt id="fire_27" class="fire">
+                <img src="./default.png" alt id="image_27" class="image">
+                <div class="name" id="name_27">Loading</div>
+                <div class="count odometer" id="count_27">0</div>
+            </div>
+            <div class="card card_28" id="card_28">
+                <div class="num" id="num_28">29</div>
+                <img src="./blank.png" alt id="fire_28" class="fire">
+                <img src="./default.png" alt id="image_28" class="image">
+                <div class="name" id="name_28">Loading</div>
+                <div class="count odometer" id="count_28">0</div>
+            </div>
+            <div class="card card_29" id="card_29">
+                <div class="num" id="num_29">30</div>
+                <img src="./blank.png" alt id="fire_29" class="fire">
+                <img src="./default.png" alt id="image_29" class="image">
+                <div class="name" id="name_29">Loading</div>
+                <div class="count odometer" id="count_29">0</div>
+            </div>
+        </div>
+        <div class="column_4 column">
+            <div class="card card_30" id="card_30">
+                <div class="num" id="num_30">31</div>
+                <img src="./blank.png" alt id="fire_30" class="fire">
+                <img src="./default.png" alt id="image_30" class="image">
+                <div class="name" id="name_30">Loading</div>
+                <div class="count odometer" id="count_30">0</div>
+            </div>
+            <div class="card card_31" id="card_31">
+                <div class="num" id="num_31">32</div>
+                <img src="./blank.png" alt id="fire_31" class="fire">
+                <img src="./default.png" alt id="image_31" class="image">
+                <div class="name" id="name_31">Loading</div>
+                <div class="count odometer" id="count_31">0</div>
+            </div>
+            <div class="card card_32" id="card_32">
+                <div class="num" id="num_32">33</div>
+                <img src="./blank.png" alt id="fire_32" class="fire">
+                <img src="./default.png" alt id="image_32" class="image">
+                <div class="name" id="name_32">Loading</div>
+                <div class="count odometer" id="count_32">0</div>
+            </div>
+            <div class="card card_33" id="card_33">
+                <div class="num" id="num_33">34</div>
+                <img src="./blank.png" alt id="fire_33" class="fire">
+                <img src="./default.png" alt id="image_33" class="image">
+                <div class="name" id="name_33">Loading</div>
+                <div class="count odometer" id="count_33">0</div>
+            </div>
+            <div class="card card_34" id="card_34">
+                <div class="num" id="num_34">35</div>
+                <img src="./blank.png" alt id="fire_34" class="fire">
+                <img src="./default.png" alt id="image_34" class="image">
+                <div class="name" id="name_34">Loading</div>
+                <div class="count odometer" id="count_34">0</div>
+            </div>
+            <div class="card card_35" id="card_35">
+                <div class="num" id="num_35">36</div>
+                <img src="./blank.png" alt id="fire_35" class="fire">
+                <img src="./default.png" alt id="image_35" class="image">
+                <div class="name" id="name_35">Loading</div>
+                <div class="count odometer" id="count_35">0</div>
+            </div>
+            <div class="card card_36" id="card_36">
+                <div class="num" id="num_36">37</div>
+                <img src="./blank.png" alt id="fire_36" class="fire">
+                <img src="./default.png" alt id="image_36" class="image">
+                <div class="name" id="name_36">Loading</div>
+                <div class="count odometer" id="count_36">0</div>
+            </div>
+            <div class="card card_37" id="card_37">
+                <div class="num" id="num_37">38</div>
+                <img src="./blank.png" alt id="fire_37" class="fire">
+                <img src="./default.png" alt id="image_37" class="image">
+                <div class="name" id="name_37">Loading</div>
+                <div class="count odometer" id="count_37">0</div>
+            </div>
+            <div class="card card_38" id="card_38">
+                <div class="num" id="num_38">39</div>
+                <img src="./blank.png" alt id="fire_38" class="fire">
+                <img src="./default.png" alt id="image_38" class="image">
+                <div class="name" id="name_38">Loading</div>
+                <div class="count odometer" id="count_38">0</div>
+            </div>
+            <div class="card card_39" id="card_39">
+                <div class="num" id="num_39">40</div>
+                <img src="./blank.png" alt id="fire_39" class="fire">
+                <img src="./default.png" alt id="image_39" class="image">
+                <div class="name" id="name_39">Loading</div>
+                <div class="count odometer" id="count_39">0</div>
+            </div>
+        </div>
+        <div class="column_5 column">
+            <div class="card card_40" id="card_40">
+                <div class="num" id="num_40">41</div>
+                <img src="./blank.png" alt id="fire_40" class="fire">
+                <img src="./default.png" alt id="image_40" class="image">
+                <div class="name" id="name_40">Loading</div>
+                <div class="count odometer" id="count_40">0</div>
+            </div>
+            <div class="card card_41" id="card_41">
+                <div class="num" id="num_41">42</div>
+                <img src="./blank.png" alt id="fire_41" class="fire">
+                <img src="./default.png" alt id="image_41" class="image">
+                <div class="name" id="name_41">Loading</div>
+                <div class="count odometer" id="count_41">0</div>
+            </div>
+            <div class="card card_42" id="card_42">
+                <div class="num" id="num_42">43</div>
+                <img src="./blank.png" alt id="fire_42" class="fire">
+                <img src="./default.png" alt id="image_42" class="image">
+                <div class="name" id="name_42">Loading</div>
+                <div class="count odometer" id="count_42">0</div>
+            </div>
+            <div class="card card_43" id="card_43">
+                <div class="num" id="num_43">44</div>
+                <img src="./blank.png" alt id="fire_43" class="fire">
+                <img src="./default.png" alt id="image_43" class="image">
+                <div class="name" id="name_43">Loading</div>
+                <div class="count odometer" id="count_43">0</div>
+            </div>
+            <div class="card card_44" id="card_44">
+                <div class="num" id="num_44">45</div>
+                <img src="./blank.png" alt id="fire_44" class="fire">
+                <img src="./default.png" alt id="image_44" class="image">
+                <div class="name" id="name_44">Loading</div>
+                <div class="count odometer" id="count_44">0</div>
+            </div>
+            <div class="card card_45" id="card_45">
+                <div class="num" id="num_45">46</div>
+                <img src="./blank.png" alt id="fire_45" class="fire">
+                <img src="./default.png" alt id="image_45" class="image">
+                <div class="name" id="name_45">Loading</div>
+                <div class="count odometer" id="count_45">0</div>
+            </div>
+            <div class="card card_46" id="card_46">
+                <div class="num" id="num_46">47</div>
+                <img src="./blank.png" alt id="fire_46" class="fire">
+                <img src="./default.png" alt id="image_46" class="image">
+                <div class="name" id="name_46">Loading</div>
+                <div class="count odometer" id="count_46">0</div>
+            </div>
+            <div class="card card_47" id="card_47">
+                <div class="num" id="num_47">48</div>
+                <img src="./blank.png" alt id="fire_47" class="fire">
+                <img src="./default.png" alt id="image_47" class="image">
+                <div class="name" id="name_47">Loading</div>
+                <div class="count odometer" id="count_47">0</div>
+            </div>
+            <div class="card card_48" id="card_48">
+                <div class="num" id="num_48">49</div>
+                <img src="./blank.png" alt id="fire_48" class="fire">
+                <img src="./default.png" alt id="image_48" class="image">
+                <div class="name" id="name_48">Loading</div>
+                <div class="count odometer" id="count_48">0</div>
+            </div>
+            <div class="card card_49" id="card_49">
+                <div class="num" id="num_49">50</div>
+                <img src="./blank.png" alt id="fire_49" class="fire">
+                <img src="./default.png" alt id="image_49" class="image">
+                <div class="name" id="name_49">Loading</div>
+                <div class="count odometer" id="count_49">0</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var channelsIds = [];
+    var channels = [];
+    var battles = [];
+    var battlesTime = [];
+    var averages = {};
+    let sortedChannels = [];
+    let sortedAverages = [];
+    let sortedBattles = [];
+    let battleCount1;
+    let battleCount2;
+
+    function GetCommas(t) {
+        return ("" + t).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function calcGain(arr, len) {
+        if (len !== undefined) {
+            if (arr.length > len) {
+                return arr[arr.length - 1] - arr[((arr.length - 1) - len)];
+            } else {
+                return arr[arr.length - 1] - arr[0];
+            }
+        } else {
+            return arr[arr.length - 1] - arr[0];
+        }
+    }
+
+    function abbreviate(count, withAbbr = true) {
+        let decimals;
+        if (count > 1000000000) {
+            decimals = 2;
+        } else if (count > 100000000) {
+            decimals = 0;
+        } else if (count > 10000000) {
+            decimals = 1;
+        } else if (count > 1000000) {
+            decimals = 2;
+        } else if (count > 100000) {
+            decimals = 0;
+        } else if (count > 10000) {
+            decimals = 1;
+        } else if (count > 1000) {
+            decimals = 2;
+        } else {
+            decimals = 0;
+        }
+        if (String(count)[0] === "0") {
+            if (count === 0) return "0";
+            else return count.toFixed(decimals);
+        }
+
+        let neg = false;
+        if (String(count)[0] == "-") {
+            neg = true;
+            count = ~Number(count) + 1;
+        }
+
+        const COUNT_ABBRS = ["", "K", "M", "B"];
+        const i = count === 0 ? count : Math.floor(Math.log(count) / Math.log(1000));
+        let result = parseFloat(
+            (count / Math.pow(1000, i)).toFixed(decimals),
+        ).toString();
+        if (withAbbr) result += `${COUNT_ABBRS[i]}`;
+        if (neg) result = `-${result}`;
+        return result;
+    }
+
+    async function fetchChannelIds() {
+        await fetch(`https://corsproxy.io/?https://www.noxinfluencer.com/ws/mobile/channel?pageSize=100&rankSize=100`)
+            .then((res) => res.json())
+            .then((data) => {
+                for (let i = 0; i < data.retDataList.length; i++) {
+                    channelsIds[i] = data.retDataList[i].id;
+                }
+
+                // Initialize averages object for each channel
+                channelsIds.forEach(id => {
+                    averages[id] = {
+                        subs: []
+                    };
+                });
+            });
+    }
+
+    async function updateChannelData() {
+        for (let i = 0; i < channelsIds.length; i++) {
+            if (channelsIds[i] === "UC-lHJZR3Gqxm24_Vd_AJ5Yw") {
+                await fetch(`https://api.communitrics.com/UC-lHJZR3Gqxm24_Vd_AJ5Yw?averages=true`)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        channels[i] = {
+                            name: data.channelDetails.name,
+                            avatar: data.channelDetails.profilePicture,
+                            id: channelsIds[i],
+                            average: data.channelDetails.mostRecentAverage,
+                            subcount: data.channelDetails.linearEstSubscriberCount
+                        };
+                    });
+            } else if (channelsIds[i] === "UCX6OQ3DkcsbYNE6H8uQQuVA") {
+                await fetch(`https://mixerno.space/api/youtube-channel-counter/user/UCX6OQ3DkcsbYNE6H8uQQuVA`)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        fetch(`https://api.communitrics.com/mrbeaststats`)
+                            .then((res) => res.json())
+                            .then((avg) => {
+                                channels[i] = {
+                                    name: data.user[0].count,
+                                    avatar: data.user[1].count,
+                                    id: channelsIds[i],
+                                    average: avg.averageSubscribersGainedPerDay,
+                                    subcount: data.counts[0].count
+                                };
+                            });
+                    });
+            } else {
+                await fetch(`https://axern.space/api/get?platform=youtube&type=channel&id=${channelsIds[i]}`)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        let channelId = channelsIds[i];
+
+                        // Add the new sub count to the averages
+                        averages[channelId].subs.push(data.estSubCount_linear);
+
+                        // Ensure we keep only the last 10 minutes of data
+                        if (averages[channelId].subs.length > 30) {
+                            averages[channelId].subs.shift(); // Remove the oldest element
+                        }
+
+                        // Calculate the average sub count over the stored values
+                        let averageSubCount = calcGain(averages[channelId].subs);
+
+                        // Update the channel information
+                        channels[i] = {
+                            name: data.snippet.title,
+                            avatar: data.snippet.thumbnails.high.url,
+                            id: channelsIds[i],
+                            average: (averageSubCount * (86400 / 600)),
+                            subcount: data.estSubCount_linear
+                        };
+                    });
+            }
+        }
+
+        sortedChannels = [...channels].sort((a, b) => b.subcount - a.subcount);
+        sortedAverages = [...channels].sort((a, b) => b.average - a.average);
+
+        for (let i = 0; i < (sortedChannels.length - 1); i++) {
+            if (sortedChannels[i].average > sortedChannels[i + 1].average) {
+                battlesTime[i] = new Date().getTime() * 2
+            } else {
+                battlesTime[i] = new Date().getTime() + ((sortedChannels[i].subcount - sortedChannels[i + 1].subcount) / Math.abs(sortedChannels[i + 1].average - sortedChannels[i].average)) * 86400000
+            }
+            battles[i] = {
+                name1: sortedChannels[i].name,
+                avatar1: sortedChannels[i].avatar,
+                id1: sortedChannels[i].id,
+                average1: sortedChannels[i].average,
+                subcount1: sortedChannels[i].subcount,
+                name2: sortedChannels[i + 1].name,
+                avatar2: sortedChannels[i + 1].avatar,
+                id2: sortedChannels[i + 1].id,
+                average2: sortedChannels[i + 1].average,
+                subcount2: sortedChannels[i + 1].subcount,
+                place1: i + 1,
+                place2: i + 2,
+                time: battlesTime[i],
+                subcount: Math.floor(sortedChannels[i].subcount + ((sortedChannels[i].subcount - sortedChannels[i + 1].subcount) / Math.abs(sortedChannels[i + 1].average - sortedChannels[i].average)) * sortedChannels[i].average)
+            };
+        };
+
+        sortedBattles = [...battles].sort((a, b) => a.time - b.time);
+        document.getElementById("combined").innerHTML = channels.map(c => c.subcount).reduce((a, b) => a + b, 0);
+        console.log(channelsIds);
+        console.log(sortedChannels);
+        console.log(sortedAverages);
+        console.log(sortedBattles);
+        console.log([sortedBattles[0], (sortedBattles[0].time - new Date().getTime())]);
+
+        fetch(`https://yt.lemnoslife.com/noKey/playlistItems?part=snippet&fields=items/snippet/resourceId/videoId&order=date&maxResults=50&playlistId=UUlOyuxZvQkoHoIn15kNbkUw`)
+            .then((res) => res.json())
+            .then((data) => {
+                let vidIds = data.items.map((video) => {
+                    return video.snippet.resourceId.videoId;
+                });
+
+                if (vidIds.length > 0) {
+                    fetch(`https://yt.lemnoslife.com/noKey/videos?part=snippet,liveStreamingDetails,contentDetails&fields=items(id,snippet/publishedAt,liveStreamingDetails,contentDetails/duration)&id=${vidIds.join(",")}`)
+                        .then((res) => res.json())
+                        .then((streams) => {
+
+                            let filteredVids = streams.items.filter(filteredVideo =>
+                                filteredVideo.liveStreamingDetails !== null ||
+                                filteredVideo.snippet.publishedAt !== filteredVideo.liveStreamingDetails?.actualStartTime
+                            );
+
+                            let latestVidID = filteredVids[0].id;
+                            fetch(`https://mixerno.space/api/youtube-stream-counter/user/${latestVidID}`)
+                                .then((res) => res.json())
+                                .then((data) => {
+                                    document.getElementById("watching").innerHTML = data.counts[0].count;
+                                    document.getElementById("likes").innerHTML = data.counts[2].count;
+                                });
+                        });
+                }
+            });
+
+        await fetch(`https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/UClOyuxZvQkoHoIn15kNbkUw`)
+            .then((res) => res.json())
+            .then((data) => {
+                document.getElementById("subscribers").innerHTML = data.channels.counts[2].count;
+            });
+
+        document.getElementById(`image_0`).src = sortedChannels[0].avatar;
+        // Check the length of the name and trim if necessary
+        if (sortedChannels[0].name.length > 20) {
+            document.getElementById(`name_0`).textContent = sortedChannels[0].name.substring(0, 20) + '...';
+        } else {
+            document.getElementById(`name_0`).textContent = sortedChannels[0].name;
+        }
+        document.getElementById(`count_0`).innerHTML = sortedChannels[0].subcount;
+        if (sortedChannels[0].average > 500000) {
+            document.getElementById(`fire_0`).src = "high_blue.gif";
+        } else if (sortedChannels[0].average > 200000) {
+            document.getElementById(`fire_0`).src = "low_blue.gif";
+        } else if (sortedChannels[0].average > 100000) {
+            document.getElementById(`fire_0`).src = "high_red.gif";
+        } else if (sortedChannels[0].average > 50000) {
+            document.getElementById(`fire_0`).src = "low_red.gif";
+        } else if (sortedChannels[0].average > 1000) {
+            document.getElementById(`fire_0`).src = "blank.png";
+        } else if (sortedChannels[0].average > 0) {
+            document.getElementById(`fire_0`).src = "ice.gif";
+        } else if (sortedChannels[0].average === 0) {
+            document.getElementById(`fire_0`).src = "warn.gif";
+        } else {
+            document.getElementById(`fire_0`).src = "bleeding.gif";
+        }
+
+        for (let i = 1; i < 50; i++) {
+            setTimeout(() => {
+                document.getElementById(`image_${i}`).src = sortedChannels[i].avatar;
+                // Check the length of the name and trim if necessary
+                if (sortedChannels[i].name.length > 20) {
+                    document.getElementById(`name_${i}`).textContent = sortedChannels[i].name.substring(0, 20) + '...';
+                } else {
+                    document.getElementById(`name_${i}`).textContent = sortedChannels[i].name;
+                }
+                document.getElementById(`count_${i}`).innerHTML = sortedChannels[i].subcount;
+                if (sortedChannels[i].average > 500000) {
+                    document.getElementById(`fire_${i}`).src = "high_blue.gif";
+                } else if (sortedChannels[i].average > 200000) {
+                    document.getElementById(`fire_${i}`).src = "low_blue.gif";
+                } else if (sortedChannels[i].average > 100000) {
+                    document.getElementById(`fire_${i}`).src = "high_red.gif";
+                } else if (sortedChannels[i].average > 50000) {
+                    document.getElementById(`fire_${i}`).src = "low_red.gif";
+                } else if (sortedChannels[i].average > 1000) {
+                    document.getElementById(`fire_${i}`).src = "blank.png";
+                } else if (sortedChannels[i].average > 0) {
+            document.getElementById(`fire_${i}`).src = "ice.gif";
+        } else if (sortedChannels[i].average === 0) {
+            document.getElementById(`fire_${i}`).src = "warn.gif";
+        } else {
+                    document.getElementById(`fire_${i}`).src = "bleeding.gif";
+                }
+            }, i * 400);
+        }
+    }
+    async function updateBattleData() {
+        if (sortedBattles[0].id1 === "UC-lHJZR3Gqxm24_Vd_AJ5Yw") {
+            await fetch(`https://api.communitrics.com/UC-lHJZR3Gqxm24_Vd_AJ5Yw?averages=true`)
+                .then((res) => res.json())
+                .then((data) => {
+                    battleCount1 = data.channelDetails.linearEstSubscriberCount
+                });
+        } else if (sortedBattles[0].id1 === "UCX6OQ3DkcsbYNE6H8uQQuVA") {
+            await fetch(`https://axern.space/api/get?platform=youtube&type=channel&id=UCX6OQ3DkcsbYNE6H8uQQuVA`)
+                .then((res) => res.json())
+                .then((data) => {
+                    battleCount1 = data.estSubCount
+                });
+        } else {
+            await fetch(`https://axern.space/api/get?platform=youtube&type=channel&id=${sortedBattles[0].id1}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    battleCount1 = data.estSubCount_linear
+                });
+
+            if (sortedBattles[0].id2 === "UC-lHJZR3Gqxm24_Vd_AJ5Yw") {
+                await fetch(`https://api.communitrics.com/UC-lHJZR3Gqxm24_Vd_AJ5Yw?averages=true`)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        battleCount2 = data.channelDetails.linearEstSubscriberCount
+                    });
+            } else if (sortedBattles[0].id2 === "UCX6OQ3DkcsbYNE6H8uQQuVA") {
+                await fetch(`https://axern.space/api/get?platform=youtube&type=channel&id=UCX6OQ3DkcsbYNE6H8uQQuVA`)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        battleCount2 = data.estSubCount
+                    });
+            } else {
+                await fetch(`https://axern.space/api/get?platform=youtube&type=channel&id=${sortedBattles[0].id2}`)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        battleCount2 = data.estSubCount_linear
+                    });
+            }
+        }
+
+        document.getElementById(`battle_image_1`).src = sortedBattles[0].avatar1;
+        if (sortedBattles[0].place1 < 10) {
+            document.getElementById(`battle_num_1`).textContent = `0${sortedBattles[0].place1}`;
+        } else {
+            document.getElementById(`battle_num_1`).textContent = sortedBattles[0].place1;
+        }
+        // Check the length of the name and trim if necessary
+        if (sortedBattles[0].name1.length > 20) {
+            document.getElementById(`battle_name_1`).textContent = sortedBattles[0].name1.substring(0, 20) + '...';
+        } else {
+            document.getElementById(`battle_name_1`).textContent = sortedBattles[0].name1;
+        }
+        document.getElementById(`battle_count_1`).innerHTML = battleCount1;
+        if (sortedBattles[0].average1 > 500000) {
+            document.getElementById(`battle_fire_1`).src = "high_blue.gif";
+        } else if (sortedBattles[0].average1 > 200000) {
+            document.getElementById(`battle_fire_1`).src = "low_blue.gif";
+        } else if (sortedBattles[0].average1 > 100000) {
+            document.getElementById(`battle_fire_1`).src = "high_red.gif";
+        } else if (sortedBattles[0].average1 > 50000) {
+            document.getElementById(`battle_fire_1`).src = "low_red.gif";
+        } else if (sortedBattles[0].average1 > 1000) {
+            document.getElementById(`battle_fire_1`).src = "blank.png";
+        } else if (sortedBattles[0].average1 > 0) {
+            document.getElementById(`battle_fire_1`).src = "ice.gif";
+        } else if (sortedBattles[0].average1 === 0) {
+            document.getElementById(`battle_fire_1`).src = "warn.gif";
+        } else {
+            document.getElementById(`battle_fire_1`).src = "bleeding.gif";
+        }
+
+        document.getElementById(`battle_image_2`).src = sortedBattles[0].avatar2;
+        if (sortedBattles[0].place2 < 10) {
+            document.getElementById(`battle_num_2`).textContent = `0${sortedBattles[0].place2}`;
+        } else {
+            document.getElementById(`battle_num_2`).textContent = sortedBattles[0].place2;
+        }
+        // Check the length of the name and trim if necessary
+        if (sortedBattles[0].name2.length > 20) {
+            document.getElementById(`battle_name_2`).textContent = sortedBattles[0].name2.substring(0, 20) + '...';
+        } else {
+            document.getElementById(`battle_name_2`).textContent = sortedBattles[0].name2;
+        }
+        document.getElementById(`battle_count_2`).innerHTML = battleCount2;
+        if (sortedBattles[0].average2 > 500000) {
+            document.getElementById(`battle_fire_2`).src = "high_blue.gif";
+        } else if (sortedBattles[0].average2 > 200000) {
+            document.getElementById(`battle_fire_2`).src = "low_blue.gif";
+        } else if (sortedBattles[0].average2 > 100000) {
+            document.getElementById(`battle_fire_2`).src = "high_red.gif";
+        } else if (sortedBattles[0].average2 > 50000) {
+            document.getElementById(`battle_fire_2`).src = "low_red.gif";
+        } else if (sortedBattles[0].average2 > 1000) {
+            document.getElementById(`battle_fire_2`).src = "blank.png";
+        } else if (sortedBattles[0].average2 > 0) {
+            document.getElementById(`battle_fire_2`).src = "ice.gif";
+        } else if (sortedBattles[0].average2 === 0) {
+            document.getElementById(`battle_fire_2`).src = "warn.gif";
+        } else {
+            document.getElementById(`battle_fire_2`).src = "bleeding.gif";
+        }
+        document.getElementById(`battle_gap`).innerHTML = battleCount1 - battleCount2;
+    }
+
+    (async () => {
+        await fetchChannelIds();
+
+        setInterval(async () => {
+            await fetchChannelIds();
+        }, 3600000);
+
+        setInterval(async () => {
+            await updateChannelData();
+        }, 20000);
+
+        setInterval(async () => {
+            await updateBattleData();
+        }, 2000);
+
+        setInterval(() => {
+            const d = new Date();
+            var tHour = d.getUTCHours();
+            var tMinute = d.getUTCMinutes();
+            var tSecond = d.getUTCSeconds();
+            if (tHour < 10) {
+                tHour = "0" + tHour;
+            }
+
+            if (tMinute < 10) {
+                tMinute = "0" + tMinute;
+            }
+
+            if (tSecond < 10) {
+                tSecond = "0" + tSecond;
+            }
+            document.getElementById(`time`).innerHTML = `${tHour}:${tMinute}:${tSecond}`;
+        }, 1000);
+
+        setInterval(() => {
+            let stats = `${sortedAverages[0].name} Gains ${abbreviate(sortedAverages[0].average)} Subscribers Per Day. | ${sortedAverages[1].name} Gains ${abbreviate(sortedAverages[1].average)} Subscribers Per Day. | ${sortedAverages[2].name} Gains ${abbreviate(sortedAverages[2].average)} Subscribers Per Day. | Top 100 Ranks After Top 50: | #51: ${sortedChannels[50].name}: ${GetCommas(sortedChannels[50].subcount)} | #52: ${sortedChannels[51].name}: ${GetCommas(sortedChannels[51].subcount)} | #53: ${sortedChannels[52].name}: ${GetCommas(sortedChannels[52].subcount)} | #54: ${sortedChannels[53].name}: ${GetCommas(sortedChannels[53].subcount)} | #55: ${sortedChannels[54].name}: ${GetCommas(sortedChannels[54].subcount)} | #56: ${sortedChannels[55].name}: ${GetCommas(sortedChannels[55].subcount)} | #57: ${sortedChannels[56].name}: ${GetCommas(sortedChannels[56].subcount)} | #58: ${sortedChannels[57].name}: ${GetCommas(sortedChannels[57].subcount)} | #59: ${sortedChannels[58].name}: ${GetCommas(sortedChannels[58].subcount)} | #60: ${sortedChannels[59].name}: ${GetCommas(sortedChannels[59].subcount)} | #61: ${sortedChannels[60].name}: ${GetCommas(sortedChannels[60].subcount)} | #62: ${sortedChannels[61].name}: ${GetCommas(sortedChannels[61].subcount)} | #63: ${sortedChannels[62].name}: ${GetCommas(sortedChannels[62].subcount)} | #64: ${sortedChannels[63].name}: ${GetCommas(sortedChannels[63].subcount)} | #65: ${sortedChannels[64].name}: ${GetCommas(sortedChannels[64].subcount)} | #66: ${sortedChannels[65].name}: ${GetCommas(sortedChannels[65].subcount)} | #67: ${sortedChannels[66].name}: ${GetCommas(sortedChannels[66].subcount)} | #68: ${sortedChannels[67].name}: ${GetCommas(sortedChannels[67].subcount)} | #69: ${sortedChannels[68].name}: ${GetCommas(sortedChannels[68].subcount)} | #70: ${sortedChannels[69].name}: ${GetCommas(sortedChannels[69].subcount)} | #71: ${sortedChannels[70].name}: ${GetCommas(sortedChannels[70].subcount)} | #72: ${sortedChannels[71].name}: ${GetCommas(sortedChannels[71].subcount)} | #73: ${sortedChannels[72].name}: ${GetCommas(sortedChannels[72].subcount)} | #74: ${sortedChannels[73].name}: ${GetCommas(sortedChannels[73].subcount)} | #75: ${sortedChannels[74].name}: ${GetCommas(sortedChannels[74].subcount)} | #76: ${sortedChannels[75].name}: ${GetCommas(sortedChannels[75].subcount)} | #77: ${sortedChannels[76].name}: ${GetCommas(sortedChannels[76].subcount)} | #78: ${sortedChannels[77].name}: ${GetCommas(sortedChannels[77].subcount)} | #79: ${sortedChannels[78].name}: ${GetCommas(sortedChannels[78].subcount)} | #80: ${sortedChannels[79].name}: ${GetCommas(sortedChannels[79].subcount)} | #81: ${sortedChannels[80].name}: ${GetCommas(sortedChannels[80].subcount)} | #82: ${sortedChannels[81].name}: ${GetCommas(sortedChannels[81].subcount)} | #83: ${sortedChannels[82].name}: ${GetCommas(sortedChannels[82].subcount)} | #84: ${sortedChannels[83].name}: ${GetCommas(sortedChannels[83].subcount)} | #85: ${sortedChannels[84].name}: ${GetCommas(sortedChannels[84].subcount)} | #86: ${sortedChannels[85].name}: ${GetCommas(sortedChannels[85].subcount)} | #87: ${sortedChannels[86].name}: ${GetCommas(sortedChannels[86].subcount)} | #88: ${sortedChannels[87].name}: ${GetCommas(sortedChannels[87].subcount)} | #89: ${sortedChannels[88].name}: ${GetCommas(sortedChannels[88].subcount)} | #90: ${sortedChannels[89].name}: ${GetCommas(sortedChannels[89].subcount)} | #91: ${sortedChannels[90].name}: ${GetCommas(sortedChannels[90].subcount)} | #92: ${sortedChannels[91].name}: ${GetCommas(sortedChannels[91].subcount)} | #93: ${sortedChannels[92].name}: ${GetCommas(sortedChannels[92].subcount)} | #94: ${sortedChannels[93].name}: ${GetCommas(sortedChannels[93].subcount)} | #95: ${sortedChannels[94].name}: ${GetCommas(sortedChannels[94].subcount)} | #96: ${sortedChannels[95].name}: ${GetCommas(sortedChannels[95].subcount)} | #97: ${sortedChannels[96].name}: ${GetCommas(sortedChannels[96].subcount)} | #98: ${sortedChannels[97].name}: ${GetCommas(sortedChannels[97].subcount)} | #99: ${sortedChannels[98].name}: ${GetCommas(sortedChannels[98].subcount)} | #100: ${sortedChannels[99].name}: ${GetCommas(sortedChannels[99].subcount)}`;
+            console.log(stats)
+        }, 600000);
+    })();
+
+</script>
