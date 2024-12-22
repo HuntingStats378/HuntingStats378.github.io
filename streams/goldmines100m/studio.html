@@ -54,6 +54,7 @@ var font = urlParams.get("font") || "Roboto";
 var sizee = urlParams.get("size") || "50";
 var fw = urlParams.get("fontweight") || "400";
 var counter = urlParams.get("counter") || 0;
+var goal = urlParams.get("goal") || 0;
 
 // Validate and handle font size
 function validateSize(input) {
@@ -69,7 +70,11 @@ setInterval(() => {
     fetch(`https://cors.stats100.xyz/https://studio.nia-statistics.com/api/channel/${id}`)
         .then((res) => res.json())
         .then((data) => {
-            document.getElementById("count").innerHTML = data.channels.counts[counter].count;
+            count = goal - data.channels.counts[counter].count;
+            if (count < 0) {
+            document.getElementById("count").innerHTML = Math.abs(count);
+            } else
+            document.getElementById("count").innerHTML = count;
         });
 }, 2000);
 
