@@ -1,0 +1,177 @@
+<html>
+
+<head>
+    <title>HuntingStats378 - Compare</title>
+    <link href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css" rel="stylesheet">
+    <link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+    <meta charSet="utf-8" />
+    <meta name="description" content="HuntingStats378 - Compare" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.0-beta.3/iconify-icon.min.js"></script>
+</head>
+
+<body class="flex">
+    <div class="flex">
+        <span class="material-icons"> hourglass_full </span>
+        <span class="text">MIN:</span>
+        <span id="min">0</span>
+    </div>
+    <div class="flex">
+        <span class="material-icons"> hourglass_full </span>
+        <span class="text">HR:</span>
+        <span id="hr">0</span>
+    </div>
+    <div class="flex">
+        <span class="material-icons"> hourglass_full </span>
+        <span class="text">DAY:</span>
+        <span id="day">0</span>
+    </div>
+</body>
+<style>
+    @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
+    @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap");
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background-color: transparent;
+        color: white;
+        text-align: center;
+        font-family: roboto;
+        font-weight: 700;
+    }
+
+    body {
+        --font-size: 50px;
+        font-size: var(--font-size);
+    }
+
+    .flex {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 15px;
+    }
+
+    #mins,
+    #hrs,
+    #days {
+        line-height: 1.1em;
+        font-size: calc(var(--font-size) + 10px);
+    }
+
+    .material-icons {
+        font-size: calc(var(--font-size) + 10px);
+        margin-right: -12px;
+    }
+</style>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    for (const [key, value] of urlParams.entries()) {
+        if (value.toLowerCase() === "true") {
+            params[key] = true;  // Convert "true" string to boolean true
+        } else if (value.toLowerCase() === "false") {
+            params[key] = false;  // Convert "false" string to boolean false
+        } else if (!isNaN(value) && value.trim() !== '') {
+            params[key] = parseFloat(value);  // Convert numeric values
+        } else {
+            params[key] = value;  // Keep other string values as they are
+        }
+    }
+
+    const id = urlParams.get("id") || "UClOyuxZvQkoHoIn15kNbkUw";
+    const counter = urlParams.get("counter") || 2;
+    var sd0;
+    var sh0;
+    var sm0;
+
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function calcGain(arr, len) {
+        if (len !== undefined) {
+            if (arr.length > len) {
+                return arr[arr.length - 1] - arr[((arr.length - 1) - len)];
+            } else {
+                return arr[arr.length - 1] - arr[0];
+            }
+        } else {
+            return arr[arr.length - 1] - arr[0];
+        }
+    }
+
+    function calPrefixOfCount(x, gain, lose, none) {
+        gain = gain || "lime";
+        lose = lose || "red";
+        none = none || "white";
+        let count = parseFloat(x);
+        if (count > 0) {
+            return ["+",
+                gain];
+        } else if (count == 0) {
+            return ["+",
+                none];
+        } else {
+            return ["",
+                lose];
+        }
+    }
+
+    var db = {
+        len: 0,
+        time: [],
+        subs: []
+    };
+
+    setInterval(() => {
+        fetch(
+            `https://cors.stats100.xyz/https://studio.nia-statistics.com/api/channel/${id}/graph/minutely-2`
+        )
+            .then((res) => res.json())
+            .then((data) => {
+                fetch(
+                    `https://cors.stats100.xyz/https://studio.nia-statistics.com/api/channel/${id}/graph/hourly-2`
+                )
+                    .then((res) => res.json())
+                    .then((data2) => {
+                        sh0 = Math.floor(data.channelGraphs_minutely.counts[counter].array[719] - data.channelGraphs_minutely.counts[counter].array[659]);
+                        sm0 = Math.floor(data.channels.counts[counter].count - data.channelGraphs_minutely.counts[counter].array[719]);
+                        sd0 = Math.floor(data2.channelGraphs_minutely.counts[counter].array[96] - channelGraphs_minutely.counts[counter].array[72]);
+                        db.subs.push(data.channels.counts[counter].count);
+                        db.time.push(Date.now());
+                        let sm1 = calcGain(db.subs, 30);
+                        let sh1 = calcGain(db.subs, 1800);
+                        let sd1 = calcGain(db.subs, 43200);
+                        if (calcGain(db.time) < 86400000) {
+                            document.getElementById('day').textContent = calPrefixOfCount(sd0)[0] + numberWithCommas(sd0);
+                            document.getElementById('day').style.color = calPrefixOfCount(sd0)[1];
+                        } else {
+                            document.getElementById('day').textContent = calPrefixOfCount(sd1)[0] + numberWithCommas(sd1);
+                            document.getElementById('day').style.color = calPrefixOfCount(sd1)[1];
+                        }
+                        if (calcGain(db.time) < 3600000) {
+                            document.getElementById('hr').textContent = calPrefixOfCount(sh0)[0] + numberWithCommas(sh0);
+                            document.getElementById('hr').style.color = calPrefixOfCount(sh0)[1];
+                        } else {
+                            document.getElementById('hr').textContent = calPrefixOfCount(sh1)[0] + numberWithCommas(sh1);
+                            document.getElementById('hr').style.color = calPrefixOfCount(sh1)[1];
+                        }
+                        if (calcGain(db.time) < 60000) {
+                            document.getElementById('min').textContent = calPrefixOfCount(sm0)[0] + numberWithCommas(sm0);
+                            document.getElementById('min').style.color = calPrefixOfCount(sm0)[1];
+                        } else {
+                            document.getElementById('min').textContent = calPrefixOfCount(sm1)[0] + numberWithCommas(sm1);
+                            document.getElementById('min').style.color = calPrefixOfCount(sm1)[1];
+                        }
+                    });
+            });
+    }, 2000);
+</script>
