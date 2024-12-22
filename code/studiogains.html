@@ -74,6 +74,7 @@
 </style>
 <script>
     const urlParams = new URLSearchParams(window.location.search);
+    const params = {};
     for (const [key, value] of urlParams.entries()) {
         if (value.toLowerCase() === "true") {
             params[key] = true;  // Convert "true" string to boolean true
@@ -87,7 +88,7 @@
     }
 
     const id = urlParams.get("id") || "UClOyuxZvQkoHoIn15kNbkUw";
-    const counter = urlParams.get("counter") || 2;
+    const counter = urlParams.get("counter") || 0;
     var sd0;
     var sh0;
     var sm0;
