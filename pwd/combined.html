@@ -6,7 +6,7 @@
     <meta charSet="utf-8" />
     <meta name="description" content="HuntingStats378 - Subscribers" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
 </head>
 
 <body style="font-family: Roboto; color: var(--fg-color, #fff); background-color: var(--bg-color, #E7541E);">
@@ -19,111 +19,114 @@
             <h5 onclick="footer()" style="margin-top: -40px;">Subscribers (Estimated)</h5>
         </div>
     </div>
-  <div id="chart" class="chart" style="background-color: black;"></div>
-  </body>
-<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script><script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/highstock.js"></script>
+    <div id="chart" class="chart" style="background-color: black;"></div>
+</body>
+<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/highstock.js"></script>
 <script>
-  fetch(`./combined.json`)
-            .then((res) => res.json())
-            .then((data) => {
-              Channels = data.Channels;
-            });
-  
-      var number = 0;
-      var work = [];
-      var maxPoints = 3600;
+  let Channels = [];
+  let work = [];
+  const maxPoints = 3600;
 
-      async function render() {
-        await datas();
-        number = work.reduce(function (a, b) {
-          return a + b;
-        }, 0);
-        subs.innerHTML = number;
-        if (chart.series[0].points.length == maxPoints) chart.series[0].data[0].remove();
-        chart.series[0].addPoint([Date.now(), number])
+  // Load channel IDs from combined.json
+  fetch('./combined.json')
+    .then((res) => res.json())
+    .then((data) => {
+      Channels = data.Channels;
+      render(); // Start rendering once Channels is loaded
+      setInterval(render, 2000); // Update periodically
+    })
+    .catch((error) => console.error('Error loading channels:', error));
+
+  async function render() {
+    try {
+      await datas();
+      const totalSubscribers = work.reduce((a, b) => a + b, 0);
+      document.getElementById('subs').innerHTML = totalSubscribers;
+
+      if (chart.series[0].points.length === maxPoints) {
+        chart.series[0].data[0].remove();
       }
+      chart.series[0].addPoint([Date.now(), totalSubscribers]);
+    } catch (error) {
+      console.error('Error rendering data:', error);
+    }
+  }
 
-      async function datas() {
-        for (let i = 0; i < Channels.length; i++) {
-  await fetch(`https://axern.space/api/get?platform=youtube&type=channel&id=${Channels[i]}`)
-            .then((res) => res.json())
-            .then((data) => {
-              work[i] = data.apiSubCount;
+  async function datas() {
+    for (let i = 0; i < Channels.length; i++) {
+      try {
+        const response = await fetch(`https://axern.space/api/get?platform=youtube&type=channel&id=${Channels[i]}`);
+        const data = await response.json();
+        work[i] = data.apiSubCount || 0; // Handle cases where apiSubCount is missing
+      } catch (error) {
+        console.error(`Error fetching data for channel ${Channels[i]}:`, error);
+        work[i] = 0; // Default to 0 on error
+      }
+    }
+  }
 
-            });
+  // Highcharts configuration
+  const textBright = "#bdbdbd";
+  const lineColor = "#000000";
+  const chart = new Highcharts.chart({
+    chart: {
+      renderTo: 'chart',
+      type: 'line',
+      zoomType: 'x',
+      backgroundColor: 'transparent',
+      plotBorderColor: 'transparent'
+    },
+    title: {
+      text: ' '
+    },
+    xAxis: {
+      type: 'datetime',
+      tickPixelInterval: 500,
+      gridLineColor: textBright,
+      labels: {
+        style: {
+          color: textBright
         }
-        Promise.resolve()
-      }
-
-
-
-      render();
-
-      setInterval(() => {
-        render();
-      }, 2000);
-
-  var textBright = "#bdbdbd"
-  var lineColor = "#000000"
-  var chart = new Highcharts.chart({
-      chart: {
-          renderTo: 'chart',
-          type: 'line',
-          zoomType: 'x',
-          backgroundColor: 'transparent',
-          plotBorderColor: 'transparent'
       },
+      lineColor: lineColor,
+      minorGridLineColor: '#bdbdbd',
+      tickColor: lineColor,
       title: {
-          text: ' '
+        style: {
+          color: textBright
+        }
+      }
+    },
+    yAxis: {
+      title: {
+        text: ''
       },
-      xAxis: {
-          type: 'datetime',
-          tickPixelInterval: 500,
-          gridLineColor: textBright,
-          labels: {
-              style: {
-                  color: textBright
-              }
-          },
-          lineColor: lineColor,
-          minorGridLineColor: '#bdbdbd',
-          tickColor: lineColor,
-          title: {
-              style: {
-                  color: textBright
-              }
-          }
+      gridLineColor: textBright,
+      labels: {
+        style: {
+          color: textBright
+        }
       },
-      yAxis: {
-          title: {
-              text: ''
-          },
-          gridLineColor: textBright,
-          labels: {
-              style: {
-                  color: textBright
-              }
-          },
-          lineColor: lineColor,
-          minorGridLineColor: '#bdbdbd',
-          tickColor: lineColor
+      lineColor: lineColor,
+      minorGridLineColor: '#bdbdbd',
+      tickColor: lineColor
+    },
+    credits: {
+      enabled: false
+    },
+    series: [{
+      showInLegend: false,
+      name: 'Subscribers',
+      marker: {
+        enabled: false
       },
-      credits: {
-          enabled: false
-      },
-
-      series: [{
-          showInLegend: false,
-          name: 'Subscribers',
-          marker: {
-              enabled: false
-          },
-          color: '#000000',
-          lineColor: '#FFFFFF'
-      }]
+      color: '#000000',
+      lineColor: '#FFFFFF'
+    }]
   });
 
   function footer() {
-        window.location.href = "./../"
-        }
+    window.location.href = "./../";
+  }
 </script>
