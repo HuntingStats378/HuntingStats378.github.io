@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart Data Editor</title>
+    <script src="https://cdn.jsdelivr.net/npm/highcharts"></script>
+    <style>
+        body {
+            background: #2e2e2e;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        textarea {
+            width: 90%;
+            height: 200px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        button {
+            background: #E65724;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #FF7643;
+        }
+        .chart-container {
+            width: 90%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chart Data Editor</h1>
+    <textarea id="dataInput"></textarea>
+    <button onclick="updateChart()">Update Chart</button>
+    <div class="chart-container" id="chartContainer"></div>
+
+    <script>
+        // Sample Data
+        const initialData = [
+            { x: 1735324569957, y: 3133655 },
+            { x: 1735324572057, y: 3133581 },
+            { x: 1735324574626, y: 3133738 },
+            { x: 1735324576069, y: 3133758 }
+        ];
+
+        // Initialize textarea with JSON data
+        const dataInput = document.getElementById('dataInput');
+        dataInput.value = JSON.stringify(initialData, null, 2);
+
+        // Initialize chart
+        let chart;
+        function initializeChart(data) {
+            chart = Highcharts.chart('chartContainer', {
+                chart: { type: 'line', backgroundColor: '#2e2e2e' },
+                title: { text: 'Chart Data', style: { color: '#FFFFFF' } },
+                xAxis: { type: 'datetime', title: { text: 'Time', style: { color: '#FFFFFF' } } },
+                yAxis: { title: { text: 'Value', style: { color: '#FFFFFF' } } },
+                series: [{
+                    name: 'Data Points',
+                    data: data.map(point => [point.x, point.y]),
+                    color: '#E65724'
+                }],
+                legend: { itemStyle: { color: '#FFFFFF' } }
+            });
+        }
+
+        // Update chart based on user input
+        function updateChart() {
+            try {
+                const newData = JSON.parse(dataInput.value);
+                if (Array.isArray(newData) && newData.every(point => 'x' in point && 'y' in point)) {
+                    chart.series[0].setData(newData.map(point => [point.x, point.y]), true);
+                } else {
+                    alert('Invalid data format. Ensure it is an array of objects with "x" and "y" properties.');
+                }
+            } catch (error) {
+                alert('Error parsing JSON. Please check your input format.');
+            }
+        }
+
+        // Initialize with initial data
+        initializeChart(initialData);
+    </script>
+</body>
+</html>
