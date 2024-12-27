@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Export Highcharts Data to CSV</title>
+</head>
+<body>
+  <h1>Highcharts Data Exporter</h1>
+  <p>Paste your Highcharts data below:</p>
+  <textarea id="data-input" rows="10" cols="50" placeholder="Paste Highcharts data here..."></textarea>
+  <br>
+  <button id="download-csv">Download CSV</button>
+
+  <script>
+    function parseInputData(input) {
+      try {
+        const parsedData = JSON.parse(input);
+        if (!Array.isArray(parsedData.data)) {
+          alert("Invalid data format. Ensure the input includes a 'data' array.");
+          return null;
+        }
+        return parsedData;
+      } catch (error) {
+        alert("Invalid JSON format. Please check your input.");
+        return null;
+      }
+    }
+
+    function convertToCSV(data) {
+      const csvRows = [["Timestamp", "Value"]]; // Header row
+      data.data.forEach(point => {
+        const date = new Date(point.x).toISOString(); // Convert timestamp to ISO format
+        csvRows.push([date, point.y]);
+      });
+      return csvRows.map(row => row.join(",")).join("\n");
+    }
+
+    function downloadCSV(filename, content) {
+      const blob = new Blob([content], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    document.getElementById("download-csv").addEventListener("click", () => {
+      const input = document.getElementById("data-input").value;
+      const chartData = parseInputData(input);
+      if (chartData) {
+        const csvContent = convertToCSV(chartData);
+        downloadCSV("highcharts-data.csv", csvContent);
+      }
+    });
+  </script>
+</body>
+</html>
