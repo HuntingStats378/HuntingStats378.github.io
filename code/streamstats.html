@@ -79,6 +79,8 @@
     }
 </style>
 <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get("id") || "No5WNt98gW0";
   odometers = Odometer.init();
     let opts = {
         animation: ['default', 'byDigit', 'count', 'minimal'][0],
@@ -95,31 +97,13 @@
     odometers[3].options = opts;
 
   setInterval(() => {
-  fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&fields=items/snippet/resourceId/videoId&order=date&maxResults=50&playlistId=UUlOyuxZvQkoHoIn15kNbkUw&key=AIzaSyAsBzwckdS_WfZVqTvlQC1KTLKtRKv2THQ`)
-            .then((res) => res.json())
-            .then((data) => {
-                let vidIds = data.items.map((video) => {
-                    return video.snippet.resourceId.videoId;
-                });
-
-                if (vidIds.length > 0) {
-                    fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,liveStreamingDetails,contentDetails&fields=items(id,snippet/publishedAt,liveStreamingDetails,contentDetails/duration)&id=${vidIds.join(",")}&key=AIzaSyAsBzwckdS_WfZVqTvlQC1KTLKtRKv2THQ`)
-                        .then((res) => res.json())
-                        .then((streams) => {
-
-                            let filteredVids = streams.items.filter(filteredVideo =>
-                                filteredVideo.liveStreamingDetails !== null ||
-                                filteredVideo.snippet.publishedAt !== filteredVideo.liveStreamingDetails?.actualStartTime
-                            );
-
-                            let latestVidID = filteredVids[0].id;
-                            fetch(`https://mixerno.space/api/youtube-stream-counter/user/${latestVidID}`)
+                            fetch(`https://mixerno.space/api/youtube-stream-counter/user/${id}`)
                                 .then((res) => res.json())
                                 .then((data) => {
                                     document.getElementById("watching").innerHTML = data.counts[0].count;
                                 });
                             
-                            fetch(`https://cors.stats100.xyz/https://studio.nia-statistics.com/api/video/${latestVidID}`)
+                            fetch(`https://cors.stats100.xyz/https://studio.nia-statistics.com/api/video/${id}`)
                                 .then((res) => res.json())
                                 .then((data) => {
                                     document.getElementById("impressions").innerHTML = data.counts[0].count;
@@ -127,7 +111,5 @@
                                     document.getElementById("likes").innerHTML = data.counts[3].count;
                                 });
                         });
-                }
-            });
   }, 10000);
 </script>
