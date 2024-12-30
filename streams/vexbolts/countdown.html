@@ -30,9 +30,11 @@
             minIntegerLen: 2,
         });
     }
+
+ const variable = "2024-12-31T04:59.00Z";
  
     function clock() {
-        const d = "2024-12-31T04:59.00Z" - new Date();
+        const d = (variable.getTime() - new Date())
         var tHour = d.getHours();
         var tMinute = d.getMinutes();
         var tSecond = d.getSeconds();
