@@ -3,44 +3,15 @@
 <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometerleading.js"></script>
  
 <body>
-  <span id="text">Time Until Unfollow Campaign</span><br>
-    <span id="hours" class="odometer">00</span><span>:</span><span id="minutes" class="odometer">00</span><span>:</span><span id="seconds" class="odometer">00</span>
+  <span id="text">Unfollow Campaign Starts 04:59</span><br>
 </body>
 <style>
     body {
         background-color: transparent;
-        font-size: 100px;
+        font-size: 30px;
         font-family: Roboto;
         text-align: right;
         font-weight: 700;
         color: white;
     }
-
-  #text {
-    font-size: 30px;
-  }
-  
 </style>
-<script>
-    const odometers = document.querySelectorAll(".odometer");
-    for (const odo of odometers) {
-        new Odometer({
-            el: odo,
-            format: "(,ddd)",
-            minIntegerLen: 2,
-        });
-    }
-
- const variable = "2024-12-31T04:59.00Z";
- 
-    function clock() {
-        const d = (variable.getTime() - new Date())
-        var tHour = d.getHours();
-        var tMinute = d.getMinutes();
-        var tSecond = d.getSeconds();
-        document.getElementById("hours").innerHTML = tHour;
-        document.getElementById("minutes").innerHTML = tMinute;
-        document.getElementById("seconds").innerHTML = tSecond;
-    }
-    setInterval(clock, 0);
-</script>
