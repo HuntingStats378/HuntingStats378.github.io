@@ -301,7 +301,7 @@
     odometers = Odometer.init();
     for (let i = 0; i < 40; i++) {
         odometers[i].options = {
-            animation: "byDigit",
+            animation: "minimal",
             downColor: "white",
             duration: 0.5 * 1000,
             removeLeadingZeros: true,
@@ -419,12 +419,12 @@ function padZero(number) {
                             if (countElement) countElement.innerHTML = timezone.timeUntil2025;  // Show the formatted countdown
                         } else {
                             // Timezone has already passed, update the second set of images
-                            let imageElement = document.getElementById(`image_${i + variable1}`);
-                            let nameElement = document.getElementById(`name_${i + variable1}`);
-                            let countElement = document.getElementById(`count_${i + variable1}`);
+                            let imageElement = document.getElementById(`image_${i}`);
+                            let nameElement = document.getElementById(`name_${i}`);
+                            let countElement = document.getElementById(`count_${i}`);
                             if (imageElement) imageElement.src = timezone.flags[i % timezone.flags.length];
                             if (nameElement) nameElement.textContent = timezone.offset;  // Show the offset (e.g., "UTC+08:00")
-                            if (countElement) countElement.innerHTML = timezone.timeUntil2025;  // Show the formatted countdown
+                            if (countElement) countElement.innerHTML = 0;  // Show the formatted countdown
                         }
                     }
                 }
