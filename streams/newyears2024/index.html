@@ -295,89 +295,11 @@
                 <div class="count odometer" id="count_39">0</div>
             </div>
         </div>
-        <div class="column_5 column">
-            <div class="card card_40" id="card_40">
-                <div class="num" id="num_40">41</div>
-                <img src="./blank.png" alt id="fire_40" class="fire">
-                <img src="./default.png" alt id="image_40" class="image">
-                <div class="name" id="name_40">Loading</div>
-                <div class="count odometer" id="count_40">0</div>
-            </div>
-            <div class="card card_41" id="card_41">
-                <div class="num" id="num_41">42</div>
-                <img src="./blank.png" alt id="fire_41" class="fire">
-                <img src="./default.png" alt id="image_41" class="image">
-                <div class="name" id="name_41">Loading</div>
-                <div class="count odometer" id="count_41">0</div>
-            </div>
-            <div class="card card_42" id="card_42">
-                <div class="num" id="num_42">43</div>
-                <img src="./blank.png" alt id="fire_42" class="fire">
-                <img src="./default.png" alt id="image_42" class="image">
-                <div class="name" id="name_42">Loading</div>
-                <div class="count odometer" id="count_42">0</div>
-            </div>
-            <div class="card card_43" id="card_43">
-                <div class="num" id="num_43">44</div>
-                <img src="./blank.png" alt id="fire_43" class="fire">
-                <img src="./default.png" alt id="image_43" class="image">
-                <div class="name" id="name_43">Loading</div>
-                <div class="count odometer" id="count_43">0</div>
-            </div>
-            <div class="card card_44" id="card_44">
-                <div class="num" id="num_44">45</div>
-                <img src="./blank.png" alt id="fire_44" class="fire">
-                <img src="./default.png" alt id="image_44" class="image">
-                <div class="name" id="name_44">Loading</div>
-                <div class="count odometer" id="count_44">0</div>
-            </div>
-            <div class="card card_45" id="card_45">
-                <div class="num" id="num_45">46</div>
-                <img src="./blank.png" alt id="fire_45" class="fire">
-                <img src="./default.png" alt id="image_45" class="image">
-                <div class="name" id="name_45">Loading</div>
-                <div class="count odometer" id="count_45">0</div>
-            </div>
-            <div class="card card_46" id="card_46">
-                <div class="num" id="num_46">47</div>
-                <img src="./blank.png" alt id="fire_46" class="fire">
-                <img src="./default.png" alt id="image_46" class="image">
-                <div class="name" id="name_46">Loading</div>
-                <div class="count odometer" id="count_46">0</div>
-            </div>
-            <div class="card card_47" id="card_47">
-                <div class="num" id="num_47">48</div>
-                <img src="./blank.png" alt id="fire_47" class="fire">
-                <img src="./default.png" alt id="image_47" class="image">
-                <div class="name" id="name_47">Loading</div>
-                <div class="count odometer" id="count_47">0</div>
-            </div>
-            <div class="card card_48" id="card_48">
-                <div class="num" id="num_48">49</div>
-                <img src="./blank.png" alt id="fire_48" class="fire">
-                <img src="./default.png" alt id="image_48" class="image">
-                <div class="name" id="name_48">Loading</div>
-                <div class="count odometer" id="count_48">0</div>
-            </div>
-            <div class="card card_49" id="card_49">
-                <div class="num" id="num_49">50</div>
-                <img src="./blank.png" alt id="fire_49" class="fire">
-                <img src="./default.png" alt id="image_49" class="image">
-                <div class="name" id="name_49">Loading</div>
-                <div class="count odometer" id="count_49">0</div>
-            </div>
-        </div>
     </div>
 </body>
 <script>
-    var channelsIds = [];
-    var channels = [];
-    var averages = {};
-    let sortedChannels = [];
-    let sortedAverages = [];
-
     odometers = Odometer.init();
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 40; i++) {
         odometers[i].options = {
             animation: "byDigit",
             downColor: "white",
@@ -389,30 +311,129 @@
         }
     }
 
+function padZero(number) {
+    return String(number).padStart(2, '0');
+}
+
     setInterval(() => {
-        fetch(`https://corsproxy.io/?https://www.noxinfluencer.com/ws/mobile/channel?pageSize=100&rankSize=100`)
+        fetch(`./timezones.json`)
             .then((res) => res.json())
             .then((data) => {
-                for (let i = 0; i < data.retDataList.length; i++) {
-                    channelsIds[i] = data.retDataList[i].id;
+                let timezones = [];
+                const currentDate = new Date();
+                console.log("Current Date: ", currentDate);
 
-                channels[i] = {
-                    name: data.snippet.title,
-                    avatar: data.snippet.thumbnails.high.url,
-                    count: data.estSubCount_linear
-                };
+                // Calculate the count for each timezone and the time until 2025
+                for (let i = 0; i < data.timezones.length; i++) {
+                    let timezone = data.timezones[i];
+
+                    if (!timezone || !timezone.timezone || !timezone.flags || !Array.isArray(timezone.flags)) {
+                        console.warn(`Skipping invalid timezone at index ${i}:`, timezone);
+                        continue; // Skip invalid entries
+                    }
+
+                    // Parse the timezone offset (e.g., "UTC+05:30")
+                    let offsetStr = timezone.timezone; // Full timezone string like "UTC+05:30" or "UTC-03:00"
+                    let sign = offsetStr.charAt(3) === '-' ? -1 : 1; // Determine if it's positive or negative offset
+                    let offsetParts = offsetStr.slice(4).split(":"); // Get the hour and minute parts
+                    let offsetHours = parseInt(offsetParts[0]) || 0; // Default to 0 if not provided
+                    let offsetMinutes = parseInt(offsetParts[1]) || 0; // Default to 0 if not provided
+
+                    let totalOffsetMinutes = sign * (offsetHours * 60 + offsetMinutes); // Convert to total minutes
+
+                    if (isNaN(totalOffsetMinutes)) {
+                        console.warn(`Invalid offset at index ${i}:`, timezone.timezone);
+                        continue;
+                    }
+
+                    // Target date in UTC
+                    let targetDate = new Date("2025-01-01T00:00:00Z"); // Set target date to Jan 1, 2025 in UTC
+                    targetDate.setMinutes(targetDate.getMinutes() - totalOffsetMinutes); // Adjust the target date by the offset in minutes
+
+                    // Log the calculation of target date and offset
+                    console.log(`Timezone: ${timezone.timezone}, Offset in minutes: ${totalOffsetMinutes}, Target Date Adjusted: ${targetDate}`);
+
+                    // Calculate the time difference in milliseconds
+                    let timeDiff = targetDate - currentDate;
+
+                    // Log the time difference for debugging
+                    console.log(`Time Diff for ${timezone.timezone}: ${timeDiff} milliseconds`);
+
+                    // Ensure timeDiff is valid
+                    if (isNaN(timeDiff)) {
+                        console.warn(`Invalid time difference for timezone ${timezone.timezone}`);
+                        continue;
+                    }
+
+                    // Manually calculate the days, hours, minutes, and seconds
+                    let daysUntil2025 = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                    let hoursUntil2025 = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    let minutesUntil2025 = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                    let secondsUntil2025 = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+                    // Log the calculated breakdown
+                    console.log(`Days: ${daysUntil2025}, Hours: ${hoursUntil2025}, Minutes: ${minutesUntil2025}, Seconds: ${secondsUntil2025}`);
+
+                    // Format the countdown as "DDHHMMSS" (Days, Hours, Minutes, Seconds)
+                    let timeLeft = `${padZero(daysUntil2025)}${padZero(hoursUntil2025)}${padZero(minutesUntil2025)}${padZero(secondsUntil2025)}`;
+                    console.log(`Formatted Countdown for ${timezone.timezone}: ${timeLeft}`);
+
+                    // Store the valid data for each timezone
+                    timezones[i] = {
+                        offset: timezone.timezone,  // Store the offset in "UTC+X" format
+                        flags: timezone.flags.map(flag => flag.flag_url), // Assuming flags contains URLs
+                        count: totalOffsetMinutes,
+                        timeUntil2025: timeLeft,  // Time remaining until 2025 in the "DDHHMMSS" format
+                        timeDiff: timeDiff  // Save the time difference to categorize passed/not passed
+                    };
                 }
-            });
 
-        sortedChannels = [...channels].sort((a, b) => a.count - b.count);
-        console.log(channelsIds);
-        console.log(sortedChannels);
-        for (let i = 0; i < 50; i++) {
-            document.getElementById(`image_${i}`).src = sortedChannels[i].avatar;
-            document.getElementById(`name_${i}`).textContent = sortedChannels[i].name;
-            document.getElementById(`count_${i}`).innerHTML = sortedChannels[i].count;
-        }
+                // Filter out invalid entries
+                timezones = timezones.filter(tz => tz && tz.timeDiff !== undefined);
+                console.log("Valid Timezones: ", timezones);
+
+                // Sort timezones by timeDiff (earliest time first)
+                timezones.sort((a, b) => a.timeDiff - b.timeDiff);  // Fix sorting by time difference
+                console.log("Sorted Timezones: ", timezones);
+
+                // Categorize timezones into passed and not passed
+                let passedTimezones = timezones.filter(tz => tz.timeDiff < 0); // Timezones that have already passed
+                let notPassedTimezones = timezones.filter(tz => tz.timeDiff >= 0); // Timezones that haven't passed yet
+                console.log("Passed Timezones: ", passedTimezones);
+                console.log("Not Passed Timezones: ", notPassedTimezones);
+
+                let variable1 = notPassedTimezones.length; // Timezones with time remaining until 2025
+                let variable2 = passedTimezones.length;    // Timezones that have already passed
+
+                // Update UI with sorted timezones and alternating flags
+                for (let i = 0; i < 40; i++) {
+                    let timezone = timezones[i];
+                    if (timezone) {  // Check if timezone is valid
+                        if (timezone.timeDiff >= 0) {
+                            // Timezone hasn't passed yet, update the first set of images
+                            let imageElement = document.getElementById(`image_${i}`);
+                            let nameElement = document.getElementById(`name_${i}`);
+                            let countElement = document.getElementById(`count_${i}`);
+                            if (imageElement) imageElement.src = timezone.flags[i % timezone.flags.length];
+                            if (nameElement) nameElement.textContent = timezone.offset;  // Show the offset (e.g., "UTC+08:00")
+                            if (countElement) countElement.innerHTML = timezone.timeUntil2025;  // Show the formatted countdown
+                        } else {
+                            // Timezone has already passed, update the second set of images
+                            let imageElement = document.getElementById(`image_${i + variable1}`);
+                            let nameElement = document.getElementById(`name_${i + variable1}`);
+                            let countElement = document.getElementById(`count_${i + variable1}`);
+                            if (imageElement) imageElement.src = timezone.flags[i % timezone.flags.length];
+                            if (nameElement) nameElement.textContent = timezone.offset;  // Show the offset (e.g., "UTC+08:00")
+                            if (countElement) countElement.innerHTML = timezone.timeUntil2025;  // Show the formatted countdown
+                        }
+                    }
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching or parsing timezones:", error);
+            });
     }, 1000);
+
 </script>
 
 </html>
