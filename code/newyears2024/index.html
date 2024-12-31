@@ -311,6 +311,10 @@
         }
     }
 
+function padZero(number) {
+    return String(number).padStart(2, '0');
+}
+
     setInterval(() => {
         fetch(`./timezones.json`)
             .then((res) => res.json())
@@ -371,7 +375,7 @@
                     console.log(`Days: ${daysUntil2025}, Hours: ${hoursUntil2025}, Minutes: ${minutesUntil2025}, Seconds: ${secondsUntil2025}`);
 
                     // Format the countdown as "DDHHMMSS" (Days, Hours, Minutes, Seconds)
-                    let timeLeft = `${daysUntil2025}${hoursUntil2025}${minutesUntil2025}${secondsUntil2025}`;
+                    let timeLeft = `${padZero(daysUntil2025)}${padZero(hoursUntil2025)}${padZero(minutesUntil2025)}${padZero(secondsUntil2025)}`;
                     console.log(`Formatted Countdown for ${timezone.timezone}: ${timeLeft}`);
 
                     // Store the valid data for each timezone
