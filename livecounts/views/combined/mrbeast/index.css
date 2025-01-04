@@ -1,0 +1,36 @@
+body {
+    background-color: black;
+    font-family: Lato, Arial, Helvetica, sans-serif;
+    color: #FFF;
+}
+
+a {
+    color: #FFF;
+    text-decoration: none;
+}
+
+h1 {
+    background-color: #141414;
+    border: solid #E65724;
+    font-size: 2vw;
+}
+
+div {
+    border: dashed #E65724 0.1vw;
+    width: 100%;
+}
+
+.options {
+    width: 100%;
+    text-align: center;
+    display: flex;
+}
+
+button {
+    font-size: 1.8vw;
+    width: 100%;
+}
+
+.title {
+   font-size: 4vw; 
+}

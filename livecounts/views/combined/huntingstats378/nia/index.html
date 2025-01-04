@@ -1,0 +1,129 @@
+<html>
+<head>
+    <title>HuntingStats378 - MY Combined Views</title>
+    <link href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css" rel="stylesheet">
+    <link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+    <meta charSet="utf-8" />
+    <meta name="description" content="HuntingStats378 - Subscribers" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+</head>
+
+<body style="font-family: Roboto; color: var(--fg-color, #fff); background-color: var(--bg-color, #E7541E);">
+    <div style="height: auto; display: grid; grid-template-columns: repeat(1, 1fr); gap: 10px;">
+        <div style="padding: 0px 4px; text-align: center; background-color: var(--counter-bg-color, black);">
+            <img style="filter: blur(4px); border-radius: 15px; object-fit: cover; width: 100%; height: 150px; position: relative;" src="https://www.banner.yt/UClOyuxZvQkoHoIn15kNbkUw">
+            <img style="width: 125px; height: 125px; border-radius: 50%; margin-top: -5em; position: relative;" src="https://yt3.ggpht.com/zZa5_LIZoT_2TqhiNdterb2GFv7oZEI7QcgAJeLeD7_4aHVJZ1VZXciJ_ouplogGy_x-T6VrYw=s176-c-k-c0x00ffffff-no-rj">
+            <h2 style="margin-top: 1px; font-size: var(--title-font-size, 4.5vh)">HuntingStats378 Combined</h2>
+            <h2 id="views" style="margin-top: -20px; font-size: var(--counter-font-size, 8vh)" class="odometer">0</h2>
+            <h5 onclick="footer()" style="margin-top: -40px;">Views (YT Studio)</h5>
+        </div>
+    </div>
+  <div id="chart" class="chart" style="background-color: black;"></div>
+  </body>
+<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script><script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/highstock.js"></script>
+<script>
+  var Channels = [
+      "UCVfKmfOY5SWfx_rt51oG92Q", // HuntingStats378-Random
+      "UClOyuxZvQkoHoIn15kNbkUw", // HuntingStats378
+      "UCkK1Ayp6kGd6FXpLCYT26WA", // HuntingPuma378
+    "UCC3LpbQS5GO8c1rtvXPurGA", // HuntingPuma378-Random
+    ];
+      var number = 0;
+      var work = [];
+      var maxPoints = 3600;
+
+      async function render() {
+        await datas();
+        number = work.reduce(function (a, b) {
+          return a + b;
+        }, 0);
+        views.innerHTML = number;
+        if (chart.series[0].points.length == maxPoints) chart.series[0].data[0].remove();
+        chart.series[0].addPoint([Date.now(), number])
+      }
+
+      async function datas() {
+        for (let i = 0; i < Channels.length; i++) {
+  await fetch(`https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${Channels[i]}`)
+            .then((res) => res.json())
+            .then((data) => {
+              work[i] = data.channels.counts[1].count;
+
+            });
+        }
+        Promise.resolve()
+      }
+
+
+
+      render();
+
+      setInterval(() => {
+        render();
+      }, 2000);
+
+  var textBright = "#bdbdbd"
+  var lineColor = "#000000"
+  var chart = new Highcharts.chart({
+      chart: {
+          renderTo: 'chart',
+          type: 'line',
+          zoomType: 'x',
+          backgroundColor: 'transparent',
+          plotBorderColor: 'transparent'
+      },
+      title: {
+          text: ' '
+      },
+      xAxis: {
+          type: 'datetime',
+          tickPixelInterval: 500,
+          gridLineColor: textBright,
+          labels: {
+              style: {
+                  color: textBright
+              }
+          },
+          lineColor: lineColor,
+          minorGridLineColor: '#bdbdbd',
+          tickColor: lineColor,
+          title: {
+              style: {
+                  color: textBright
+              }
+          }
+      },
+      yAxis: {
+          title: {
+              text: ''
+          },
+          gridLineColor: textBright,
+          labels: {
+              style: {
+                  color: textBright
+              }
+          },
+          lineColor: lineColor,
+          minorGridLineColor: '#bdbdbd',
+          tickColor: lineColor
+      },
+      credits: {
+          enabled: false
+      },
+
+      series: [{
+          showInLegend: false,
+          name: 'Subscribers',
+          marker: {
+              enabled: false
+          },
+          color: '#000000',
+          lineColor: '#FFFFFF'
+      }]
+  });
+
+  function footer() {
+        window.location.href = "./../"
+        }
+</script>
