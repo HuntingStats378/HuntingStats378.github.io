@@ -5,7 +5,7 @@
 <link href="https://lcedit.com/odometer/odometer.css" rel="stylesheet">
 <script src="https://lcedit.com/odometer/odometer.js"></script>
 
-<body style="background-color: transparent; color: white;">
+<body style="background-color: black; color: white;">
     <div class="main" id="main" style="margin-top: 7.5px; display: grid; grid-template-columns: repeat(5, 1fr);">
         <div class="column_1 column">
             <div class="card card_0" id="card_0">
@@ -347,7 +347,7 @@ function padZero(number) {
                     }
 
                     // Target date in UTC
-                    let targetDate = new Date("2025-01-01T00:00:00Z"); // Set target date to Jan 1, 2025 in UTC
+                    let targetDate = new Date("2026-01-01T00:00:00Z"); // Set target date to Jan 1, 2026 in UTC
                     targetDate.setMinutes(targetDate.getMinutes() - totalOffsetMinutes); // Adjust the target date by the offset in minutes
 
                     // Log the calculation of target date and offset
