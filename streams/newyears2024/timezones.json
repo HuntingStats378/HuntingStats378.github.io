@@ -14,7 +14,7 @@
       {"timezone": "UTC-03:00", "names": ["Argentina Time"], "flags": [{"country": "Argentina", "flag_url": "https://flagicons.lipis.dev/flags/1x1/ar.svg"}]},
       {"timezone": "UTC-02:00", "names": ["South Georgia Time"], "flags": [{"country": "South Georgia", "flag_url": "https://flagicons.lipis.dev/flags/1x1/gs.svg"}]},
       {"timezone": "UTC-01:00", "names": ["Azores Time"], "flags": [{"country": "Portugal (Azores)", "flag_url": "https://flagicons.lipis.dev/flags/1x1/pt.svg"}]},
-      {"timezone": "UTC±00:00", "names": ["Coordinated Universal Time"], "flags": [{"country": "United Kingdom", "flag_url": "https://flagicons.lipis.dev/flags/1x1/gb.svg"}]},
+      {"timezone": "UTC+00:00", "names": ["Coordinated Universal Time"], "flags": [{"country": "United Kingdom", "flag_url": "https://flagicons.lipis.dev/flags/1x1/gb.svg"}]},
       {"timezone": "UTC+01:00", "names": ["Central European Time"], "flags": [{"country": "France", "flag_url": "https://flagicons.lipis.dev/flags/1x1/fr.svg"}]},
       {"timezone": "UTC+02:00", "names": ["Eastern European Time"], "flags": [{"country": "Greece", "flag_url": "https://flagicons.lipis.dev/flags/1x1/gr.svg"}]},
       {"timezone": "UTC+03:00", "names": ["Moscow Standard Time"], "flags": [{"country": "Russia", "flag_url": "https://flagicons.lipis.dev/flags/1x1/ru.svg"}]},
