@@ -54,7 +54,8 @@ for (const [key, value] of urlParams.entries()) {
 var bg = urlParams.get("background") || "black";
 var fc = urlParams.get("fontcolor") || "white";
 var fa = urlParams.get("fontalign") || "center";
-var id = urlParams.get("id") || "UClOyuxZvQkoHoIn15kNbkUw";
+var id1 = urlParams.get("id1") || "UClOyuxZvQkoHoIn15kNbkUw";
+var id2 = urlParams.get("id2") || "UCVfKmfOY5SWfx_rt51oG92Q";
 var font = urlParams.get("font") || "Roboto";
 var sizee = urlParams.get("size") || "50";
 var fw = urlParams.get("fontweight") || "400";
@@ -123,38 +124,49 @@ document.getElementById("count").innerHTML = parseInt(hours + minutes + seconds)
         upColor: up
 }
 if (studio == true) {
-    fetch(`https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${id}`)
+    fetch(`https://cors.stats100.xyz/https://studio.nia-statistics.com/api/channel/${id1}`)
         .then((res) => res.json())
-        .then((data) => {
-            count = goal - data.channels.counts[counter].count;
+        .then((data1) => {
+            fetch(`https://cors.stats100.xyz/https://studio.nia-statistics.com/api/channel/${id2}`)
+        .then((res) => res.json())
+        .then((data2) => {
+            count = goal - (data1.channels.counts[counter].count - data2.channels.counts[counter].count);
             if (count < 0) {
             document.getElementById("count").innerHTML = Math.abs(count);
             } else
             document.getElementById("count").innerHTML = count;
+        });
         });
 }
 if (est === 0) {
-    fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
+    fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id1}`)
         .then((res) => res.json())
-        .then((data) => {
-            count = goal - data.counts[counter].count;
+        .then((data1) => {
+            fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id2}`)
+        .then((res) => res.json())
+        .then((data2) => {
+            count = goal - (data1.counts[counter].count - data2.counts[counter].count);
             if (count < 0) {
             document.getElementById("count").innerHTML = Math.abs(count);
             } else
             document.getElementById("count").innerHTML = count;
+        });
         });
 }
 if (est === 1) {
-    fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
+    fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id1}`)
         .then((res) => res.json())
-        .then((data) => {
-            count = goal - data.counts[counter].count;
+        .then((data1) => {
+            fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id2}`)
+        .then((res) => res.json())
+        .then((data2) => {
+            count = goal - (data1.counts[counter].count - data2.counts[counter].count);
             if (count < 0) {
             document.getElementById("count").innerHTML = Math.abs(count);
             } else
             document.getElementById("count").innerHTML = count;
         });
-}
+        });
 }
 }, 2000);
 
