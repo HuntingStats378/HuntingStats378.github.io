@@ -134,7 +134,7 @@ if (studio == true) {
         });
 }
 if (est === 0) {
-    fetch(`https://backend.mixerno.space/api/youtube/estv3/${id}`)
+    fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
         .then((res) => res.json())
         .then((data) => {
             count = goal - data.counts[counter].count;
@@ -145,7 +145,7 @@ if (est === 0) {
         });
 }
 if (est === 1) {
-    fetch(`https://backend.mixerno.space/api/youtube/estv3/${id}`)
+    fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
         .then((res) => res.json())
         .then((data) => {
             count = goal - data.counts[counter].count;
