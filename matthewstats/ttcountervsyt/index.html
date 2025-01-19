@@ -66,7 +66,7 @@
                 )
                 .then((res) => res.json())
                 .then((data) => {
-                    document.getElementById("banner1").src = `https://banner.yt/${id1}`;
+                    document.getElementById("banner1").src = `https://banner.tf/${id1}`;
                     document.getElementById("image1").src = data.snippet.thumbnails.high.url;
                     document.getElementById("name1").textContent = data.snippet.title;
                 });
@@ -78,7 +78,7 @@
                             )
                             .then((res) => res.json())
                             .then((data) => {
-                                document.getElementById("banner1").src = `https://banner.yt/${id1}`;
+                                document.getElementById("banner1").src = `https://banner.tf/${id1}`;
                                 document.getElementById("image1").src = data.snippet.thumbnails.high.url;
                                 document.getElementById("name1").textContent = data.snippet.title;
                                 document.getElementById("subs1").innerHTML = data.estSubCount;
@@ -95,7 +95,7 @@
                             )
                             .then((res) => res.json())
                             .then((data) => {
-                                document.getElementById("banner1").src = `https://banner.yt/${id1}`;
+                                document.getElementById("banner1").src = `https://banner.tf/${id1}`;
                                 document.getElementById("image1").src = data.currentChannels.image;
                                 document.getElementById("name1").textContent = data.currentChannels.name;
                                 document.getElementById("subs1").innerHTML = data.channels.counts[2].count;
