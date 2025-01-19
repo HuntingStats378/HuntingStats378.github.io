@@ -1,1 +1,183 @@
+<link id="font" href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+<link rel=stylesheet href="https://lcedit.com/odometer/odometer.css">
+<script src="https://lcedit.com/odometer/odometer.js"></script>
 
+<body>
+    <span id="count" class="odometer">0</span>
+</body>
+<style>
+    body {
+        background-color: var(--backcolor);
+        font-size: var(--size);
+        font-family: var(--font);
+        text-align: var(--fontalign);
+        font-weight: var(--fontweight);
+        color: var(--fontcolor);
+    }
+
+    html {
+        --backcolor: black;
+        --fontcolor: white;
+        --size: 50px;
+        --fontalign: center;
+        --fontweight: 400;
+        --font: Roboto;
+    }
+
+
+    #count {
+        font-size: var(--size);
+        font-family: var(--font);
+        text-align: var(--fontalign);
+        color: var(--fontcolor);
+    }
+</style>
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const params = {};
+const odometers = Odometer.init();
+
+// Convert URL parameters to the `params` object with number and boolean parsing
+for (const [key, value] of urlParams.entries()) {
+    if (value.toLowerCase() === "true") {
+        params[key] = true;  // Convert "true" string to boolean true
+    } else if (value.toLowerCase() === "false") {
+        params[key] = false;  // Convert "false" string to boolean false
+    } else if (!isNaN(value) && value.trim() !== '') {
+        params[key] = parseFloat(value);  // Convert numeric values
+    } else {
+        params[key] = value;  // Keep other string values as they are
+    }
+}
+
+// Fetch the values directly from `urlParams` using `.get()`
+var bg = urlParams.get("background") || "black";
+var fc = urlParams.get("fontcolor") || "white";
+var fa = urlParams.get("fontalign") || "center";
+var id1 = urlParams.get("id1") || "UClOyuxZvQkoHoIn15kNbkUw";
+var id2 = urlParams.get("id2") || "UCVfKmfOY5SWfx_rt51oG92Q";
+var font = urlParams.get("font") || "Roboto";
+var sizee = urlParams.get("size") || "50";
+var fw = urlParams.get("fontweight") || "400";
+var counter = urlParams.get("counter") || 0;
+var studio = urlParams.get("studio") || false;
+var animation = urlParams.get("animation") || 0;
+var est = urlParams.get("est") || 0;
+var up = urlParams.get("up") || fc;
+var down = urlParams.get("down") || fc;
+var format = urlParams.get("format") || 0;
+var clock = urlParams.get("clock") || false;
+var duration = urlParams.get("duration") || 2;
+var goal = urlParams.get("goal") || 0;
+
+// Validate and handle font size
+function validateSize(input) {
+    let size = Number(input);
+    return (isNaN(size) || size < 1) ? 50 : size;
+}
+
+let userInput = sizee; // Replace with actual user input
+let size = validateSize(userInput);
+
+function durationNumber(num) {
+    // Convert the number to a string
+    let numStr = num.toString();
+    
+    // Check if the number starts with '0'
+    if (numStr.startsWith('0')) {
+        // Insert the decimal point after the first '0'
+        return parseFloat('0.' + numStr.slice(1));
+    }
+    
+    // If the number doesn't start with '0', return the number as it is
+    return num;
+}
+
+setInterval(() => {
+if (clock == true) {
+    odometers[0].options = {
+        animation: ['default','byDigit','count', 'minimal'][animation],
+        downColor: down,
+        duration: durationNumber(duration) * 1000,
+        removeLeadingZeros: true,
+        reverseAnimation: false,
+        format: [',ddd','ddd',' ddd',':dd'][3],
+        upColor: up
+}
+
+const now = new Date();
+const hours = now.getHours().toString().padStart(2, '0');
+const minutes = now.getMinutes().toString().padStart(2, '0');
+const seconds = now.getSeconds().toString().padStart(2, '0');
+
+// Concatenate time parts and convert to a number
+document.getElementById("count").innerHTML = parseInt(hours + minutes + seconds);
+} else {
+    odometers[0].options = {
+        animation: ['default','byDigit','count', 'minimal'][animation],
+        downColor: down,
+        duration: durationNumber(duration) * 1000,
+        removeLeadingZeros: true,
+        reverseAnimation: false,
+        format: [',ddd','ddd',' ddd',':dd'][format],
+        upColor: up
+}
+if (studio == true) {
+    fetch(`https://cors.stats100.xyz/https://studio.nia-statistics.com/api/channel/${id1}`)
+        .then((res) => res.json())
+        .then((data1) => {
+            fetch(`https://cors.stats100.xyz/https://studio.nia-statistics.com/api/channel/${id2}`)
+        .then((res) => res.json())
+        .then((data2) => {
+            count = goal - (data1.channels.counts[counter].count - data2.channels.counts[counter].count);
+            if (count < 0) {
+            document.getElementById("count").innerHTML = Math.abs(count);
+            } else
+            document.getElementById("count").innerHTML = count;
+        });
+        });
+}
+if (est === 0) {
+    fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id1}`)
+        .then((res) => res.json())
+        .then((data1) => {
+            fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id2}`)
+        .then((res) => res.json())
+        .then((data2) => {
+            count = goal - (data1.counts[counter].count - data2.counts[counter].count);
+            if (count < 0) {
+            document.getElementById("count").innerHTML = Math.abs(count);
+            } else
+            document.getElementById("count").innerHTML = count;
+        });
+        });
+}
+if (est === 1) {
+    fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id1}`)
+        .then((res) => res.json())
+        .then((data1) => {
+            fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id2}`)
+        .then((res) => res.json())
+        .then((data2) => {
+            count = goal - (data1.counts[counter].count - data2.counts[counter].count);
+            if (count < 0) {
+            document.getElementById("count").innerHTML = Math.abs(count);
+            } else
+            document.getElementById("count").innerHTML = count;
+        });
+        });
+}
+}, 2000);
+
+// Apply styles using the fetched parameters
+document.documentElement.style.setProperty('--backcolor', bg);
+document.documentElement.style.setProperty('--fontcolor', fc);
+document.documentElement.style.setProperty('--fontalign', fa);
+document.documentElement.style.setProperty('--fontweight', fw);
+document.documentElement.style.setProperty('--size', size + "px");
+document.documentElement.style.setProperty('--font', font);
+
+// Dynamically load Google Font
+document.getElementById("font").href = "https://fonts.googleapis.com/css?family=" + font + ":100,200,300,400,500,600,700,800&display=swap";
+
+</script>
