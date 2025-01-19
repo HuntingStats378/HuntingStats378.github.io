@@ -141,10 +141,10 @@ if (est === 0) {
     fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id1}`)
         .then((res) => res.json())
         .then((data1) => {
-            fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id2}`)
+            fetch(`https://countik.com/api/userinfo?sec_user_id=${id2}`)
         .then((res) => res.json())
         .then((data2) => {
-            count = goal - (data1.counts[counter].count - data2.counts[counter].count);
+            count = goal - (data1.counts[counter].count - data2.followerCount);
             if (count < 0) {
             document.getElementById("count").innerHTML = Math.abs(count);
             } else
