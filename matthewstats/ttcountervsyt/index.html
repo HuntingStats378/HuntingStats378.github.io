@@ -62,7 +62,7 @@
                     });
 
                 fetch(
-                    `https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id1}`
+                    `https://axern.space/api/get?platform=youtube&type=channel&id=${id1}`
                 )
                 .then((res) => res.json())
                 .then((data) => {
@@ -74,15 +74,15 @@
     setInterval(() => {
         if (status1 == false) {
                         fetch(
-                                `https://mixerno.space/api/youtube-channel-counter/user/${id1}`
+                                `https://axern.space/api/get?platform=youtube&type=channel&id=${id1}`
                             )
                             .then((res) => res.json())
                             .then((data) => {
                                 document.getElementById("banner1").src = `https://banner.yt/${id1}`;
-                                document.getElementById("image1").src = data.user[1].count;
-                                document.getElementById("name1").textContent = data.user[0].count;
-                                document.getElementById("subs1").innerHTML = data.counts[0].count;
-                                subs1 = data.counts[0].count;
+                                document.getElementById("image1").src = data.snippet.thumbnails.high.url;
+                                document.getElementById("name1").textContent = data.snippet.title;
+                                document.getElementById("subs1").innerHTML = data.estSubCount;
+                                subs1 = data.estSubCount;
                                 if (id1 == "UCX6OQ3DkcsbYNE6H8uQQuVA") {
                                 document.getElementById("footer1").textContent = "Subscribers (YT Studio)";
                                 } else {
