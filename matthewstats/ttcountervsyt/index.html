@@ -1,0 +1,140 @@
+<html>
+<head>
+    <title>HuntingStats378 - Compare</title>
+    <link href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css" rel="stylesheet">
+    <link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+    <meta charSet="utf-8" />
+    <meta name="description" content="HuntingStats378 - Compare" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+</head>
+<body style="font-family: Roboto; color: var(--fg-color, #fff); background-color: var(--bg-color, #E7541E);">
+    <div style="height: auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+        <div style="padding: 0px 4px; text-align: center; background-color: var(--counter-bg-color, black);">
+            <img id="banner1" style="filter: blur(4px); border-radius: 15px; object-fit: cover; width: 100%; height: 150px; position: relative;" src="https://huntingstats378.github.io/HuntingStats378/main/images/default_banner.png">
+            <img id="image1" style="width: 125px; height: 125px; border-radius: 50%; margin-top: -5em; position: relative;" src="https://huntingstats378.github.io/HuntingStats378/main/images/default.png">
+            <h2 id="name1" onclick="search1()" style="margin-top: 1px; font-size: var(--title-font-size, 4.5vh)">Loading</h2>
+            <h2 id="subs1" style="margin-top: -20px; font-size: var(--counter-font-size, 8vh)" class="odometer">0</h2>
+            <h5 id="footer1" style="margin-top: -40px;">Subscribers (Loading)</h5>
+        </div>
+        <div style="height: auto; padding: 0px 4px; text-align: center; background-color: var(--counter-bg-color, black);">
+            <img id="banner2" style="filter: blur(4px); border-radius: 15px; object-fit: cover; width: 100%; height: 150px; position: relative;" src="https://huntingstats378.github.io/HuntingStats378/main/images/default_banner.png">
+            <img id="image2" style="width: 125px; height: 125px; border-radius: 50%; margin-top: -5em; position: relative;" src="https://huntingstats378.github.io/HuntingStats378/main/images/default.png">
+            <h2 id="name2" onclick="search2()" style="margin-top: 1px; font-size: var(--title-font-size, 4.5vh)">Loading</h2>
+            <h2 id="subs2" style="margin-top: -20px; font-size: var(--counter-font-size, 8vh)" class="odometer">0</h2>
+            <h5 id="footer2" style="margin-top: -40px;">Followers (Instagram)</h5>
+        </div>
+    </div>
+    <center>
+        <div style="width: 100%; height: 100px; background-color: var(--counter-bg-color, black); border-radius: 20px;">
+            <h1>Gap:</h1>
+            <h1 id="gap" class="odometer" style="margin-top: -15px">0</h1>
+        </div>
+    </center>
+<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+<script>
+  const searchParams1 = new URLSearchParams(window.location.search);
+  const id1 = searchParams1.get("id1") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
+  const searchParams2 = new URLSearchParams(window.location.search);
+  const id2 = searchParams2.get("id2") || "kendalljenner";
+  let status1
+        let status2
+        let subs1
+        let subs2
+
+                fetch(
+                    `https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${id1}`
+                )
+                .then((res) => res.json())
+                .then((data) => {
+                    status1 = data.success;
+                    });
+
+                fetch(
+                    `https://nia-statistics.com/api/get?platform=youtube&type=channel&id=${id1}`
+                )
+                .then((res) => res.json())
+                .then((data) => {
+                    document.getElementById("banner1").src = `https://banner.yt/${id1}`;
+                    document.getElementById("image1").src = data.snippet.thumbnails.high.url;
+                    document.getElementById("name1").textContent = data.snippet.title;
+                });
+
+    setInterval(() => {
+        if (status1 == false) {
+                        fetch(
+                                `https://mixerno.space/api/youtube-channel-counter/user/${id1}`
+                            )
+                            .then((res) => res.json())
+                            .then((data) => {
+                                document.getElementById("banner1").src = `https://banner.yt/${id1}`;
+                                document.getElementById("image1").src = data.user[1].count;
+                                document.getElementById("name1").textContent = data.user[0].count;
+                                document.getElementById("subs1").innerHTML = data.counts[0].count;
+                                subs1 = data.counts[0].count;
+                                if (id1 == "UCX6OQ3DkcsbYNE6H8uQQuVA") {
+                                document.getElementById("footer1").textContent = "Subscribers (YT Studio)";
+                                } else {
+                                document.getElementById("footer1").textContent = "Subscribers (Estimated)";
+                                }
+                            });
+                } else { 
+                        fetch(
+                                `https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${id1}`
+                            )
+                            .then((res) => res.json())
+                            .then((data) => {
+                                document.getElementById("banner1").src = `https://banner.yt/${id1}`;
+                                document.getElementById("image1").src = data.currentChannels.image;
+                                document.getElementById("name1").textContent = data.currentChannels.name;
+                                document.getElementById("subs1").innerHTML = data.channels.counts[2].count;
+                                subs1 = data.channels.counts[2].count;
+                                document.getElementById("footer1").textContent = "Subscribers (YT Studio)";
+                                status1 = data.success;
+                            });
+                }
+                    }, 2000);
+
+    setInterval(() => {
+        fetch(
+          `https://api-v2.nextcounts.com/api/instagram/user/${id2}`
+        )
+          .then((res) => res.json())
+          .then((data2) => {
+              document.getElementById("banner2").src = data2.userBanner;
+document.getElementById("image2").src = data2.avatar;
+            document.getElementById("name2").textContent = data2.nickname;
+                document.getElementById("subs2").innerHTML = data2.followers;
+              subs2 = data2.followers;
+                });
+            }, 2000);
+    
+    setInterval(() => {
+            document.getElementById("gap").innerHTML = subs1 - subs2;
+                    }, 2000);
+    
+  function search1() {
+    const prompt = window.prompt("Enter channel name, ID, or URL.");
+    if (prompt)
+      fetch(
+        `https://axern.space/api/search?platform=youtube&type=channel&query=${prompt}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          searchParams1.set("id1", data[0].id)
+          window.location.href = "?" + searchParams1.toString()
+        });
+  }
+  function search2() {
+    const prompt = window.prompt("Enter account name.");
+    if (prompt)
+    fetch(
+  `https://api-v2.nextcounts.com/api/search/instagram/user/${prompt}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          searchParams2.set("id2", data.users[0].user_name)
+          window.location.href = "?" + searchParams2.toString()
+        });
+  }
+</script>
