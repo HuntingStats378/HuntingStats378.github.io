@@ -35,13 +35,23 @@
 <script>
   const searchParams1 = new URLSearchParams(window.location.search);
   const id1 = searchParams1.get("id1") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
-  const searchParams2 = new URLSearchParams(window.location.search);
-  const id2 = searchParams2.get("id2") || "kendalljenner";
+  const name = searchParams2.get("id2") || "MrBeast";
+    let tid;
   let status1
         let status2
         let subs1
         let subs2
 
+    fetch(
+        `https://countik.com/api/exist/${name}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+
+          document.getElementById("name2").textContent = data.nickname;
+          tid = data.sec_uid;
+        });
+    
                 fetch(
                     `https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${id1}`
                 )
@@ -95,19 +105,20 @@
                 }
                     }, 2000);
 
-    setInterval(() => {
+  setInterval(() => {
         fetch(
-          `https://api-v2.nextcounts.com/api/instagram/user/${id2}`
+          `https://countik.com/api/userinfo?sec_user_id=${tid}`
         )
           .then((res) => res.json())
-          .then((data2) => {
-              document.getElementById("banner2").src = data2.userBanner;
-document.getElementById("image2").src = data2.avatar;
-            document.getElementById("name2").textContent = data2.nickname;
-                document.getElementById("subs2").innerHTML = data2.followers;
-              subs2 = data2.followers;
-                });
-            }, 2000);
+          .then((data) => {
+              if (data.status == "success") {
+                document.getElementById("banner2").src = data.avatarThumb;
+                document.getElementById("image2").src = data.avatarThumb;
+                document.getElementById("subs2").innerHTML = data.followerCount;
+                subs2 = data.followerCount;
+              }
+                        });
+                }, 2000);
     
     setInterval(() => {
             document.getElementById("gap").innerHTML = subs1 - subs2;
@@ -129,11 +140,11 @@ document.getElementById("image2").src = data2.avatar;
     const prompt = window.prompt("Enter account name.");
     if (prompt)
     fetch(
-  `https://api-v2.nextcounts.com/api/search/instagram/user/${prompt}`
+        `https://countik.com/api/exist/${prompt}`
       )
         .then((res) => res.json())
         .then((data) => {
-          searchParams2.set("id2", data.users[0].user_name)
+          searchParams2.set("id2", data.uniqueId)
           window.location.href = "?" + searchParams2.toString()
         });
   }
