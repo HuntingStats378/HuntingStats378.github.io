@@ -48,7 +48,7 @@
                             )
                             .then((res) => res.json())
                             .then((data) => {
-                                document.getElementById("banner1").src = `https://banner.yt/${id1}`;
+                                document.getElementById("banner1").src = `https://banner.tf/${id1}`;
                                 document.getElementById("image1").src = data.user[1].count;
                                 document.getElementById("name1").textContent = data.user[0].count;
                                 document.getElementById("subs1").innerHTML = data.counts[0].count;
