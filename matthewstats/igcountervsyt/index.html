@@ -52,11 +52,11 @@
                                 document.getElementById("image1").src = `https://banner.tf/${id1}/avatar`;
                                 document.getElementById("name1").textContent = data.user[0];
                                 document.getElementById("subs1").innerHTML = data.counts[0];
-                                subs1 = data.stats.subCount;
+                                subs1 = data.counts[0];
                                 if (id1 == "UCX6OQ3DkcsbYNE6H8uQQuVA") {
                                 document.getElementById("footer1").textContent = "Subscribers (STUDIO)";
                                 } else {
-                                document.getElementById("footer1").textContent = "Subscribers (EST)";
+                                document.getElementById("footer1").textContent = data.value[2][1];
                                 }
                             });
                     }, 2000);
