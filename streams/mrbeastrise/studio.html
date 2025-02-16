@@ -97,7 +97,7 @@ setInterval(() => {
     fetch(`https://huntingstats378.onrender.com/api/youtube/channel/${id}/studio`)
         .then((res) => res.json())
         .then((data) => {
-            document.getElementById("count").innerHTML = data.counts[0].count;
+            document.getElementById("count").innerHTML = data.counts[0];
         });
 }, 2000);
 
