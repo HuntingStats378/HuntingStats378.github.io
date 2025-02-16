@@ -4,20 +4,20 @@
 <script src="https://lcedit.com/odometer/odometer.js"></script>
 
 <body>
-  <span id="time" class="odometer">0</span><br><span id="date" class="odometer">0</span><span> UTC</span>
+  <span id="time" class="odometer">0</span><br><span id="date" class="odometer">0</span>
 </body>
 <style>
   body {
     background-color: transparent;
-    font-size: 50px;
+    font-size: 100px;
     font-family: Roboto;
     text-align: right;
     font-weight: 700;
     color: white;
   }
 
-  #time {
-    font-size: 100px;
+  #date {
+    font-size: 50px;
   }
 </style>
 <script>
@@ -38,7 +38,7 @@
     duration: 0.5 * 1000,
     removeLeadingZeros: true,
     reverseAnimation: false,
-    format: "dddd-dd-dd",
+    format: "dddd-dd-dd UTC",
     upColor: "white"
   };
 
