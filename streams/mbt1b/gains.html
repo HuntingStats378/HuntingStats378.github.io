@@ -132,11 +132,11 @@
 
     setInterval(() => {
   fetch(
-          `https://mixerno.space/api/youtube-channel-counter/user/${id}`
+          `https://huntingstats378.onrender.com/api/youtube/channel/${id}`
       )
       .then((res) => res.json())
       .then((data) => {
-              db.subs.push(data.counts[0].count);
+              db.subs.push(data.counts[0]);
           db.time.push(Date.now());
           let sm1 = calcGain(db.subs, 30);
               let sh1 = calcGain(db.subs, 1800);
