@@ -94,10 +94,10 @@ function durationNumber(num) {
 }
 
 setInterval(() => {
-    fetch(`https://huntingstats378.onrender.com/api/youtube/channel/${id}/studio`)
+    fetch(`https://huntingstats378.onrender.com/api/youtube/channel/${id}`)
         .then((res) => res.json())
         .then((data) => {
-            document.getElementById("count").innerHTML = data.counts[0];
+            document.getElementById("count").innerHTML = data.studio;
         });
 }, 2000);
 
