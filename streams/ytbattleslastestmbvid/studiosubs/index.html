@@ -33,10 +33,10 @@
           const params = new URLSearchParams(window.location.search);
           var id = params.get("id") || "UClOyuxZvQkoHoIn15kNbkUw";
           setInterval(() => {
-            fetch(`https://api-v2.nextcounts.com/api/youtube/channel/${id}`)
+            fetch(`https://huntingstats378.onrender.com/api/youtube/channel/${id}`)
             .then((res) => res.json())
             .then((data) => {
-              document.getElementById("count").innerHTML = data.subcount;
+              document.getElementById("count").innerHTML = data.studio || data.counts[0];
             });
           }, 2000);
 </script>
