@@ -134,10 +134,10 @@ if (studio == true) {
         });
 }
 if (est === 0) {
-    fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
+    fetch(`https://huntingstats378.onrender.com/api/youtube/channel/${id}`)
         .then((res) => res.json())
         .then((data) => {
-            count = goal - data.counts[counter].count;
+            count = goal - data.counts[counter];
             if (count < 0) {
             document.getElementById("count").innerHTML = Math.abs(count);
             } else
