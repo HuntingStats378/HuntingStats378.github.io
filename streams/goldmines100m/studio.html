@@ -67,10 +67,10 @@ let size = validateSize(userInput);
 
 // Set interval to fetch data
 setInterval(() => {
-    fetch(`https://cors.stats100.xyz/https://studio.nia-statistics.com/api/channel/${id}`)
+    fetch(`https://huntingstats378.onrender.com/api/youtube/channel/${id}`)
         .then((res) => res.json())
         .then((data) => {
-            count = goal - data.channels.counts[counter].count;
+            count = goal - data.studio;
             if (count < 0) {
             document.getElementById("count").innerHTML = Math.abs(count);
             } else
