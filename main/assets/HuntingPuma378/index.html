@@ -109,57 +109,57 @@
             }
  
             const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const seconds = now.getSeconds().toString().padStart(2, '0');
- 
-            // Concatenate time parts and convert to a number
-            document.getElementById("count").innerHTML = parseInt(hours + minutes + seconds);
-        } else {
-            odometers[0].options = {
-                animation: ['default', 'byDigit', 'count', 'minimal'][animation],
-                downColor: down,
-                duration: durationNumber(duration) * 1000,
-                removeLeadingZeros: true,
-                reverseAnimation: false,
-                format: [',ddd', 'ddd', ' ddd', ':dd'][format],
-                upColor: up
-            }
-            if (studio == true) {
-                fetch(`https://cors.stats100.xyz/https://studio.nia-statistics.com/api/channel/${id}`)
-                    .then((res) => res.json())
-                    .then((data) => {
-                        count = goal - data.channels.counts[counter].count;
-                        if (count < 0) {
-                            document.getElementById("count").innerHTML = Math.abs(count);
-                        } else
-                            document.getElementById("count").innerHTML = count;
-                    });
-            }
-            else if (est === 0) {
-                fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
-                    .then((res) => res.json())
-                    .then((data) => {
-                        count = goal - data.counts[counter].count;
-                        if (count < 0) {
-                            document.getElementById("count").innerHTML = Math.abs(count);
-                        } else
-                            document.getElementById("count").innerHTML = count;
-                    });
-            }
-            else if (est === 1) {
-                fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
-                    .then((res) => res.json())
-                    .then((data) => {
-                        count = goal - data.counts[counter].count;
-                        if (count < 0) {
-                            document.getElementById("count").innerHTML = Math.abs(count);
-                        } else
-                            document.getElementById("count").innerHTML = count;
-                    });
-            }
-        }
-    }, 2000);
+const hours = now.getHours().toString().padStart(2, '0');
+const minutes = now.getMinutes().toString().padStart(2, '0');
+const seconds = now.getSeconds().toString().padStart(2, '0');
+
+// Concatenate time parts and convert to a number
+document.getElementById("count").innerHTML = parseInt(hours + minutes + seconds);
+} else {
+    odometers[0].options = {
+        animation: ['default','byDigit','count', 'minimal'][animation],
+        downColor: down,
+        duration: durationNumber(duration) * 1000,
+        removeLeadingZeros: true,
+        reverseAnimation: false,
+        format: [',ddd','ddd',' ddd',':dd'][format],
+        upColor: up
+}
+if (studio == true) {
+    fetch(`https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+            count = goal - data.channels.counts[counter].count;
+            if (count < 0) {
+            document.getElementById("count").innerHTML = Math.abs(count);
+            } else
+            document.getElementById("count").innerHTML = count;
+        });
+}
+if (est === 0) {
+    fetch(`https://huntingstats378.onrender.com/api/youtube/channel/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+            count = goal - data.counts[counter];
+            if (count < 0) {
+            document.getElementById("count").innerHTML = Math.abs(count);
+            } else
+            document.getElementById("count").innerHTML = count;
+        });
+}
+if (est === 1) {
+    fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+            count = goal - data.counts[counter].count;
+            if (count < 0) {
+            document.getElementById("count").innerHTML = Math.abs(count);
+            } else
+            document.getElementById("count").innerHTML = count;
+        });
+}
+}
+}, 2000);
  
     // Apply styles using the fetched parameters
     document.documentElement.style.setProperty('--backcolor', bg);
