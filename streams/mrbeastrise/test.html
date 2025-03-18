@@ -1,0 +1,20 @@
+<script>
+  async function fetchinstagramuser(userId) {
+  try {
+    const response = await fetch(`https://api-v2.nextcounts.com/api/instagram/user/${userId}`);
+
+    const subCount = response.data.followers;
+    const totalViews = response.data.posts;
+    const apiSubCount = response.data.following;
+    const channelLogo = response.data.avatar;
+    const channelName = response.data.nickname;
+    const channelBanner = response.data.userBanner;
+    const goalCount = getGoal(subCount);
+
+    return { "t": new Date(), counts: [subCount, goalCount, apiSubCount, totalViews], user: [channelName, channelLogo, channelBanner] };
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to fetch counts" };
+  }
+}
+</script>
