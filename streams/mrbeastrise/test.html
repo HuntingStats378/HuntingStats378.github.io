@@ -1,4 +1,123 @@
 <script>
+function padZero(number) {
+    return String(number).padStart(2, '0');
+}
+
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function getGoal(count2) {
+      var count = parseFloat(count2);
+      var t = parseFloat(count2);
+      if (count == null) return 0;
+      if (10 > t) return 10 - t;
+      var e = "" + t;
+      return Math.abs(
+        t -
+          (e.length > 6
+            ? 1e6 * (Math.floor(t / 1e6) + 1)
+            : (parseInt(e.charAt(0)) + 1) * Math.pow(10, e.length - 1))
+      );
+    }
+
+function getGoalText(count2) {
+      var count = parseFloat(count2);
+      var t = parseFloat(count2);
+      if (count == null) return 0;
+      if (10 > t) return 10;
+      var e = "" + t;
+      return e.length > 6
+        ? 1e6 * (Math.floor(t / 1e6) + 1)
+        : (parseInt(e.charAt(0)) + 1) * Math.pow(10, e.length - 1);
+    }
+
+function abbreviateNumber(num) {
+    if (num >= 1_000_000_000) {
+        return (num / 1_000_000_000).toFixed(2).replace(/\.?0+$/, '') + 'B';
+    } else if (num >= 1_000_000) {
+        return (num / 1_000_000).toFixed(2).replace(/\.?0+$/, '') + 'M';
+    } else if (num >= 1_000) {
+        return (num / 1_000).toFixed(2).replace(/\.?0+$/, '') + 'K';
+    } else {
+        return num.toString();
+    }
+}
+  
+async function fetchyoutubechannel(channelId) {
+  try {
+    // Fetch data from the first API
+    const response = await fetch(
+      `https://mixerno.space/api/youtube-channel-counter/user/${channelId}`
+    );
+
+    // Fetch data from the second API
+    const respons2e = await fetch(
+      `https://api-v2.nextcounts.com/api/youtube/channel/${channelId}`
+    );
+
+    const subCount = response.data.counts[0].count;
+    const totalViews = response.data.counts[3].count;
+    const apiViews = response.data.counts[4].count;
+    const apiSubCount = response.data.counts[2].count;
+    const videos = response.data.counts[5].count;
+    const channelLogo = response.data.user[1].count;
+    const channelName = response.data.user[0].count;
+    const channelBanner = response.data.user[2].count;
+    const goalCount = getGoal(subCount);
+
+    if (respons2e.data.verifiedSubCount === true) {
+      return {
+        t: new Date(),
+        counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos],
+        user: [channelName, channelLogo, channelBanner],
+        value: [
+          ["Subscribers", "Subscribers (EST)"],
+          ["Goal", `Subscribers to ${abbreviateNumber(getGoalText(subCount))}`],
+          ["Subscribers", "Subscribers (API)"],
+          ["Views", "Views (EST)"],
+          ["Views", "Views (API)"],
+          ["Videos", "Videos (API)"]
+        ],
+        studio: respons2e.data.subcount
+      };
+    } else if (channelId === "UCX6OQ3DkcsbYNE6H8uQQuVA") {
+      const mrbeast = await fetch(`https://mrbeast.subscribercount.app/data`);
+      return {
+        t: new Date(),
+        counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos],
+        user: [channelName, channelLogo, channelBanner],
+        value: [
+          ["Subscribers", "Subscribers (EST)"],
+          ["Goal", `Subscribers to ${abbreviateNumber(getGoalText(subCount))}`],
+          ["Subscribers", "Subscribers (API)"],
+          ["Views", "Views (EST)"],
+          ["Views", "Views (API)"],
+          ["Videos", "Videos (API)"]
+        ],
+        studio: mrbeast.data.mrbeast
+      };
+    } else {
+      return {
+        t: new Date(),
+        counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos],
+        user: [channelName, channelLogo, channelBanner],
+        value: [
+          ["Subscribers", "Subscribers (EST)"],
+          ["Goal", `Subscribers to ${abbreviateNumber(getGoalText(subCount))}`],
+          ["Subscribers", "Subscribers (API)"],
+          ["Views", "Views (EST)"],
+          ["Views", "Views (API)"],
+          ["Videos", "Videos (API)"]
+        ]
+      };
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to fetch counts");
+  }
+}
+  
   async function fetchinstagramuser(userId) {
   try {
     const response = await fetch(`https://api-v2.nextcounts.com/api/instagram/user/${userId}`);
@@ -17,4 +136,6 @@
     return { error: "Failed to fetch counts" };
   }
 }
+
+  
 </script>
