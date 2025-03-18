@@ -55,11 +55,12 @@ var bg = urlParams.get("background") || "black";
 var fc = urlParams.get("fontcolor") || "white";
 var fa = urlParams.get("fontalign") || "center";
 var id = urlParams.get("id") || "UClOyuxZvQkoHoIn15kNbkUw";
+var platform = urlParams.get("platform") || "youtube";
+var type = urlParams.get("type") || "channel";
 var font = urlParams.get("font") || "Roboto";
 var sizee = urlParams.get("size") || "50";
 var fw = urlParams.get("fontweight") || "400";
 var counter = urlParams.get("counter") || 0;
-var studio = urlParams.get("studio") || false;
 var animation = urlParams.get("animation") || 0;
 var est = urlParams.get("est") || 0;
 var up = urlParams.get("up") || fc;
@@ -92,6 +93,237 @@ function durationNumber(num) {
     // If the number doesn't start with '0', return the number as it is
     return num;
 }
+    
+function padZero(number) {
+    return String(number).padStart(2, '0');
+}
+
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function getGoal(count2) {
+      var count = parseFloat(count2);
+      var t = parseFloat(count2);
+      if (count == null) return 0;
+      if (10 > t) return 10 - t;
+      var e = "" + t;
+      return Math.abs(
+        t -
+          (e.length > 6
+            ? 1e6 * (Math.floor(t / 1e6) + 1)
+            : (parseInt(e.charAt(0)) + 1) * Math.pow(10, e.length - 1))
+      );
+    }
+
+function getGoalText(count2) {
+      var count = parseFloat(count2);
+      var t = parseFloat(count2);
+      if (count == null) return 0;
+      if (10 > t) return 10;
+      var e = "" + t;
+      return e.length > 6
+        ? 1e6 * (Math.floor(t / 1e6) + 1)
+        : (parseInt(e.charAt(0)) + 1) * Math.pow(10, e.length - 1);
+    }
+
+function abbreviateNumber(num) {
+    if (num >= 1_000_000_000) {
+        return (num / 1_000_000_000).toFixed(2).replace(/\.?0+$/, '') + 'B';
+    } else if (num >= 1_000_000) {
+        return (num / 1_000_000).toFixed(2).replace(/\.?0+$/, '') + 'M';
+    } else if (num >= 1_000) {
+        return (num / 1_000).toFixed(2).replace(/\.?0+$/, '') + 'K';
+    } else {
+        return num.toString();
+    }
+}
+
+async function fetchyoutubechannel(channelId) {
+  try {
+    // Fetch data from the first API
+    const response = await axios.get(
+      `https://mixerno.space/api/youtube-channel-counter/user/${channelId}`
+    );
+
+    // Fetch data from the second API
+    const respons2e = await axios.get(
+      `https://api-v2.nextcounts.com/api/youtube/channel/${channelId}`
+    );
+
+    const subCount = response.data.counts[0].count;
+    const totalViews = response.data.counts[3].count;
+    const apiViews = response.data.counts[4].count;
+    const apiSubCount = response.data.counts[2].count;
+    const videos = response.data.counts[5].count;
+    const channelLogo = response.data.user[1].count;
+    const channelName = response.data.user[0].count;
+    const channelBanner = response.data.user[2].count;
+    const goalCount = getGoal(subCount);
+
+    if (respons2e.data.verifiedSubCount === true) {
+      return {
+        t: new Date(),
+        counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos],
+        user: [channelName, channelLogo, channelBanner],
+        value: [
+          ["Subscribers", "Subscribers (EST)"],
+          ["Goal", `Subscribers to ${abbreviateNumber(getGoalText(subCount))}`],
+          ["Subscribers", "Subscribers (API)"],
+          ["Views", "Views (EST)"],
+          ["Views", "Views (API)"],
+          ["Videos", "Videos (API)"]
+        ],
+        studio: respons2e.data.subcount
+      };
+    } else if (channelId === "UCX6OQ3DkcsbYNE6H8uQQuVA") {
+      const mrbeast = await axios.get(`https://mrbeast.subscribercount.app/data`);
+      return {
+        t: new Date(),
+        counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos],
+        user: [channelName, channelLogo, channelBanner],
+        value: [
+          ["Subscribers", "Subscribers (EST)"],
+          ["Goal", `Subscribers to ${abbreviateNumber(getGoalText(subCount))}`],
+          ["Subscribers", "Subscribers (API)"],
+          ["Views", "Views (EST)"],
+          ["Views", "Views (API)"],
+          ["Videos", "Videos (API)"]
+        ],
+        studio: mrbeast.data.mrbeast
+      };
+    } else {
+      return {
+        t: new Date(),
+        counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos],
+        user: [channelName, channelLogo, channelBanner],
+        value: [
+          ["Subscribers", "Subscribers (EST)"],
+          ["Goal", `Subscribers to ${abbreviateNumber(getGoalText(subCount))}`],
+          ["Subscribers", "Subscribers (API)"],
+          ["Views", "Views (EST)"],
+          ["Views", "Views (API)"],
+          ["Videos", "Videos (API)"]
+        ]
+      };
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to fetch counts");
+  }
+}
+
+async function fetchyoutubevideo(videoId) {
+  try {
+    const [response, respons2e, respons3e] = await Promise.all([
+      axios.get(`https://mixerno.space/api/youtube-video-counter/user/${videoId}`),
+      axios.get(`https://mixerno.space/api/youtube-stream-counter/user/${videoId}`),
+      axios.get(`https://returnyoutubedislikeapi.com/votes?videoId=${videoId}`)
+    ]);
+
+    const subCount = response.data.counts[0].count;
+    const totalViews = response.data.counts[3].count;
+    const apiViews = respons3e.data.dislikes;
+    const apiSubCount = response.data.counts[2].count;
+    const videos = response.data.counts[5].count;
+    const channelLogo = response.data.user[1].count;
+    const channelName = response.data.user[0].count;
+    const channelBanner = response.data.user[2].count;
+    const goalCount = getGoal(subCount);
+
+    return { "t": new Date(), counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos], user: [channelName, channelLogo, channelBanner] };
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to fetch counts" };
+  }
+}
+
+async function fetchyoutubestream(videoId) {
+  try {
+    const [response, respons2e, respons3e] = await Promise.all([
+      axios.get(`https://mixerno.space/api/youtube-video-counter/user/${videoId}`),
+      axios.get(`https://mixerno.space/api/youtube-stream-counter/user/${videoId}`),
+      axios.get(`https://returnyoutubedislikeapi.com/votes?videoId=${videoId}`)
+    ]);
+
+    const liveCount = respons2e.data.counts[0].count;
+    const subCount = response.data.counts[0].count;
+    const totalViews = response.data.counts[3].count;
+    const apiViews = respons3e.data.dislikes;
+    const apiSubCount = response.data.counts[2].count;
+    const videos = response.data.counts[5].count;
+    const channelLogo = response.data.user[1].count;
+    const channelName = response.data.user[0].count;
+    const channelBanner = response.data.user[2].count;
+    const goalCount = getGoal(subCount);
+
+    return { "t": new Date(), counts: [liveCount, goalCount, subCount, apiSubCount, totalViews, apiViews, videos], user: [channelName, channelLogo, channelBanner] };
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to fetch counts" };
+  }
+}
+
+async function fetchinstagramuser(userId) {
+  try {
+    const response = await axios.get(`https://api-v2.nextcounts.com/api/instagram/user/${userId}`);
+
+    const subCount = response.data.followers;
+    const totalViews = response.data.posts;
+    const apiSubCount = response.data.following;
+    const channelLogo = response.data.avatar;
+    const channelName = response.data.nickname;
+    const channelBanner = response.data.userBanner;
+    const goalCount = getGoal(subCount);
+
+    return { "t": new Date(), counts: [subCount, goalCount, apiSubCount, totalViews], user: [channelName, channelLogo, channelBanner] };
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to fetch counts" };
+  }
+}
+
+async function fetchtiktokuser(userId) {
+  try {
+    const response = await axios.get(`https://mixerno.space/api/tiktok-user-counter/user/${userId}`);
+
+    const subCount = response.data.counts[0].count;
+    const totalViews = response.data.counts[4].count;
+    const apiViews = response.data.counts[3].count;
+    const apiSubCount = response.data.counts[2].count;
+    const channelLogo = response.data.user[1].count;
+    const channelName = response.data.user[0].count;
+    const channelBanner = response.data.user[2].count;
+    const goalCount = getGoal(subCount);
+
+    return { "t": new Date(), counts: [subCount, goalCount, apiSubCount, totalViews, apiViews], user: [channelName, channelLogo, channelBanner] };
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to fetch counts" };
+  }
+}
+
+async function fetchtwitteruser(userId) {
+  try {
+    const response = await axios.get(`https://mixerno.space/api/twitter-user-counter/user/${userId}`);
+
+    const subCount = response.data.counts[0].count;
+    const totalViews = response.data.counts[3].count;
+    const apiViews = response.data.counts[4].count;
+    const apiSubCount = response.data.counts[2].count;
+    const videos = response.data.counts[5].count;
+    const extra = response.data.counts[6].count;
+    const channelLogo = response.data.user[1].count;
+    const channelName = response.data.user[0].count;
+    const channelBanner = response.data.user[2].count;
+    const goalCount = getGoal(subCount);
+
+    return { "t": new Date(), counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos, extra], user: [channelName, channelLogo, channelBanner] };
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to fetch counts" };
+  }
+}
 
 setInterval(() => {
 if (clock == true) {
@@ -106,12 +338,9 @@ if (clock == true) {
 }
 
 const now = new Date();
-const hours = now.getHours().toString().padStart(2, '0');
-const minutes = now.getMinutes().toString().padStart(2, '0');
-const seconds = now.getSeconds().toString().padStart(2, '0');
 
 // Concatenate time parts and convert to a number
-document.getElementById("count").innerHTML = parseInt(hours + minutes + seconds);
+document.getElementById("count").innerHTML = parseInt(padZero(now.getHours()) + padZero(now.getMinutes()) + padZero(now.getSeconds()));
 } else {
     odometers[0].options = {
         animation: ['default','byDigit','count', 'minimal'][animation],
@@ -122,39 +351,18 @@ document.getElementById("count").innerHTML = parseInt(hours + minutes + seconds)
         format: [',ddd','ddd',' ddd',':dd'][format],
         upColor: up
 }
-if (studio == true) {
-    fetch(`https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-            count = goal - data.channels.counts[counter].count;
-            if (count < 0) {
-            document.getElementById("count").innerHTML = Math.abs(count);
-            } else
-            document.getElementById("count").innerHTML = count;
-        });
-}
-if (est === 0) {
-    fetch(`https://huntingstats378.onrender.com/api/youtube/channel/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-            count = goal - data.counts[counter];
-            if (count < 0) {
-            document.getElementById("count").innerHTML = Math.abs(count);
-            } else
-            document.getElementById("count").innerHTML = count;
-        });
-}
-if (est === 1) {
-    fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-            count = goal - data.counts[counter].count;
-            if (count < 0) {
-            document.getElementById("count").innerHTML = Math.abs(count);
-            } else
-            document.getElementById("count").innerHTML = count;
-        });
-}
+    data = fetchyoutubechannel(id);
+    if (studio == true) {
+        count = goal - data.studio;
+    } else {
+        count = goal - data.counts[counter];
+    }
+    
+    if (count < 0) {
+        document.getElementById("count").innerHTML = Math.abs(count);
+    } else {
+        document.getElementById("count").innerHTML = count;
+    }
 }
 }, 2000);
 
