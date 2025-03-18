@@ -351,7 +351,8 @@ document.getElementById("count").innerHTML = parseInt(padZero(now.getHours()) + 
         format: [',ddd','ddd',' ddd',':dd'][format],
         upColor: up
 }
-    data = fetchyoutubechannel(id);
+    str = ("fetch" + platform + type);
+    data = window[str](id);
     if (studio == true) {
         count = goal - data.studio;
     } else {
