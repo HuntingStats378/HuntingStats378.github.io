@@ -152,8 +152,8 @@ async function fetchyoutubechannel(channelId) {
       `https://api-v2.nextcounts.com/api/youtube/channel/${channelId}`
     );
       
-    const response = data.json();
-    const respons2e = dat2a.json();
+    const response = await data.json();
+    const respons2e = await dat2a.json();
     const subCount = response.counts[0].count;
     const totalViews = response.counts[3].count;
     const apiViews = response.counts[4].count;
@@ -181,7 +181,7 @@ async function fetchyoutubechannel(channelId) {
       };
     } else if (channelId === "UCX6OQ3DkcsbYNE6H8uQQuVA") {
       const dat3a = await fetch(`https://mrbeast.subscribercount.app/data`);
-      const mrbeast = dat3a.json();
+      const mrbeast = await dat3a.json();
       return {
         t: new Date(),
         counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos],
@@ -225,9 +225,9 @@ async function fetchyoutubevideo(videoId) {
       fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${videoId}`)
     ]);
 
-    const response = data.json();
-    const respons2e = dat2a.json();
-    const respons3e = dat3a.json();
+    const response = await data.json();
+    const respons2e = await dat2a.json();
+    const respons3e = await dat3a.json();
     const subCount = response.counts[0].count;
     const totalViews = response.counts[3].count;
     const apiViews = respons3e.dislikes;
@@ -253,9 +253,9 @@ async function fetchyoutubestream(videoId) {
       fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${videoId}`)
     ]);
 
-    const response = data.json();
-    const respons2e = dat2a.json();
-    const respons3e = dat3a.json();
+    const response = await data.json();
+    const respons2e = await dat2a.json();
+    const respons3e = await dat3a.json();
     const liveCount = respons2e.counts[0].count;
     const subCount = response.counts[0].count;
     const totalViews = response.counts[3].count;
@@ -278,7 +278,7 @@ async function fetchinstagramuser(userId) {
   try {
     const data = await fetch(`https://api-v2.nextcounts.com/api/instagram/user/${userId}`);
 
-    const response = data.json();
+    const response = await data.json();
     const subCount = response.followers;
     const totalViews = response.posts;
     const apiSubCount = response.following;
@@ -298,7 +298,7 @@ async function fetchtiktokuser(userId) {
   try {
     const data = await fetch(`https://mixerno.space/api/tiktok-user-counter/user/${userId}`);
 
-    const response = data.json();
+    const response = await data.json();
     const subCount = response.counts[0].count;
     const totalViews = response.counts[4].count;
     const apiViews = response.counts[3].count;
@@ -319,7 +319,7 @@ async function fetchtwitteruser(userId) {
   try {
     const data = await fetch(`https://mixerno.space/api/twitter-user-counter/user/${userId}`);
 
-    const response = data.json();
+    const response = await data.json();
     const subCount = response.counts[0].count;
     const totalViews = response.counts[3].count;
     const apiViews = response.counts[4].count;
