@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT UI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #chat-container {
+            width: 90%;
+            max-width: 600px;
+            height: 70vh;
+            overflow-y: auto;
+            border: 1px solid #444;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #333;
+        }
+        .message {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+        .user {
+            background-color: #007bff;
+            align-self: flex-end;
+        }
+        .bot {
+            background-color: #444;
+        }
+        #input-container {
+            width: 90%;
+            max-width: 600px;
+            display: flex;
+            margin-top: 10px;
+        }
+        #message {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            margin-left: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #E65724;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>ChatGPT UI</h1>
+    <input type="text" id="api-key" placeholder="Enter OpenAI API Key" style="width: 90%; max-width: 600px; padding: 10px; margin-bottom: 10px;">
+    
+    <div id="chat-container"></div>
+    
+    <div id="input-container">
+        <input type="text" id="message" placeholder="Type a message..." onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            const apiKey = document.getElementById("api-key").value;
+            if (!apiKey) {
+                alert("Please enter your API key!");
+                return;
+            }
+            
+            const messageInput = document.getElementById("message");
+            const message = messageInput.value.trim();
+            if (!message) return;
+            
+            // Display user message
+            const chatContainer = document.getElementById("chat-container");
+            const userMessage = document.createElement("div");
+            userMessage.classList.add("message", "user");
+            userMessage.innerText = message;
+            chatContainer.appendChild(userMessage);
+            
+            // Clear input
+            messageInput.value = "";
+
+            // Send request to OpenAI API
+            try {
+                const response = await fetch("https://api.openai.com/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: "gpt-3.5-turbo",
+                        messages: [{ role: "user", content: message }]
+                    })
+                });
+
+                const data = await response.json();
+                const botReply = data.choices?.[0]?.message?.content || "Error: No response from AI.";
+
+                // Display bot message
+                const botMessage = document.createElement("div");
+                botMessage.classList.add("message", "bot");
+                botMessage.innerText = botReply;
+                chatContainer.appendChild(botMessage);
+
+                // Auto-scroll to latest message
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Failed to fetch response. Check your API key.");
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        }
+    </script>
+
+</body>
+</html>
