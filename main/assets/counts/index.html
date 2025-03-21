@@ -338,48 +338,55 @@ async function fetchtwitteruser(userId) {
   }
 }
 
-setInterval(() => {
-if (clock == true) {
-    odometers[0].options = {
-        animation: ['default','byDigit','count', 'minimal'][animation],
-        downColor: down,
-        duration: durationNumber(duration) * 1000,
-        removeLeadingZeros: true,
-        reverseAnimation: false,
-        format: [',ddd','ddd',' ddd',':dd'][3],
-        upColor: up
-}
+setInterval(async () => {
+    if (clock === true) {
+        odometers[0].options = {
+            animation: ['default', 'byDigit', 'count', 'minimal'][animation],
+            downColor: down,
+            duration: durationNumber(duration) * 1000,
+            removeLeadingZeros: true,
+            reverseAnimation: false,
+            format: [',ddd', 'ddd', ' ddd', ':dd'][3],
+            upColor: up
+        };
 
-const now = new Date();
+        const now = new Date();
+        document.getElementById("count").innerHTML = parseInt(
+            padZero(now.getHours()) + padZero(now.getMinutes()) + padZero(now.getSeconds())
+        );
 
-// Concatenate time parts and convert to a number
-document.getElementById("count").innerHTML = parseInt(padZero(now.getHours()) + padZero(now.getMinutes()) + padZero(now.getSeconds()));
-} else {
-    odometers[0].options = {
-        animation: ['default','byDigit','count', 'minimal'][animation],
-        downColor: down,
-        duration: durationNumber(duration) * 1000,
-        removeLeadingZeros: true,
-        reverseAnimation: false,
-        format: [',ddd','ddd',' ddd',':dd'][format],
-        upColor: up
-}
-    str = ("fetch" + platform + type);
-    data = window[str](id);
-    console.log(data);
-    console.log(fetchyoutubechannel(id));
-    if (studio == true) {
-        count = goal - data.studio;
     } else {
-        count = goal - data.counts[counter];
+        odometers[0].options = {
+            animation: ['default', 'byDigit', 'count', 'minimal'][animation],
+            downColor: down,
+            duration: durationNumber(duration) * 1000,
+            removeLeadingZeros: true,
+            reverseAnimation: false,
+            format: [',ddd', 'ddd', ' ddd', ':dd'][format],
+            upColor: up
+        };
+
+        let str = "fetch" + platform + type;
+        
+        try {
+            let data = await window[str](id); // Ensure async fetch
+            
+            console.log("Raw Data:", data);
+
+            if (!data) {
+                console.error("No data received.");
+                return;
+            }
+
+            let count = studio === true ? goal - data.studio : goal - data.counts[counter];
+
+            console.log("Calculated Count:", count);
+            document.getElementById("count").innerHTML = Math.abs(count);
+
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
     }
-    
-    if (count < 0) {
-        document.getElementById("count").innerHTML = Math.abs(count);
-    } else {
-        document.getElementById("count").innerHTML = count;
-    }
-}
 }, 2000);
 
 // Apply styles using the fetched parameters
