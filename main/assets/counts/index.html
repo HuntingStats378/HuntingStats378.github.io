@@ -366,6 +366,7 @@ document.getElementById("count").innerHTML = parseInt(padZero(now.getHours()) + 
 }
     str = ("fetch" + platform + type);
     data = window[str](id);
+    console.log(data)
     if (studio == true) {
         count = goal - data.studio;
     } else {
