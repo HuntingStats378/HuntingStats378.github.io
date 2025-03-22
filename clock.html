@@ -1,0 +1,56 @@
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap"
+  rel="stylesheet">
+<link rel=stylesheet href="https://lcedit.com/odometer/odometer.css">
+<script src="https://lcedit.com/odometer/odometer.js"></script>
+
+<body>
+  <span id="time" class="odometer">0</span><br><span id="date" class="odometer">0</span>
+</body>
+<style>
+  body {
+    background-color: transparent;
+    font-size: 100px;
+    font-family: Roboto;
+    text-align: right;
+    font-weight: 700;
+    color: white;
+  }
+
+  #date {
+    font-size: 50px;
+  }
+</style>
+<script>
+  odometers = Odometer.init();
+  odometers[0].options = {
+    animation: "minimal",
+    downColor: "white",
+    duration: 0.5 * 1000,
+    removeLeadingZeros: true,
+    reverseAnimation: false,
+    format: "dd:dd:dd",
+    upColor: "white"
+  };
+
+  odometers[1].options = {
+    animation: "minimal",
+    downColor: "white",
+    duration: 0.5 * 1000,
+    removeLeadingZeros: true,
+    reverseAnimation: false,
+    format: "dddd-dd-dd UTC+8",
+    upColor: "white"
+  };
+
+  function padZero(number) {
+    return String(number).padStart(2, '0');
+  }
+
+  setInterval(() => {
+    const d = new Date();
+    d.setUTCHours(d.getUTCHours() + 8); // Convert to UTC+8
+
+    document.getElementById("time").innerHTML = `${padZero(d.getUTCHours())}${padZero(d.getUTCMinutes())}${padZero(d.getUTCSeconds())}`;
+    document.getElementById("date").innerHTML = `${padZero(d.getUTCFullYear())}${padZero(d.getUTCMonth() + 1)}${padZero(d.getUTCDate())}`;
+  }, 1000);
+</script>
