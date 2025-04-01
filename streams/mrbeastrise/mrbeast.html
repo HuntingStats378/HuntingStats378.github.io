@@ -97,7 +97,7 @@ function durationNumber(num) {
 async function updateId() {
     const res = await fetch(`https://huntingstats378.github.io/streams/mrbeastrise/ids.json`);
     const data = await res.json();
-    id = data.counts[0][1];
+    id = data.user1;
 }
 
 // Function to fetch YouTube channel data
