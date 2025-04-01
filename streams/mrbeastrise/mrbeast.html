@@ -54,7 +54,7 @@ for (const [key, value] of urlParams.entries()) {
 var bg = urlParams.get("background") || "black";
 var fc = urlParams.get("fontcolor") || "white";
 var fa = urlParams.get("fontalign") || "center";
-var id = urlParams.get("id") || "UClOyuxZvQkoHoIn15kNbkUw";
+let id = null;
 var font = urlParams.get("font") || "Roboto";
 var sizee = urlParams.get("size") || "50";
 var fw = urlParams.get("fontweight") || "400";
@@ -93,13 +93,31 @@ function durationNumber(num) {
     return num;
 }
 
-setInterval(() => {
-    fetch(`https://huntingstats378.onrender.com/api/streams/mrbeastrise`)
-        .then((res) => res.json())
-        .then((data) => {
-            document.getElementById("count").innerHTML = data.counts[0][2];
-        });
-}, 2000);
+// Function to fetch the latest ID
+async function updateId() {
+    const res = await fetch(`https://huntingstats378.github.io/streams/mrbeastrise/ids.json`);
+    const data = await res.json();
+    id = data.counts[0][1];
+}
+
+// Function to fetch YouTube channel data
+async function updateCount() {
+    if (!id) return; // Skip if ID is not set yet
+    const data = await fetchyoutubechannel(id);
+    document.getElementById("count").innerHTML = data.counts[0];
+}
+
+// Fetch ID and YouTube data immediately
+(async () => {
+    await updateId();
+    await updateCount();
+})();
+
+// Fetch ID every 20 seconds
+setInterval(updateId, 20000);
+
+// Fetch YouTube data every 2 seconds
+setInterval(updateCount, 2000);
 
 // Apply styles using the fetched parameters
 document.documentElement.style.setProperty('--backcolor', bg);
