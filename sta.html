@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css" rel="stylesheet">
+  <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+  <title>Live XP Counter</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+    h1 {
+      color: #E65724;
+      font-size: 3rem;
+    }
+    #xpCounter {
+      font-size: 100px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="name">Live XP Counter</h1>
+  <div class="odometer" id="xpCounter">Loading...</div>
+
+  <script>
+    function totalXPToLevel(level) {
+      const n = level;
+      return (n * (2 * 75 + (n - 1) * 100)) / 2;
+    }
+
+    function getTotalXP(level, currentXP) {
+      return Math.round(totalXPToLevel(level) + currentXP);
+    }
+
+    function getUserIdFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("id");
+    }
+
+    async function fetchXP() {
+      const userId = getUserIdFromURL();
+      if (!userId) {
+        document.getElementById("xpCounter").innerText = "Missing user ID in URL (?id=...)";
+        return;
+      }
+
+      try {
+        const response = await fetch(`https://huntingstats378.onrender.com/api/discord/statistics/${userId}`);
+        const data = await response.json();
+
+        const level = data.level;
+        const xpInLevel = data.xp;
+        const totalXP = getTotalXP(level, xpInLevel);
+
+        document.getElementById("name").innerText = data.username;
+        document.getElementById("xpCounter").innerText = totalXP;
+      } catch (error) {
+        document.getElementById("xpCounter").innerText = "Error loading XP";
+        console.error("Error fetching XP:", error);
+      }
+    }
+
+    fetchXP();
+    setInterval(fetchXP, 10000); // Refresh every 10s
+  </script>
+</body>
+</html>
