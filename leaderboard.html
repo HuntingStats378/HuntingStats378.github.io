@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css" rel="stylesheet">
+  <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+  <title>Top 100 XP Counter</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 30px 20px;
+      text-align: left;
+    }
+
+    .user-entry {
+      margin-bottom: 80px;
+    }
+
+    .username {
+      color: #E65724;
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    .odometer {
+      font-size: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div id="userList"><p id="loadingMsg">Loading...</p></div>
+
+  <script>
+    function totalXPToLevel(level) {
+      return (level * (2 * 75 + (level - 1) * 100)) / 2;
+    }
+
+    function getTotalXP(level, currentXP) {
+      return Math.round(totalXPToLevel(level) + currentXP);
+    }
+
+    let initialized = false;
+
+    async function fetchAndUpdate() {
+      try {
+        const response = await fetch("https://huntingstats378.onrender.com/api/discord/statistics/top100");
+        const users = await response.json();
+        const container = document.getElementById("userList");
+
+        if (!initialized) {
+          // First time: clear the loading message and create entries
+          container.innerHTML = "";
+          users.forEach(user => {
+            const userDiv = document.createElement("div");
+            userDiv.className = "user-entry";
+            userDiv.innerHTML = `
+              <div class="username">${user.username}</div>
+              <div id="xp-${user.id}" class="odometer">0</div>
+            `;
+            container.appendChild(userDiv);
+          });
+
+          // Small delay for odometer to animate
+          setTimeout(() => {
+            users.forEach(user => {
+              const totalXP = getTotalXP(user.level, user.xp);
+              const xpEl = document.getElementById(`xp-${user.id}`);
+              if (xpEl) xpEl.innerHTML = totalXP;
+            });
+          }, 300);
+
+          initialized = true;
+        } else {
+          // Update only the values
+          users.forEach(user => {
+            const totalXP = getTotalXP(user.level, user.xp);
+            const xpEl = document.getElementById(`xp-${user.id}`);
+            if (xpEl) xpEl.innerHTML = totalXP;
+          });
+        }
+      } catch (err) {
+        console.error("Error fetching XP data:", err);
+        const loadingMsg = document.getElementById("loadingMsg");
+        if (loadingMsg) loadingMsg.innerText = "Failed to load leaderboard.";
+      }
+    }
+
+    fetchAndUpdate();
+    setInterval(fetchAndUpdate, 60000); // Refresh every 60 seconds
+  </script>
+</body>
+</html>
