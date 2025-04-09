@@ -4,7 +4,7 @@
 <link href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css" rel="stylesheet">
 <script src="https://huntingstats378.github.io/main/assets/ess/odometer.js"></script>
 
-<body style="background-color: transparent; color: white;">
+<body style="background-color: transparent; color: black;">
     <div class="main" id="main" style="margin-top: 7.5px; display: grid; grid-template-columns: repeat(5, 1fr);">
         <div class="column_1 column">
             <div class="card card_0" id="card_0">
@@ -367,95 +367,49 @@
             </div>
         </div>
     </div>
-    <br>
-    <img src="./blank.png" alt id="background" class="background">
 </body>
 <script>
-    let channelIds = [];
-    let channels = [];
-    let sortedChannels = [];
-    let targetIndex = -1;
-
-    async function fetchChannelIds() {
-        try {
-            const res = await fetch("https://cors.stats100.xyz/https://www.noxinfluencer.com/ws/mobile/channel?pageSize=700&rankSize=1000");
-            const data = await res.json();
-            if (data && data.retDataList) {
-                channelIds = data.retDataList.slice(500).map(item => item.id);
-            }
-        } catch (error) {
-            console.error("Error fetching channel IDs:", error);
-        }
+    function totalXPToLevel(level) {
+        return (level * (2 * 75 + (level - 1) * 100)) / 2;
     }
 
-    async function updateChannelData() {
+    function getTotalXP(level, currentXP) {
+        return Math.round(totalXPToLevel(level) + currentXP);
+    }
+
+    function getAvatarURL(user) {
+        if (!user.avatar || !user.id) return "./default.png"; // fallback
+        const isGif = user.avatar.startsWith("a_");
+        const extension = isGif ? "gif" : "png";
+        return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${extension}`;
+    }
+
+    async function fetchAndUpdate() {
         try {
-            const promises = channelIds.map(async (id) => {
-                const res = await fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`);
-                const data = await res.json();
-                if (data && data.user && data.counts) {
-                    return {
-                        name: data.user[0]?.count || "Unknown",
-                        avatar: data.user[1]?.count || "",
-                        id,
-                        subcount: data.counts[0]?.count || 0,
+            const response = await fetch("https://huntingstats378.onrender.com/api/discord/statistics/top100");
+            const users = await response.json();
+
+            users.slice(0, 50).forEach((user, index) => {
+                const nameEl = document.getElementById(`name_${index}`);
+                const countEl = document.getElementById(`count_${index}`);
+                const imageEl = document.getElementById(`image_${index}`);
+
+                if (nameEl) nameEl.textContent = user.username;
+                if (countEl) countEl.innerHTML = getTotalXP(user.level, user.xp);
+                if (imageEl) {
+                    const avatarURL = getAvatarURL(user);
+                    imageEl.src = avatarURL;
+                    imageEl.onerror = () => {
+                        imageEl.onerror = null; // prevent infinite loop
+                        imageEl.src = "./default.png";
                     };
                 }
-                return null;
             });
-
-            channels = (await Promise.all(promises)).filter(Boolean);
-
-            sortedChannels = channels.sort((a, b) => b.subcount - a.subcount);
-
-            targetIndex = sortedChannels.findIndex(channel => channel.subcount < 20000000);
-            console.log("Sorted Channels:", sortedChannels);
-            console.log("Target Index:", targetIndex);
-        } catch (error) {
-            console.error("Error updating channel data:", error);
+        } catch (err) {
+            console.error("Failed to fetch data:", err);
         }
     }
 
-    async function updateBattleData() {
-        if (targetIndex === -1 || targetIndex >= sortedChannels.length) return;
-
-        try {
-            const backgroundChannel = sortedChannels[targetIndex];
-            if (backgroundChannel) {
-                const res = await fetch(`https://mixerno.space/api/youtube-channel-counter/user/${backgroundChannel.id}`);
-                const data = await res.json();
-                document.getElementById("background").src = data?.user[1]?.count || "";
-            }
-
-            const promises = sortedChannels.slice(targetIndex, targetIndex + 49).map(async (channel, i) => {
-                const res = await fetch(`https://mixerno.space/api/youtube-channel-counter/user/${channel.id}`);
-                const data = await res.json();
-                if (data && data.user && data.counts) {
-                    document.getElementById(`count_${i}`).innerHTML = data.counts[0]?.count || 0;
-                    document.getElementById(`name_${i}`).innerHTML = data.user[0]?.count || "Unknown";
-                    document.getElementById(`image_${i}`).src = data.user[1]?.count || "";
-                }
-            });
-
-            await Promise.all(promises);
-        } catch (error) {
-            console.error("Error updating battle data:", error);
-        }
-    }
-
-    (async () => {
-        await fetchChannelIds();
-
-        setInterval(async () => {
-            await fetchChannelIds();
-        }, 3600000); // Fetch every 1 hour
-
-        setInterval(async () => {
-            await updateChannelData();
-        }, 100000); // Fetch every 100 seconds
-
-        setInterval(async () => {
-            await updateBattleData();
-        }, 2000); // Fetch every 2 seconds
-    })();
+    fetchAndUpdate();
+    setInterval(fetchAndUpdate, 60000);
 </script>
