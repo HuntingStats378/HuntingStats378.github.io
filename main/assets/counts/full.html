@@ -1,1 +1,188 @@
+<link id="font" href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+<link rel=stylesheet href="https://lcedit.com/odometer/odometer.css">
+<script src="https://lcedit.com/odometer/odometer.js"></script>
+<script src="https://huntingstats378.github.io/main/assets/js/fetch-requests.js"></script>
+<body>
+    <div id="all">
+        <img id="image" width="85px" height="85px" src="https://huntingstats378.github.io/main/images/default.png"></img>
+        <h5 id="name">Loading</h5>
+        <h2 class="odometer" id="count">0</h2>
+ 
+    </div>
+</body>
+<style>
+    body {
+        background-color: var(--backcolor);
+        font-family: var(--font);
+        font-weight: var(--fontweight);
+        color: var(--fontcolor);
+    }
+ 
+    html {
+        --backcolor: black;
+        --fontcolor: white;
+        --size: 50px;
+        --size2: 20px;
+        --size3: 90px;
+        --size4: -33px;
+        --size5: 10px;
+        --fontalign: center;
+        --fontweight: 400;
+        --font: Roboto;
+    }
+ 
+    #count {
+        font-size: var(--size);
+        font-family: var(--font);
+        color: var(--fontcolor);
+        margin-top: var(--size4);
+        font-weight: var(--fontweight);
+    }
+ 
+    #name {
+        font-size: var(--size2);
+        font-family: var(--font);
+        color: var(--fontcolor);
+        font-weight: var(--fontweight);
+    }
+ 
+    #image {
+        height: var(--size3);
+        width: var(--size3);
+        float: left;
+        margin-right: var(--size5);
+        border-radius: 50%;
+    }
+</style>
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const params = {};
+const odometers = Odometer.init();
 
+// Convert URL parameters to the `params` object with number and boolean parsing
+for (const [key, value] of urlParams.entries()) {
+    if (value.toLowerCase() === "true") {
+        params[key] = true;  // Convert "true" string to boolean true
+    } else if (value.toLowerCase() === "false") {
+        params[key] = false;  // Convert "false" string to boolean false
+    } else if (!isNaN(value) && value.trim() !== '') {
+        params[key] = parseFloat(value);  // Convert numeric values
+    } else {
+        params[key] = value;  // Keep other string values as they are
+    }
+}
+
+// Fetch the values directly from `urlParams` using `.get()`
+var bg = urlParams.get("background") || "black";
+var fc = urlParams.get("fontcolor") || "white";
+var fa = urlParams.get("fontalign") || "center";
+var id = urlParams.get("id") || "UClOyuxZvQkoHoIn15kNbkUw";
+var platform = urlParams.get("platform") || "youtube";
+var type = urlParams.get("type") || "channel";
+var studio = urlParams.get("studio") || false;
+var font = urlParams.get("font") || "Roboto";
+var sizee = urlParams.get("size") || "50";
+var fw = urlParams.get("fontweight") || "400";
+var counter = urlParams.get("counter") || 0;
+var animation = urlParams.get("animation") || 0;
+var est = urlParams.get("est") || 0;
+var up = urlParams.get("up") || fc;
+var down = urlParams.get("down") || fc;
+var format = urlParams.get("format") || 0;
+var clock = urlParams.get("clock") || false;
+var duration = urlParams.get("duration") || 2;
+var est = urlParams.get("est") || 0;
+var goal = urlParams.get("goal") || 0;
+
+// Validate and handle font size
+function validateSize(input) {
+    let size = Number(input);
+    return (isNaN(size) || size < 1) ? 50 : size;
+}
+
+let userInput = sizee; // Replace with actual user input
+let size = validateSize(userInput);
+
+function durationNumber(num) {
+    // Convert the number to a string
+    let numStr = num.toString();
+    
+    // Check if the number starts with '0'
+    if (numStr.startsWith('0')) {
+        // Insert the decimal point after the first '0'
+        return parseFloat('0.' + numStr.slice(1));
+    }
+    
+    // If the number doesn't start with '0', return the number as it is
+    return num;
+}
+    
+function padZero(number) {
+    return String(number).padStart(2, '0');
+}
+    
+setInterval(async () => {
+    if (clock === true) {
+        odometers[0].options = {
+            animation: ['default', 'byDigit', 'count', 'minimal'][animation],
+            downColor: down,
+            duration: durationNumber(duration) * 1000,
+            removeLeadingZeros: true,
+            reverseAnimation: false,
+            format: [',ddd', 'ddd', ' ddd', ':dd'][3],
+            upColor: up
+        };
+
+        const now = new Date();
+        document.getElementById("count").innerHTML = parseInt(
+            padZero(now.getHours()) + padZero(now.getMinutes()) + padZero(now.getSeconds())
+        );
+
+    } else {
+        odometers[0].options = {
+            animation: ['default', 'byDigit', 'count', 'minimal'][animation],
+            downColor: down,
+            duration: durationNumber(duration) * 1000,
+            removeLeadingZeros: true,
+            reverseAnimation: false,
+            format: [',ddd', 'ddd', ' ddd', ':dd'][format],
+            upColor: up
+        };
+
+        let str = "fetch" + platform + type;
+        
+        try {
+            let data = await window[str](id); // Ensure async fetch
+            
+            console.log("Raw Data:", data);
+
+            if (!data) {
+                console.error("No data received.");
+                return;
+            }
+
+            let count = studio === true ? goal - data.studio : goal - data.counts[counter];
+
+            console.log("Calculated Count:", count);
+            document.getElementById("count").innerHTML = Math.abs(count);
+            document.getElementById("name").textContent = data.user[0];
+            document.getElementById("image").src = data.user[1];
+
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
+}, 2000);
+
+// Apply styles using the fetched parameters
+document.documentElement.style.setProperty('--backcolor', bg);
+document.documentElement.style.setProperty('--fontcolor', fc);
+document.documentElement.style.setProperty('--fontalign', fa);
+document.documentElement.style.setProperty('--fontweight', fw);
+document.documentElement.style.setProperty('--size', size + "px");
+document.documentElement.style.setProperty('--font', font);
+
+// Dynamically load Google Font
+document.getElementById("font").href = "https://fonts.googleapis.com/css?family=" + font + ":100,200,300,400,500,600,700,800&display=swap";
+
+</script>
