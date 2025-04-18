@@ -41,18 +41,31 @@ function abbreviateNumber(num) {
 
 async function fetchyoutubechannel(channelId) {
   try {
-    // Fetch data from the first API
+    // Fetch from Mixerno API
     const data = await fetch(
       `https://mixerno.space/api/youtube-channel-counter/user/${channelId}`
     );
-
-    // Fetch data from the second API
-    const dat2a = await fetch(
-      `https://api-v2.nextcounts.com/api/youtube/channel/${channelId}`
-    );
-      
     const response = await data.json();
-    const respons2e = await dat2a.json();
+
+    // Default values for nextcounts
+    let studioData = null;
+    let nextcountsOK = false;
+
+    try {
+      // Attempt fetch from nextcounts
+      const dat2a = await fetch(
+        `https://api-v2.nextcounts.com/api/youtube/channel/${channelId}`
+      );
+      const respons2e = await dat2a.json();
+
+      if (respons2e.verifiedSubCount === true) {
+        studioData = respons2e.subcount;
+        nextcountsOK = true;
+      }
+    } catch (e) {
+      console.warn("nextcounts API failed:", e);
+    }
+
     const subCount = response.counts[0].count;
     const totalViews = response.counts[3].count;
     const apiViews = response.counts[4].count;
@@ -63,53 +76,38 @@ async function fetchyoutubechannel(channelId) {
     const channelBanner = response.user[2].count;
     const goalCount = getGoal(subCount);
 
-    if (respons2e.verifiedSubCount === true) {
-      return {
-        t: new Date(),
-        counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos],
-        user: [channelName, channelLogo, channelBanner],
-        value: [
-          ["Subscribers", "Subscribers (EST)"],
-          ["Goal", `Subscribers to ${abbreviateNumber(getGoalText(subCount))}`],
-          ["Subscribers", "Subscribers (API)"],
-          ["Views", "Views (EST)"],
-          ["Views", "Views (API)"],
-          ["Videos", "Videos (API)"]
-        ],
-        studio: respons2e.subcount
-      };
-    } else if (channelId === "UCX6OQ3DkcsbYNE6H8uQQuVA") {
-      const dat3a = await fetch(`https://mrbeast.subscribercount.app/data`);
-      const mrbeast = await dat3a.json();
-      return {
-        t: new Date(),
-        counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos],
-        user: [channelName, channelLogo, channelBanner],
-        value: [
-          ["Subscribers", "Subscribers (EST)"],
-          ["Goal", `Subscribers to ${abbreviateNumber(getGoalText(subCount))}`],
-          ["Subscribers", "Subscribers (API)"],
-          ["Views", "Views (EST)"],
-          ["Views", "Views (API)"],
-          ["Videos", "Videos (API)"]
-        ],
-        studio: mrbeast.mrbeast
-      };
-    } else {
-      return {
-        t: new Date(),
-        counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos],
-        user: [channelName, channelLogo, channelBanner],
-        value: [
-          ["Subscribers", "Subscribers (EST)"],
-          ["Goal", `Subscribers to ${abbreviateNumber(getGoalText(subCount))}`],
-          ["Subscribers", "Subscribers (API)"],
-          ["Views", "Views (EST)"],
-          ["Views", "Views (API)"],
-          ["Videos", "Videos (API)"]
-        ]
-      };
+    // Special case for MrBeast fallback
+    if (!nextcountsOK && channelId === "UCX6OQ3DkcsbYNE6H8uQQuVA") {
+      try {
+        const dat3a = await fetch(`https://mrbeast.subscribercount.app/data`);
+        const mrbeast = await dat3a.json();
+        studioData = mrbeast.mrbeast;
+      } catch (e) {
+        console.warn("MrBeast fallback fetch failed:", e);
+      }
     }
+
+    // Return object with or without studio data
+    const result = {
+      t: new Date(),
+      counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos],
+      user: [channelName, channelLogo, channelBanner],
+      value: [
+        ["Subscribers", "Subscribers (EST)"],
+        ["Goal", `Subscribers to ${abbreviateNumber(getGoalText(subCount))}`],
+        ["Subscribers", "Subscribers (API)"],
+        ["Views", "Views (EST)"],
+        ["Views", "Views (API)"],
+        ["Videos", "Videos (API)"]
+      ]
+    };
+
+    if (studioData !== null) {
+      result.studio = studioData;
+    }
+
+    return result;
+
   } catch (error) {
     console.error(error);
     throw new Error("Failed to fetch counts");
