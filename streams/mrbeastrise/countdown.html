@@ -1,0 +1,113 @@
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="https://lcedit.com/odometer/odometer.css">
+<script src="https://lcedit.com/odometer/odometer.js"></script>
+
+<body>
+    <span>Me At The Zoo</span><br>
+    <span id="time" class="odometer">000000000000</span>
+    <span id="time2" class="odometer">000000000000</span>
+</body>
+
+<style>
+    body {
+        background-color: transparent;
+        font-size: 100px;
+        font-family: Roboto;
+        text-align: center;
+        font-weight: 700;
+        color: black;
+    }
+
+    #time {
+        display: none;
+    }
+</style>
+
+<script>
+    odometers = Odometer.init();
+    odometers[0].options = {
+        animation: "minimal",
+        downColor: "black",
+        duration: 0.5 * 1000,
+        removeLeadingZeros: true,
+        reverseAnimation: false,
+        format: "dd/dd/dd, dd:dd:dd",
+        upColor: "black"
+    };
+
+    odometers[1].options = {
+        animation: "minimal",
+        downColor: "black",
+        duration: 0.5 * 1000,
+        removeLeadingZeros: true,
+        reverseAnimation: false,
+        format: "dd:dd:dd:dd:dd:dd",
+        upColor: "black"
+    };
+
+    function padZero(num, digits = 2) {
+        return String(num).padStart(digits, '0');
+    }
+
+    const targetTime = new Date("2005-04-24T03:31:52Z"); // Set your target time
+    const targetTime2 = new Date("2025-04-24T03:31:52Z"); // Set your target time
+    let countingUp = false;
+    let countingUp2 = false;
+
+    setInterval(() => {
+        const now = new Date();
+
+        // Calculate the first countdown or count-up (time)
+        let diff = countingUp ? now - targetTime : targetTime - now;
+        if (diff <= 0 && !countingUp) {
+            countingUp = true;
+            diff = 0;
+        }
+
+        const dateDiff = new Date(diff);
+        const years = dateDiff.getUTCFullYear() - 1970;
+        const months = dateDiff.getUTCMonth();
+        const days = dateDiff.getUTCDate() - 1;
+        const hours = dateDiff.getUTCHours();
+        const minutes = dateDiff.getUTCMinutes();
+        const seconds = dateDiff.getUTCSeconds();
+
+        // Build full time string for first countdown: YYMMDDHHMMSS
+        const timeString =
+            padZero(years) +
+            padZero(months) +
+            padZero(days) +
+            padZero(hours) +
+            padZero(minutes) +
+            padZero(seconds);
+
+        // Calculate the second countdown or count-up (time2)
+        let diff2 = countingUp2 ? now - targetTime2 : targetTime2 - now;
+        if (diff2 <= 0 && !countingUp2) {
+            countingUp2 = true;
+            diff2 = 0;
+        }
+
+        const dateDiff2 = new Date(diff2);
+        const years2 = dateDiff2.getUTCFullYear() - 1970;
+        const months2 = dateDiff2.getUTCMonth();
+        const days2 = dateDiff2.getUTCDate() - 1;
+        const hours2 = dateDiff2.getUTCHours();
+        const minutes2 = dateDiff2.getUTCMinutes();
+        const seconds2 = dateDiff2.getUTCSeconds();
+
+        // Build full time string for second countdown: YYMMDDHHMMSS
+        const timeString2 =
+            padZero(years2) +
+            padZero(months2) +
+            padZero(days2) +
+            padZero(hours2) +
+            padZero(minutes2) +
+            padZero(seconds2);
+
+        // Update the odometer displays
+        document.getElementById("time").innerHTML = timeString;
+        document.getElementById("time2").innerHTML = timeString2;
+    }, 1000);
+</script>
