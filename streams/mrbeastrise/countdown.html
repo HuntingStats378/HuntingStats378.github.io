@@ -16,7 +16,7 @@
         font-family: Roboto;
         text-align: center;
         font-weight: 700;
-        color: black;
+        color: white;
     }
 
     #time {
@@ -28,22 +28,22 @@
     odometers = Odometer.init();
     odometers[0].options = {
         animation: "minimal",
-        downColor: "black",
+        downColor: "white",
         duration: 0.5 * 1000,
         removeLeadingZeros: true,
         reverseAnimation: false,
         format: "dd/dd/dd, dd:dd:dd",
-        upColor: "black"
+        upColor: "white"
     };
 
     odometers[1].options = {
         animation: "minimal",
-        downColor: "black",
+        downColor: "white",
         duration: 0.5 * 1000,
         removeLeadingZeros: true,
         reverseAnimation: false,
         format: "dd:dd:dd:dd:dd:dd",
-        upColor: "black"
+        upColor: "white"
     };
 
     function padZero(num, digits = 2) {
