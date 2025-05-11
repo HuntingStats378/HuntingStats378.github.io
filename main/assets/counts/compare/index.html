@@ -147,7 +147,7 @@ setInterval(async () => {
                 return;
             }
 
-            let count = (studio === true ? goal - data2.studio : goal - data1.counts[counter]) - (studio === true ? goal - data2.studio : goal - data2.counts[counter]);
+            let count = goal - ((studio === true ? data1.studio : data1.counts[counter]) - (studio === true ? data2.studio : - data2.counts[counter]));
 
             console.log("Calculated Count:", count);
             document.getElementById("count").innerHTML = Math.abs(count);
