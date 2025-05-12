@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Change User2 - MrBeast Rise</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; }
+    label, input, button { display: block; margin: 1em 0; }
+    pre { background: #f4f4f4; padding: 1em; border: 1px solid #ddd; }
+  </style>
+</head>
+<body>
+
+  <h1>Update user2 for MrBeast Rise</h1>
+
+  <form id="user2Form">
+    <label for="user2">Instagram user2 ID:</label>
+    <input type="text" id="user2" name="user2" required />
+    <button type="submit">Submit</button>
+  </form>
+
+  <h2>Response</h2>
+  <pre id="responseBox">Waiting for submission...</pre>
+
+  <script>
+    const form = document.getElementById('user2Form');
+    const responseBox = document.getElementById('responseBox');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const user2 = document.getElementById('user2').value;
+
+      try {
+        const response = await fetch('/api/streams/mrbeastrise', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ user2 }),
+        });
+
+        const result = await response.json();
+        responseBox.textContent = JSON.stringify(result, null, 2);
+      } catch (error) {
+        responseBox.textContent = 'Error: ' + error.message;
+      }
+    });
+  </script>
+
+</body>
+</html>
