@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Top Creator Background</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background-color: black;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      transition: background-image 0.5s ease;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    let currentUser = null;
+
+    async function updateBackground() {
+      try {
+        const res = await fetch('https://huntingstats378.onrender.com/api/streams/mrbeastrise');
+        const data = await res.json();
+
+        if (Array.isArray(data.counts) && data.counts.length > 0) {
+          const topUser = data.counts[1][1]; // get username or channel ID
+
+          if (topUser !== currentUser) {
+            currentUser = topUser;
+            document.body.style.backgroundImage = `url('./${topUser}.png')`;
+          }
+        }
+      } catch (e) {
+        console.error('Error updating background image:', e);
+      }
+    }
+
+    updateBackground();
+    setInterval(updateBackground, 5000);
+  </script>
+</body>
+</html>
