@@ -173,15 +173,15 @@ async function fetchyoutubestream(videoId) {
 
 async function fetchinstagramuser(userId) {
   try {
-    const data = await fetch(`https://api-v2.nextcounts.com/api/instagram/user/${userId}`);
+    const data = await fetch(`https://livecounts.xyz/api/instagram-live-follower-count/live/${userId}`);
 
     const response = await data.json();
-    const subCount = response.followers;
-    const totalViews = response.posts;
-    const apiSubCount = response.following;
-    const channelLogo = response.avatar;
-    const channelName = response.nickname;
-    const channelBanner = response.userBanner;
+    const subCount = response.counts[0];
+    const totalViews = response.counts[1];
+    const apiSubCount = response.counts[2];
+    const channelLogo = null;
+    const channelName = null;
+    const channelBanner = null;
     const goalCount = getGoal(subCount);
 
     return { "t": new Date(), counts: [subCount, goalCount, apiSubCount, totalViews], user: [channelName, channelLogo, channelBanner] };
