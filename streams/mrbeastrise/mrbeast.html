@@ -36,7 +36,6 @@
 const urlParams = new URLSearchParams(window.location.search);
 const params = {};
 const odometers = Odometer.init();
-new WebSocket("wss://huntingstats378.onrender.com/websocket/ipad-uptime");
 
 // Convert URL parameters to the `params` object with number and boolean parsing
 for (const [key, value] of urlParams.entries()) {
