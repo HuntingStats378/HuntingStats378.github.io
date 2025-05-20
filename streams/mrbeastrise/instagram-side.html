@@ -71,7 +71,7 @@
 </style>
 <script>
      const urlParams = new URLSearchParams(window.location.search);
-    var id = urlParams.get("id") || "kyliejenner";
+    var id = urlParams.get("id") || null;
   odometers = Odometer.init();
   for (let i = 0; i < odometers.length; i++) {
     odometers[i].options = {
