@@ -69,6 +69,8 @@
     }
 </style>
 <script>
+     const urlParams = new URLSearchParams(window.location.search);
+    var id = urlParams.get("id") || null;
   odometers = Odometer.init();
   for (let i = 0; i < odometers.length; i++) {
     odometers[i].options = {
@@ -82,12 +84,30 @@
     }
   }
 
-  setInterval(() => {
-  fetch(`https://huntingstats378.onrender.com/api/streams/mrbeastrise`)
-  .then((res) => res.json())
-  .then((data) => {
-    document.getElementById("count1").innerHTML = data.counts[0][3];
-    document.getElementById("count2").innerHTML = data.counts[0][4];
-  });
-  }, 2000);
+    // Function to fetch the latest ID
+async function updateId() {
+    const res = await fetch(`./ids.json`);
+    const data = await res.json();
+    id = data.user1;
+}
+
+// Function to fetch YouTube channel data
+async function updateCount() {
+    if (!id) return; // Skip if ID is not set yet
+    const data = await fetchyoutubechannel(id);
+    document.getElementById("count1").innerHTML = data.counts[3];
+    document.getElementById("count2").innerHTML = data.counts[5];
+}
+
+// Fetch ID and YouTube data immediately
+(async () => {
+    await updateId();
+    await updateCount();
+})();
+
+// Fetch ID every 20 seconds
+setInterval(updateId, 20000);
+
+// Fetch YouTube data every 2 seconds
+setInterval(updateCount, 2000);
 </script>
