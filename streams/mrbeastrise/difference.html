@@ -1,6 +1,7 @@
 <link id="font" href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800&display=swap" rel="stylesheet">
 <link rel=stylesheet href="https://lcedit.com/odometer/odometer.css">
 <script src="https://lcedit.com/odometer/odometer.js"></script>
+<script src="https://huntingstats378.github.io/main/assets/js/fetch-requests.js"></script>
 
 <body>
     <span id="count" class="odometer">0</span>
@@ -93,13 +94,41 @@ function durationNumber(num) {
     return num;
 }
 
-setInterval(() => {
-    fetch(`https://huntingstats378.onrender.com/api/streams/mrbeastrise`)
-        .then((res) => res.json())
-        .then((data) => {
-            document.getElementById("count").innerHTML = data.gap;
-        });
-}, 2000);
+// Function to fetch both user IDs
+async function updateIds() {
+    const res = await fetch(`./ids.json`);
+    const data = await res.json();
+    user1 = data.user1;
+    user2 = data.user2;
+}
+
+// Function to fetch and display the gap between the two users
+async function updateCount() {
+    if (!user1 || !user2) return;
+
+    const [data1, data2] = await Promise.all([
+        fetchyoutubechannel(user1),
+        fetchinstagramuser(user2)
+    ]);
+
+    const count1 = data1.counts[0];
+    const count2 = data2.counts[0];
+    const gap = Math.abs(count1 - count2);
+
+    document.getElementById("count").innerHTML = gap;
+}
+
+// Initial fetch
+(async () => {
+    await updateIds();
+    await updateCount();
+})();
+
+// Update IDs every 20 seconds
+setInterval(updateIds, 20000);
+
+// Update counts every 2 seconds
+setInterval(updateCount, 2000);
 
 // Apply styles using the fetched parameters
 document.documentElement.style.setProperty('--backcolor', bg);
