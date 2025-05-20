@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap"
         rel="stylesheet">
     <script src="https://code.iconify.design/iconify-icon/1.0.0-beta.3/iconify-icon.min.js"></script>
+<script src="https://huntingstats378.github.io/main/assets/js/fetch-requests.js"></script>
 </head>
 
 <body class="flex">
@@ -69,6 +70,8 @@
     }
 </style>
 <script>
+     const urlParams = new URLSearchParams(window.location.search);
+    var id = urlParams.get("id") || "kyliejenner";
   odometers = Odometer.init();
   for (let i = 0; i < odometers.length; i++) {
     odometers[i].options = {
@@ -82,12 +85,30 @@
     }
   }
 
-  setInterval(() => {
-  fetch(`https://huntingstats378.onrender.com/api/streams/mrbeastrise`)
-  .then((res) => res.json())
-  .then((data) => {
-    document.getElementById("count1").innerHTML = data.counts[1][3];
-    document.getElementById("count2").innerHTML = data.counts[1][4];
-  });
-  }, 2000);
+    // Function to fetch the latest ID
+async function updateId() {
+    const res = await fetch(`./ids.json`);
+    const data = await res.json();
+    id = data.user2;
+}
+
+// Function to fetch YouTube channel data
+async function updateCount() {
+    if (!id) return; // Skip if ID is not set yet
+    const data = await fetchinstagramuser(id);
+    document.getElementById("count1").innerHTML = data.counts[2];
+    document.getElementById("count2").innerHTML = data.counts[3];
+}
+
+// Fetch ID and YouTube data immediately
+(async () => {
+    await updateId();
+    await updateCount();
+})();
+
+// Fetch ID every 20 seconds
+setInterval(updateId, 20000);
+
+// Fetch YouTube data every 2 seconds
+setInterval(updateCount, 2000);
 </script>
