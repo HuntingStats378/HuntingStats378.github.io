@@ -22,21 +22,14 @@
     let currentUser = null;
 
     async function updateBackground() {
-      try {
-        const res = await fetch('https://huntingstats378.onrender.com/api/streams/mrbeastrise');
+        const res = await fetch('https://huntingstats378.github.io/streams/mrbeastrise/ids.json');
         const data = await res.json();
-
-        if (Array.isArray(data.counts) && data.counts.length > 0) {
-          const topUser = data.counts[1][1]; // get username or channel ID
-
-          if (topUser !== currentUser) {
-            currentUser = topUser;
-            document.body.style.backgroundImage = `url('./${topUser}.png')`;
-          }
+        const topUser = data.user2; // get username or channel ID
+      
+        if (topUser !== currentUser) {
+          currentUser = topUser;
+          document.body.style.backgroundImage = `url('./${topUser}.png')`;
         }
-      } catch (e) {
-        console.error('Error updating background image:', e);
-      }
     }
 
     updateBackground();
