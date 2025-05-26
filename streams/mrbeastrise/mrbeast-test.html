@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MrBeast Stats</title>
+
+  <!-- Google Fonts: Roboto -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Odometer -->
+  <link rel="stylesheet" href="https://lcedit.com/odometer/odometer.css" />
+  <script src="https://lcedit.com/odometer/odometer.js"></script>
+
+  <!-- Iconify -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(#26687b, black);
+      color: white;
+      overflow: hidden;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      padding: 10px;
+    }
+
+    .channel-info {
+      display: flex;
+      align-items: center;
+      font-size: 66px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .channel-info img {
+      width: 66px;
+      height: 66px;
+      margin-right: 10px;
+      border-radius: 50%;
+    }
+
+    .stats-line {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      margin-top: 8px;
+      font-size: 22px;
+      font-weight: 400;
+    }
+
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    iconify-icon {
+      font-size: 22px;
+      vertical-align: middle;
+    }
+
+    .main-counter {
+      text-align: center;
+      font-size: 233px;
+      font-weight: 700;
+      margin: 0px 0;
+      line-height: 233px;
+    }
+
+    .growth {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      font-size: 50px;
+      font-weight: 500;
+    }
+
+    .odometer {
+      display: inline-block;
+    }
+
+    /* Plotly background curve */
+    #curve {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Plotly Background Curve -->
+  <div id="curve"></div>
+
+  <!-- Foreground Content -->
+  <div class="container">
+    <div class="channel-info">
+      <img src="https://banner.yt/UCX6OQ3DkcsbYNE6H8uQQuVA/avatar" alt="MrBeast Logo">
+      <a>MrBeast • #1</a>
+    </div>
+
+    <div class="stats-line">
+      <div class="stat"><iconify-icon icon="bi:eye-fill"></iconify-icon> <span id="views" class="odometer">0</span>
+      </div>
+      <div class="stat"><iconify-icon icon="bxs:like"></iconify-icon> <span id="likes" class="odometer">0</span></div>
+      <div class="stat"><iconify-icon icon="fa-solid:comment-dots"></iconify-icon> <span id="comments"
+          class="odometer">0</span></div>
+      <div class="stat"><iconify-icon icon="mdi:upload-box"></iconify-icon> <span id="videos" class="odometer">0</span>
+      </div>
+    </div>
+
+    <div class="growth">
+      <span id="min">+0</span> /
+      <span id="hour">+0</span> /
+      <span id="day">+0</span>
+    </div>
+
+
+    <div class="main-counter">
+      <span id="subscribers" class="odometer">0</span>
+    </div>
+  </div>
+
+  <script>
+    // Odometer Script
+    odometers = Odometer.init();
+    for (let i = 0; i < odometers.length; i++) {
+      odometers[i].options = {
+        animation: ['default', 'byDigit', 'count', 'minimal'][0],
+        duration: 2 * 1000,
+        removeLeadingZeros: true,
+        reverseAnimation: false,
+        format: ",ddd",
+      }
+    }
+
+    let baseTime = Date.now() / 1000;
+    let baseViews = 0, baseLikes = 0, baseComments = 0, baseUploads = 0;
+    let rateViews = 0, rateLikes = 0, rateComments = 0;
+    let lastCombinedFetchHour = -1;
+
+    const dataX = [], dataY = [];
+    const statsHistory = { time: [], count: [] };
+    let startTime = null, lastSavedTime = 0;
+
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function calcGain(arr, seconds) {
+      const now = Date.now();
+      const cutoff = now - seconds * 1000;
+      const validPoints = arr.map((v, i) => ({ t: new Date(statsHistory.time[i]).getTime(), v }))
+        .filter(p => p.t >= cutoff);
+      if (validPoints.length >= 2) {
+        return validPoints.at(-1).v - validPoints[0].v;
+      } else {
+        return 0;
+      }
+    }
+
+    function calPrefixOfCount(x, gain = "lime", lose = "red", none = "white") {
+      const count = parseFloat(x);
+      if (count > 0) return ["+", gain];
+      if (count === 0) return ["+", none];
+      return ["", lose];
+    }
+
+    const trace = {
+      x: dataX,
+      y: dataY,
+      mode: 'lines',
+      line: {
+        color: '#70c8ff',
+        width: 3,
+        shape: 'linear'
+      },
+      hoverinfo: 'skip'
+    };
+
+    const layout = {
+      autosize: true,
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
+      margin: { l: 0, r: 0, t: 0, b: 0 },
+      xaxis: { type: 'date', visible: false },
+      yaxis: { visible: false }
+    };
+
+    async function fetchInitialHistory() {
+      try {
+        const res = await fetch('https://api.communitrics.com/mrbeast');
+        const history = await res.json();
+        const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
+
+        history.forEach(entry => {
+          const time = new Date(entry.currentTime);
+          if (time.getTime() >= oneDayAgo) {
+            dataX.push(time);
+            dataY.push(entry.count);
+            statsHistory.time.push(time.toISOString());
+            statsHistory.count.push(entry.count);
+          }
+        });
+
+        startTime = dataX[0] || new Date();
+      } catch (err) {
+        console.warn("Failed to load /mrbeast history:", err);
+        startTime = new Date();
+      } finally {
+        Plotly.newPlot('curve', [trace], layout, {
+          staticPlot: true,
+          displayModeBar: false
+        });
+      }
+    }
+
+    async function fetchCombinedHistory(force = false) {
+      const now = new Date();
+      const hour = now.getHours(), minute = now.getMinutes();
+
+      if (force || (minute === 1 && hour !== lastCombinedFetchHour)) {
+        try {
+          const res = await fetch('https://api.communitrics.com/combined-history?recent=true');
+          if (!res.ok) throw new Error("Failed to fetch combined-history");
+
+          const data = await res.json();
+          const last = data.at(-1), prev = data.at(-2);
+          const t1 = new Date(prev.time).getTime() / 1000;
+          const t2 = new Date(last.time).getTime() / 1000;
+          const delta = t2 - t1;
+
+          if (delta > 0) {
+            baseTime = t2;
+            baseViews = last.views;
+            baseLikes = last.likes;
+            baseComments = last.comments;
+            baseUploads = last.uploadCount;
+
+            rateViews = (last.views - prev.views) / delta;
+            rateLikes = (last.likes - prev.likes) / delta;
+            rateComments = (last.comments - prev.comments) / delta;
+          }
+
+          lastCombinedFetchHour = hour;
+        } catch (err) {
+          console.warn("Combined data fetch failed:", err);
+        }
+      }
+    }
+
+    function updateDisplay() {
+      const now = Date.now() / 1000;
+      const elapsed = now - baseTime;
+
+      views.innerHTML = Math.floor(baseViews + rateViews * elapsed);
+      likes.innerHTML = Math.floor(baseLikes + rateLikes * elapsed);
+      comments.innerHTML = Math.floor(baseComments + rateComments * elapsed);
+      videos.innerHTML = Math.floor(baseUploads);
+
+      setTimeout(updateDisplay, 2000);
+    }
+
+    function pollSubscribers() {
+      fetch(`https://backend.mixerno.space/api/youtube/estv3/UCX6OQ3DkcsbYNE6H8uQQuVA`)
+        .then(res => res.json())
+        .then(data => {
+          const subs = parseInt(data.items[0].statistics.subscriberCount);
+          const now = new Date();
+          if (!startTime) return;
+
+          document.getElementById("subscribers").innerHTML = numberWithCommas(subs);
+
+          dataX.push(now);
+          dataY.push(subs);
+
+          if (Date.now() - lastSavedTime >= 5000) {
+            statsHistory.time.push(now.toISOString());
+            statsHistory.count.push(subs);
+            lastSavedTime = Date.now();
+          }
+
+          const cutoff = Date.now() - 24 * 60 * 60 * 1000;
+          while (dataX.length && dataX[0].getTime() < cutoff) dataX.shift();
+          while (dataY.length > dataX.length) dataY.shift();
+          while (statsHistory.time.length && new Date(statsHistory.time[0]).getTime() < cutoff)
+            statsHistory.time.shift(), statsHistory.count.shift();
+
+          startTime = dataX[0];
+          const futureBuffer = new Date(now.getTime() + 2000);
+          Plotly.update('curve', { x: [dataX], y: [dataY] }, {
+            'xaxis.range': [startTime, futureBuffer]
+          });
+
+          const min = calcGain(statsHistory.count, 60);
+          const hour = calcGain(statsHistory.count, 3600);
+          const day = calcGain(statsHistory.count, 86400);
+
+          const updateStat = (id, value) => {
+            const [prefix, color] = calPrefixOfCount(value);
+            const el = document.getElementById(id);
+            el.textContent = prefix + numberWithCommas(value);
+            el.style.color = color;
+          };
+
+          updateStat('min', min);
+          updateStat('hour', hour);
+          updateStat('day', day);
+        })
+        .catch(err => console.warn("Mixerno fetch error:", err));
+    }
+
+    // Init
+    fetchInitialHistory().finally(() => {
+      fetchCombinedHistory(true);
+      setInterval(() => fetchCombinedHistory(false), 60000); // check every 1 min for HH:01
+      updateDisplay();
+      setInterval(pollSubscribers, 2000);
+    });
+  </script>
+</body>
+
+</html>
