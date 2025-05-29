@@ -177,8 +177,8 @@ async function fetchinstagramuser(userId) {
 
     const response = await data.json();
     const subCount = response.counts[0];
-    const totalViews = response.counts[1];
-    const apiSubCount = response.counts[2];
+    const totalViews = response.counts[2];
+    const apiSubCount = response.counts[1];
     const channelLogo = null;
     const channelName = null;
     const channelBanner = null;
