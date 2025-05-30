@@ -378,7 +378,7 @@
 
     async function fetchAndUpdate() {
         try {
-            const response = await fetch("https://corsproxy.io/?https://api.lurkr.gg/v1/leaderboard/723796776355758242");
+            const response = await fetch("https://corsproxy.io/?https://api.lurkr.gg/v2/levels/1150096734576451614?page=1");
             const data = await response.json();
             const users = data.levels;
 
