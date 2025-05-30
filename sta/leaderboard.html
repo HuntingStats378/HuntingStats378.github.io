@@ -378,11 +378,7 @@
 
     async function fetchAndUpdate() {
         try {
-            const response = await fetch("https://api.lurkr.gg/v1/leaderboard/723796776355758242", {
-                headers: {
-                    "X-API-Key": "lkr_KxOpmNoRKReZlYDhFi3B4RifvNFWbszLzRZR0EsROkE"
-                }
-            });
+            const response = await fetch("https://corsproxy.io/?https://api.lurkr.gg/v1/leaderboard/723796776355758242");
             const data = await response.json();
             const users = data.levels;
 
