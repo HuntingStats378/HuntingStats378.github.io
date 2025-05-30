@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Top 100 XP Leaderboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css" rel="stylesheet"/>
+  <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+  <style>
+    /* (same styles as your original) */
+    /* Keep your full style block here unchanged */
+  </style>
+</head>
+<body>
+  <h1>Top 100 XP Leaderboard</h1>
+  <div id="userList"><p id="loadingMsg">Loading...</p></div>
+
+  <script>
+    function formatRank(rank) {
+      let rankClass = '';
+      if (rank === 1) rankClass = 'gold';
+      else if (rank === 2) rankClass = 'silver';
+      else if (rank === 3) rankClass = 'bronze';
+      return `<span class="rank ${rankClass}">#${rank}</span>`;
+    }
+
+    function getAvatarURL(userId, avatarHash) {
+      if (!avatarHash) return './default.png';
+      const isGif = avatarHash.startsWith('a_');
+      const ext = isGif ? 'gif' : 'png';
+      return `https://cdn.discordapp.com/avatars/${userId}/${avatarHash}.${ext}`;
+    }
+
+    async function fetchAndRender() {
+      const container = document.getElementById('userList');
+      const loading = document.getElementById('loadingMsg');
+
+      try {
+        const res = await fetch('https://api.lurkr.gg/v1/leaderboard/723796776355758242', {
+          headers: {
+            'X-API-Key': 'lkr_KxOpmNoRKReZlYDhFi3B4RifvNFWbszLzRZR0EsROkE'
+          }
+        });
+
+        const data = await res.json();
+        const users = data.levels.slice(0, 100);
+        container.innerHTML = '';
+
+        users.forEach((user, index) => {
+          const rank = user.rank;
+          const progress = user.progress || 0;
+          const xp = user.xp;
+          const nextLevelXP = user.nextLevelXp;
+          const avatar = user.user.avatar;
+          const userId = user.userId;
+          const username = user.user.username;
+
+          const card = document.createElement('div');
+          card.className = 'user-card';
+          card.innerHTML = `
+            ${formatRank(rank)}
+            <img class="avatar" src="${getAvatarURL(userId, avatar)}" alt="${username}" onerror="this.src='./default.png';" />
+            <div class="user-info">
+              <div class="username">${username}</div>
+              <div class="odometer" id="xp-${userId}">0</div>
+              <div class="xp-labels">
+                <span>Level ${user.level}</span>
+                <span>${(nextLevelXP * progress / 100).toLocaleString()} / ${nextLevelXP.toLocaleString()} XP</span>
+              </div>
+              <div class="progress-container">
+                <div class="progress-bar" style="width: ${progress.toFixed(2)}%"></div>
+              </div>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+
+        setTimeout(() => {
+          users.forEach(user => {
+            const xpEl = document.getElementById(`xp-${user.userId}`);
+            if (xpEl) xpEl.innerHTML = user.xp.toLocaleString();
+          });
+        }, 300);
+      } catch (err) {
+        console.error('Failed to fetch Lurkr data:', err);
+        loading.innerText = 'Failed to load leaderboard.';
+      }
+    }
+
+    fetchAndRender();
+    setInterval(fetchAndRender, 60000);
+  </script>
+</body>
+</html>
