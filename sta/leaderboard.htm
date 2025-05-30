@@ -369,14 +369,6 @@
     </div>
 </body>
 <script>
-    function totalXPToLevel(level) {
-        return (level * (2 * 75 + (level - 1) * 100)) / 2;
-    }
-
-    function getTotalXP(level, currentXP) {
-        return Math.round(totalXPToLevel(level) + currentXP);
-    }
-
     function getAvatarURL(user) {
         if (!user.avatar || !user.id) return "./default.png"; // fallback
         const isGif = user.avatar.startsWith("a_");
@@ -386,8 +378,15 @@
 
     async function fetchAndUpdate() {
         try {
-            const response = await fetch("https://huntingstats378.onrender.com/api/discord/statistics/top100");
-            const users = await response.json();
+            const response = await fetch("https://api.lurkr.gg/leaderboard/global?limit=50", {
+                headers: {
+                    "X-API-Key": "lkr_KxOpmNoRKReZlYDhFi3B4RifvNFWbszLzRZR0EsROkE"
+                }
+            });
+
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            const data = await response.json();
+            const users = data.users || [];
 
             users.slice(0, 50).forEach((user, index) => {
                 const nameEl = document.getElementById(`name_${index}`);
@@ -395,21 +394,21 @@
                 const imageEl = document.getElementById(`image_${index}`);
 
                 if (nameEl) nameEl.textContent = user.username;
-                if (countEl) countEl.innerHTML = getTotalXP(user.level, user.xp);
+                if (countEl) countEl.innerHTML = user.totalXp;
                 if (imageEl) {
                     const avatarURL = getAvatarURL(user);
                     imageEl.src = avatarURL;
                     imageEl.onerror = () => {
-                        imageEl.onerror = null; // prevent infinite loop
+                        imageEl.onerror = null;
                         imageEl.src = "./default.png";
                     };
                 }
             });
         } catch (err) {
-            console.error("Failed to fetch data:", err);
+            console.error("Failed to fetch Lurkr data:", err);
         }
     }
 
     fetchAndUpdate();
-    setInterval(fetchAndUpdate, 60000);
+    setInterval(fetchAndUpdate, 2000);
 </script>
