@@ -33,7 +33,7 @@
   <div class="odometer" id="xpCounter">Loading...</div>
 
   <script>
-const BASE_URL = "https://corsproxy.io/?https://api.lurkr.gg/v2/levels";
+const BASE_URL = "https://corsproxy.io/?https://api.lurkr.gg/v2/levels/1150096734576451614";
 let currentPage = 1;
 
 function getAvatarURL(user) {
@@ -49,7 +49,7 @@ function getUserIdFromURL() {
 }
 
 async function fetchUserFromPage(userId, page) {
-  const url = `${BASE_URL}/${page}?limit=100`;
+  const url = `${BASE_URL}?page=${page}`;
   const response = await fetch(url);
   const data = await response.json();
   if (!data.levels || data.levels.length === 0) return null;
