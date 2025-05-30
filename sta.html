@@ -33,39 +33,73 @@
   <div class="odometer" id="xpCounter">Loading...</div>
 
   <script>
-    function getUserIdFromURL() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get("id");
+const BASE_URL = "https://api.lurkr.gg/v1/leaderboard";
+let currentPage = 1;
+
+function getAvatarURL(user) {
+  if (!user.user.avatar || !user.userId) return "./default.png";
+  const isGif = user.user.avatar.startsWith("a_");
+  const extension = isGif ? "gif" : "png";
+  return `https://cdn.discordapp.com/avatars/${user.userId}/${user.user.avatar}.${extension}`;
+}
+
+function getUserIdFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("id");
+}
+
+async function fetchUserFromPage(userId, page) {
+  const url = `${BASE_URL}/${page}?limit=100`;
+  const response = await fetch(url);
+  const data = await response.json();
+  if (!data.levels || data.levels.length === 0) return null;
+
+  const userData = data.levels.find(u => u.userId === userId);
+  return userData || null;
+}
+
+async function fetchUserXP() {
+  const userId = getUserIdFromURL();
+  if (!userId) {
+    document.getElementById("xpCounter").innerText = "Missing user ID in URL (?id=...)";
+    return;
+  }
+
+  try {
+    let user = null;
+    let page = 1;
+
+    while (!user) {
+      user = await fetchUserFromPage(userId, page);
+      if (!user) {
+        page++;
+        // Stop after 10 pages to avoid infinite loops
+        if (page > 10) break;
+      }
     }
 
-    async function fetchXP() {
-      const userId = getUserIdFromURL();
-      if (!userId) {
-        document.getElementById("xpCounter").innerText = "Missing user ID in URL (?id=...)";
-        return;
+    if (user) {
+      document.getElementById("name").innerText = user.user.username;
+      document.getElementById("xpCounter").innerText = user.xp.toLocaleString();
+      const avatarImg = document.getElementById("avatarImg");
+      if (avatarImg) {
+        avatarImg.src = getAvatarURL(user);
+        avatarImg.onerror = () => {
+          avatarImg.onerror = null;
+          avatarImg.src = "./default.png";
+        };
       }
-
-      try {
-        const response = await fetch(`https://api.lurkr.gg/levels/${userId}`);
-        const data = await response.json();
-
-        if (!data || !data.level || !data.xp || !data.user) {
-          throw new Error("Invalid response");
-        }
-
-        const totalXP = data.xp;
-        const username = data.user.globalName || data.user.username || "Unknown";
-
-        document.getElementById("name").innerText = username;
-        document.getElementById("xpCounter").innerText = totalXP.toLocaleString();
-      } catch (error) {
-        document.getElementById("xpCounter").innerText = "Error loading XP";
-        console.error("Error fetching XP:", error);
-      }
+    } else {
+      document.getElementById("xpCounter").innerText = "User not found in top leaderboard pages.";
     }
+  } catch (error) {
+    document.getElementById("xpCounter").innerText = "Error loading XP";
+    console.error("Error fetching XP:", error);
+  }
+}
 
-    fetchXP();
-    setInterval(fetchXP, 60000); // Refresh every minute
+fetchUserXP();
+setInterval(fetchUserXP, 60000);
   </script>
 </body>
 </html>
