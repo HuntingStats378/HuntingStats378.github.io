@@ -259,7 +259,7 @@ async function fetch50statesfundraiser(userId) {
   }
   } else {
   try {
-    const data = await fetch(`https://gshso0nx9d.execute-api.us-east-1.amazonaws.com/api//public/campaigns/13135e7f-7d66-422e-ac00-0197067d5c8a`);
+    const data = await fetch(`https://corsproxy.io/?https://gshso0nx9d.execute-api.us-east-1.amazonaws.com/api//public/campaigns/13135e7f-7d66-422e-ac00-0197067d5c8a`);
 
     const response = await data.json();
     const subCount = response.data.amount_raised.value;
