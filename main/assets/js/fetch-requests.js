@@ -237,42 +237,52 @@ async function fetchtwitteruser(userId) {
 
 async function fetch50statesfundraiser(userId) {
   if (userId === "top") {
-  try {
-    const data = await fetch(`https://mixerno.space/api/twitter-user-counter/user/${userId}`);
+    try {
+      const data = await fetch(`https://mixerno.space/api/twitter-user-counter/user/${userId}`);
+      const response = await data.json();
 
-    const response = await data.json();
-    const subCount = response.counts[0].count;
-    const totalViews = response.counts[3].count;
-    const apiViews = response.counts[4].count;
-    const apiSubCount = response.counts[2].count;
-    const videos = response.counts[5].count;
-    const extra = response.counts[6].count;
-    const channelLogo = response.user[1].count;
-    const channelName = response.user[0].count;
-    const channelBanner = response.user[2].count;
-    const goalCount = getGoal(subCount);
+      const subCount = response.counts[0].count;
+      const totalViews = response.counts[3].count;
+      const apiViews = response.counts[4].count;
+      const apiSubCount = response.counts[2].count;
+      const videos = response.counts[5].count;
+      const extra = response.counts[6].count;
+      const channelLogo = response.user[1].count;
+      const channelName = response.user[0].count;
+      const channelBanner = response.user[2].count;
+      const goalCount = getGoal(subCount);
 
-    return { "t": new Date(), counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos, extra], user: [channelName, channelLogo, channelBanner] };
-  } catch (error) {
-    console.error(error);
-    return { error: "Failed to fetch counts" };
-  }
+      return {
+        t: new Date(),
+        counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos, extra],
+        user: [channelName, channelLogo, channelBanner],
+      };
+    } catch (error) {
+      console.error(error);
+      return { error: "Failed to fetch counts" };
+    }
   } else {
-  try {
-    const data = await fetch(`https://corsproxy.io/?https://gshso0nx9d.execute-api.us-east-1.amazonaws.com/api//public/campaigns/13135e7f-7d66-422e-ac00-0197067d5c8a`);
+    try {
+      const data = await fetch(`https://corsproxy.io/?https://gshso0nx9d.execute-api.us-east-1.amazonaws.com/api/public/campaigns/13135e7f-7d66-422e-ac00-0197067d5c8a`);
+      const response = await data.json();
 
-    const response = await data.json();
-    const subCount = response.data.amount_raised.value;
-    const totalViews = response.data.goal.value;
-    const apiViews = response.data.original_goal.value;
-    const channelLogo = response.data.avatar.src;
-    const channelName = response.data.name;
-    const channelBanner = response.data.id;
-    const goalCount = getGoal(subCount);
+      const subCount = response.data.amount_raised.value;
+      const totalViews = response.data.goal.value;
+      const apiViews = response.data.original_goal.value;
+      const channelLogo = response.data.avatar.src;
+      const channelName = response.data.name;
+      const channelBanner = response.data.id;
+      const goalCount = getGoal(subCount);
 
-    return { "t": new Date(), counts: [subCount, goalCount, totalViews, apiViews], user: [channelName, channelLogo, channelBanner] };
-  } catch (error) {
-    console.error(error);
-    return { error: "Failed to fetch counts" };
+      return {
+        t: new Date(),
+        counts: [subCount, goalCount, totalViews, apiViews],
+        user: [channelName, channelLogo, channelBanner],
+      };
+    } catch (error) {
+      console.error(error);
+      return { error: "Failed to fetch counts" };
+    }
   }
 }
+
