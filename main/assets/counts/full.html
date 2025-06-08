@@ -164,7 +164,7 @@ setInterval(async () => {
             let count = studio === true ? goal - data.studio : goal - data.counts[counter];
 
             console.log("Calculated Count:", count);
-            document.getElementById("count").innerHTML = Math.abs(count);
+            document.getElementById("count").innerHTML = Math.floor(Math.abs(count));
             document.getElementById("name").textContent = data.user[0];
             document.getElementById("image").src = data.user[1];
 
