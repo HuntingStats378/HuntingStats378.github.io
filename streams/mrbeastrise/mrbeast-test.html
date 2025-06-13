@@ -277,10 +277,10 @@
     }
 
     function pollSubscribers() {
-      fetch(`https://backend.mixerno.space/api/youtube/estv3/UCX6OQ3DkcsbYNE6H8uQQuVA`)
+      fetch(`https://ests.sctools.org/api/get/UCX6OQ3DkcsbYNE6H8uQQuVA`)
         .then(res => res.json())
         .then(data => {
-          const subs = parseInt(data.items[0].statistics.subscriberCount);
+          const subs = parseInt(data.stats.estCount);
           const now = new Date();
           if (!startTime) return;
 
