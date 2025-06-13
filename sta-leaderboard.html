@@ -190,11 +190,7 @@
       const loading = document.getElementById('loadingMsg');
 
       try {
-        const res = await fetch('https://api.lurkr.gg/v1/leaderboard/723796776355758242', {
-          headers: {
-            'X-API-Key': 'lkr_KxOpmNoRKReZlYDhFi3B4RifvNFWbszLzRZR0EsROkE'
-          }
-        });
+        const res = await fetch('https://corsproxy.io/?https://api.lurkr.gg/v1/leaderboard/723796776355758242');
 
         const data = await res.json();
         const users = data.levels.slice(0, 100);
