@@ -276,51 +276,54 @@
       setTimeout(updateDisplay, 2000);
     }
 
-    function pollSubscribers() {
-      let data = fetchyoutubechannel("UCX6OQ3DkcsbYNE6H8uQQuVA");
-          const subs = parseInt(data.counts[0]);
-          const now = new Date();
-          if (!startTime) return;
+    async function pollSubscribers() {
+  try {
+    const data = await fetchyoutubechannel("UCX6OQ3DkcsbYNE6H8uQQuVA");
+    const subs = parseInt(data.counts[0]);
+    const now = new Date();
+    if (!startTime) return;
 
-          document.getElementById("subscribers").innerHTML = numberWithCommas(subs);
+    document.getElementById("subscribers").innerHTML = numberWithCommas(subs);
 
-          dataX.push(now);
-          dataY.push(subs);
+    dataX.push(now);
+    dataY.push(subs);
 
-          if (Date.now() - lastSavedTime >= 5000) {
-            statsHistory.time.push(now.toISOString());
-            statsHistory.count.push(subs);
-            lastSavedTime = Date.now();
-          }
-
-          const cutoff = Date.now() - 24 * 60 * 60 * 1000;
-          while (dataX.length && dataX[0].getTime() < cutoff) dataX.shift();
-          while (dataY.length > dataX.length) dataY.shift();
-          while (statsHistory.time.length && new Date(statsHistory.time[0]).getTime() < cutoff)
-            statsHistory.time.shift(), statsHistory.count.shift();
-
-          startTime = dataX[0];
-          const futureBuffer = new Date(now.getTime() + 2000);
-          Plotly.update('curve', { x: [dataX], y: [dataY] }, {
-            'xaxis.range': [startTime, futureBuffer]
-          });
-
-          const min = calcGain(statsHistory.count, 60);
-          const hour = calcGain(statsHistory.count, 3600);
-          const day = calcGain(statsHistory.count, 86400);
-
-          const updateStat = (id, value) => {
-            const [prefix, color] = calPrefixOfCount(value);
-            const el = document.getElementById(id);
-            el.textContent = prefix + numberWithCommas(value);
-            el.style.color = color;
-          };
-
-          updateStat('min', min);
-          updateStat('hour', hour);
-          updateStat('day', day);
-        .catch(err => console.warn("fetch error:", err));
+    if (Date.now() - lastSavedTime >= 5000) {
+      statsHistory.time.push(now.toISOString());
+      statsHistory.count.push(subs);
+      lastSavedTime = Date.now();
     }
+
+    const cutoff = Date.now() - 24 * 60 * 60 * 1000;
+    while (dataX.length && dataX[0].getTime() < cutoff) dataX.shift();
+    while (dataY.length > dataX.length) dataY.shift();
+    while (statsHistory.time.length && new Date(statsHistory.time[0]).getTime() < cutoff)
+      statsHistory.time.shift(), statsHistory.count.shift();
+
+    startTime = dataX[0];
+    const futureBuffer = new Date(now.getTime() + 2000);
+    Plotly.update('curve', { x: [dataX], y: [dataY] }, {
+      'xaxis.range': [startTime, futureBuffer]
+    });
+
+    const min = calcGain(statsHistory.count, 60);
+    const hour = calcGain(statsHistory.count, 3600);
+    const day = calcGain(statsHistory.count, 86400);
+
+    const updateStat = (id, value) => {
+      const [prefix, color] = calPrefixOfCount(value);
+      const el = document.getElementById(id);
+      el.textContent = prefix + numberWithCommas(value);
+      el.style.color = color;
+    };
+
+    updateStat('min', min);
+    updateStat('hour', hour);
+    updateStat('day', day);
+  } catch (err) {
+    console.warn("fetch error:", err);
+  }
+}
 
     // Init
     fetchInitialHistory().finally(() => {
