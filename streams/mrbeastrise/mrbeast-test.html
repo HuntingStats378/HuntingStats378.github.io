@@ -277,10 +277,8 @@
     }
 
     function pollSubscribers() {
-      fetch(`https://ests.sctools.org/api/get/UCX6OQ3DkcsbYNE6H8uQQuVA`)
-        .then(res => res.json())
-        .then(data => {
-          const subs = parseInt(data.stats.estCount);
+      let data = fetchyoutubechannel(UCX6OQ3DkcsbYNE6H8uQQuVA);
+          const subs = parseInt(data.counts[0]);
           const now = new Date();
           if (!startTime) return;
 
@@ -321,8 +319,7 @@
           updateStat('min', min);
           updateStat('hour', hour);
           updateStat('day', day);
-        })
-        .catch(err => console.warn("Mixerno fetch error:", err));
+        .catch(err => console.warn("fetch error:", err));
     }
 
     // Init
