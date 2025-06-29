@@ -204,7 +204,7 @@
 
     async function fetchInitialHistory() {
       try {
-        const res = await fetch('https://api.communitrics.com/mrbeast');
+        const res = await fetch('https://api.communitrics.com/mrbeast?minutelyPastDay=true');
         const history = await res.json();
         const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
 
