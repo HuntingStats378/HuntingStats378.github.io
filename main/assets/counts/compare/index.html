@@ -56,8 +56,10 @@ var fc = urlParams.get("fontcolor") || "white";
 var fa = urlParams.get("fontalign") || "center";
 var id1 = urlParams.get("id1") || "UClOyuxZvQkoHoIn15kNbkUw";
 var id2 = urlParams.get("id2") || "UCVfKmfOY5SWfx_rt51oG92Q";
-var platform = urlParams.get("platform") || "youtube";
-var type = urlParams.get("type") || "channel";
+var platform1 = urlParams.get("platform1") || "youtube";
+var type1 = urlParams.get("type1") || "channel";
+var platform2 = urlParams.get("platform2") || "youtube";
+var type2 = urlParams.get("type2") || "channel";
 var studio = urlParams.get("studio") || false;
 var font = urlParams.get("font") || "Roboto";
 var sizee = urlParams.get("size") || "50";
@@ -128,11 +130,12 @@ setInterval(async () => {
             upColor: up
         };
 
-        let str = "fetch" + platform + type;
+        let str1 = "fetch" + platform1 + type1;
+        let str2 = "fetch" + platform2 + type2;
         
         try {
-            let data1 = await window[str](id1); // Ensure async fetch
-            let data2 = await window[str](id2); // Ensure async fetch
+            let data1 = await window[str1](id1); // Ensure async fetch
+            let data2 = await window[str2](id2); // Ensure async fetch
             
             console.log("Raw Data1:", data1);
             console.log("Raw Data2:", data2);
@@ -143,7 +146,7 @@ setInterval(async () => {
             }
 
             if (!data2) {
-                console.error("No dat2a received.");
+                console.error("No data2 received.");
                 return;
             }
 
