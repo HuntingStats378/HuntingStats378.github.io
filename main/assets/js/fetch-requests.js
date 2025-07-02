@@ -173,18 +173,21 @@ async function fetchyoutubestream(videoId) {
 
 async function fetchinstagramuser(userId) {
   try {
-    const data = await fetch(`https://livecounts.xyz/api/instagram-live-follower-count/live/${userId}`);
+    const [data, dat2a] = await Promise.all([
+      fetch(`https://livecounts.xyz/api/instagram-live-follower-count/live/${userId}`),
+      fetch(`https://api-v2.nextcounts.com/api/instagram/user/${userId}`)
+    ]);
 
     const response = await data.json();
     const subCount = response.counts[0];
     const totalViews = response.counts[2];
     const apiSubCount = response.counts[1];
-    const channelLogo = null;
-    const channelName = null;
-    const channelBanner = null;
+    const channelLogo = dat2a.avatar || null;
+    const channelName = dat2a.nickname || null;
+    const channelBanner = dat2a.userBanner || null;
     const goalCount = getGoal(subCount);
 
-    return { "t": new Date(), counts: [subCount, goalCount, apiSubCount, totalViews], user: [channelName, channelLogo, channelBanner] };
+    return { "t": new Date(), counts: [liveCount, goalCount, subCount, apiSubCount, totalViews, apiViews, videos], user: [channelName, channelLogo, channelBanner] };
   } catch (error) {
     console.error(error);
     return { error: "Failed to fetch counts" };
