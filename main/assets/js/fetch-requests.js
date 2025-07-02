@@ -187,7 +187,7 @@ async function fetchinstagramuser(userId) {
     const channelBanner = dat2a.userBanner || null;
     const goalCount = getGoal(subCount);
 
-    return { "t": new Date(), counts: [liveCount, goalCount, subCount, apiSubCount, totalViews, apiViews, videos], user: [channelName, channelLogo, channelBanner] };
+    return { "t": new Date(), counts: [subCount, goalCount, apiSubCount, totalViews], user: [channelName, channelLogo, channelBanner] };
   } catch (error) {
     console.error(error);
     return { error: "Failed to fetch counts" };
