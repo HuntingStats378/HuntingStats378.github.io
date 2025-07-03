@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Compare Mode</title>
+  <link id="font" href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://lcedit.com/odometer/odometer.css">
+  <script src="https://lcedit.com/odometer/odometer.js"></script>
+  <script src="https://huntingstats378.github.io/main/assets/js/fetch-requests.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto:700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://lcedit.com/odometer/odometer.css">
+<script src="https://lcedit.com/odometer/odometer.js"></script>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background: white;
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 20px 40px;
+    gap: 40px;
+  }
+
+  .user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .user.reverse {
+    flex-direction: row-reverse;
+  }
+
+  .avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user.reverse .user-info {
+    align-items: flex-end;
+  }
+
+  .user h5 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .user h2 {
+    margin: 0;
+    font-size: 45px;
+    font-weight: 700;
+  }
+
+  .middle {
+    text-align: center;
+  }
+
+  .middle h4 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .middle h2 {
+    margin: 0;
+    font-size: 45px;
+    font-weight: 700;
+  }
+</style>
+
+<div class="container">
+  <!-- Left User -->
+  <div class="user">
+    <img id="avatar1" class="avatar" src="https://huntingstats378.github.io/main/images/default.png">
+    <div class="user-info">
+      <h5 id="name1">Name</h5>
+      <h2 class="odometer" id="count1">100,000</h2>
+    </div>
+  </div>
+
+  <!-- Difference -->
+  <div class="middle">
+    <h4>Difference</h4>
+    <h2 class="odometer" id="difference">1,000</h2>
+  </div>
+
+  <!-- Right User -->
+  <div class="user reverse">
+    <img id="avatar2" class="avatar" src="https://yt3.ggpht.com/ytc/AIdro_m0Q9shdFENAjHqAz6xX9iAfRsaRsmZZfbrvOZk=s900-c-k-c0x00ffffff-no-rj">
+    <div class="user-info">
+      <h5 id="name2">Name</h5>
+      <h2 class="odometer" id="count2">100,000</h2>
+    </div>
+  </div>
+</div>
+
+  <script>
+    const odometers = {
+      count1: new Odometer({ el: document.getElementById("count1"), value: 0 }),
+      count2: new Odometer({ el: document.getElementById("count2"), value: 0 }),
+      difference: new Odometer({ el: document.getElementById("difference"), value: 0 }),
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const id1 = urlParams.get("id1") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
+    const id2 = urlParams.get("id2") || "UCq-Fj5jknLsUf-MWSy4_brA";
+    const platform = urlParams.get("platform") || "youtube";
+    const type = urlParams.get("type") || "channel";
+    const font = urlParams.get("font") || "Roboto";
+    const size = urlParams.get("size") || "60";
+    const fw = urlParams.get("fontweight") || "700";
+    const format = urlParams.get("format") || 0;
+
+    // Apply styles
+    document.documentElement.style.setProperty('--font', font);
+    document.documentElement.style.setProperty('--size', size + "px");
+    document.documentElement.style.setProperty('--fontweight', fw);
+
+    document.getElementById("font").href = "https://fonts.googleapis.com/css?family=" + font + ":100,200,300,400,500,600,700,800&display=swap";
+
+    async function updateCounts() {
+      const fetchFunc = window["fetch" + platform + type];
+      if (!fetchFunc) return console.error("Invalid platform/type");
+
+      try {
+        const [data1, data2] = await Promise.all([fetchFunc(id1), fetchFunc(id2)]);
+
+        const count1 = data1.counts?.[0] || 0;
+        const count2 = data2.counts?.[0] || 0;
+
+        odometers.count1.update(count1);
+        odometers.count2.update(count2);
+        odometers.difference.update(Math.abs(count1 - count2));
+
+        document.getElementById("name1").textContent = data1.user?.[0] || "Name";
+        document.getElementById("avatar1").src = data1.user?.[1] || "https://huntingstats378.github.io/main/images/default.png";
+
+        document.getElementById("name2").textContent = data2.user?.[0] || "Name";
+        document.getElementById("avatar2").src = data2.user?.[1] || "https://huntingstats378.github.io/main/images/default.png";
+
+      } catch (err) {
+        console.error("Error fetching counts", err);
+      }
+    }
+
+    setInterval(updateCounts, 2000);
+    updateCounts();
+  </script>
+  </body>
+
+</html>
