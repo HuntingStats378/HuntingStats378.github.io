@@ -54,78 +54,117 @@ function abbreviateNumber(num) {
 }
 
 async function fetchyoutubechannel(channelId) {
+  let subCount = null;
+  let totalViews = null;
+  let apiViews = null;
+  let apiSubCount = null;
+  let videos = null;
+  let channelLogo = null;
+  let channelName = null;
+  let studioData = null;
+  let goalCount = null;
+
+  const channelBanner = `https://banner.yt/${channelId}`;
+  let sctoolsOK = false;
+
+  // Try SCTools first
   try {
-    // Fetch from SCTools API
-    const data = await fetch(
-      `https://ests.sctools.org/api/get/${channelId}`
-    );
+    const data = await fetch(`https://ests.sctools.org/api/get/${channelId}`);
     const response = await data.json();
 
-    // Default values for nextcounts
-    let studioData = null;
-    let nextcountsOK = false;
+    subCount = response.stats.estCount ?? null;
+    totalViews = response.stats.viewCount ?? null;
+    apiViews = response.stats.viewCount ?? null;
+    apiSubCount = response.stats.apiCount ?? null;
+    videos = response.stats.videoCount ?? null;
+    channelLogo = response.info.avatar ?? null;
+    channelName = response.info.name ?? null;
+    goalCount = getGoal(subCount);
+    sctoolsOK = true;
+  } catch (error) {
+    console.warn("SCTools API failed:", error);
+  }
 
+  // If SCTools failed, try fallback sources
+  if (!sctoolsOK) {
+    // Try NextCounts
     try {
-      // Attempt fetch from nextcounts
-      const dat2a = await fetch(
-        `https://api-v2.nextcounts.com/api/youtube/channel/${channelId}`
-      );
+      const dat2a = await fetch(`https://api-v2.nextcounts.com/api/youtube/channel/${channelId}`);
       const respons2e = await dat2a.json();
 
-      if (respons2e.verifiedSubCount === true) {
+      if (respons2e.verifiedSubCount === true && respons2e.subcount != null) {
         studioData = respons2e.subcount;
-        nextcountsOK = true;
+        subCount = subCount ?? respons2e.subcount;
+        goalCount = getGoal(subCount);
       }
+
+      if (respons2e.name) channelName = channelName ?? respons2e.name;
+      if (respons2e.avatar) channelLogo = channelLogo ?? respons2e.avatar;
+      if (respons2e.viewcount != null) totalViews = totalViews ?? respons2e.viewcount;
     } catch (e) {
-      console.warn("nextcounts API failed:", e);
+      console.warn("NextCounts API failed:", e);
     }
 
-    const subCount = response.stats.estCount;
-    const totalViews = response.stats.viewCount;
-    const apiViews = response.stats.viewCount;
-    const apiSubCount = response.stats.apiCount;
-    const videos = response.stats.videoCount;
-    const channelLogo = response.info.avatar;
-    const channelName = response.info.name;
-    const channelBanner = `https://banner.yt/${channelId}`;
-    const goalCount = getGoal(subCount);
-
-    // Special case for MrBeast fallback
-    if (!nextcountsOK && channelId === "UCX6OQ3DkcsbYNE6H8uQQuVA") {
+    // Special MrBeast case
+    if (channelId === "UCX6OQ3DkcsbYNE6H8uQQuVA") {
       try {
         const dat3a = await fetch(`https://mrbeast.subscribercount.app/data`);
         const mrbeast = await dat3a.json();
-        studioData = mrbeast.mrbeast;
+        if (mrbeast?.mrbeast != null) {
+          studioData = studioData ?? mrbeast.mrbeast;
+        }
       } catch (e) {
         console.warn("MrBeast fallback fetch failed:", e);
       }
     }
 
-    // Return object with or without studio data
-    const result = {
-      t: new Date(),
-      counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos],
-      user: [channelName, channelLogo, channelBanner],
-      value: [
-        ["Subscribers", "Subscribers (EST)"],
-        ["Goal", `Subscribers to ${abbreviateNumber(getGoalText(subCount))}`],
-        ["Subscribers", "Subscribers (API)"],
-        ["Views", "Views (EST)"],
-        ["Views", "Views (API)"],
-        ["Videos", "Videos (API)"]
-      ]
-    };
+    // Fallback to Mixerno
+    try {
+      const mixerno = await fetch(`https://mixerno.space/api/youtube-channel-counter/user/${channelId}`);
+      const mixData = await mixerno.json();
 
-    if (studioData !== null) {
-      result.studio = studioData;
+      if ((mixData.counts[0].count != null) && (mixData.counts[0].count != 0)) {
+        subCount = subCount ?? mixData.counts[0].count;
+        goalCount = getGoal(subCount);
+      }
+
+      channelName = channelName ?? mixData.user[0].count;
+      channelLogo = channelLogo ?? mixData.user[1].count;
+    } catch (e) {
+      console.warn("Mixerno fallback fetch failed:", e);
     }
-
-    return result;
-
-  } catch (error) {
-    console.error(error);
-    throw new Error("Failed to fetch counts");
   }
+
+  const result = {
+    t: new Date(),
+    counts: [
+      subCount,
+      goalCount,
+      apiSubCount,
+      totalViews,
+      apiViews,
+      videos
+    ],
+    user: [
+      channelName,
+      channelLogo,
+      channelBanner
+    ],
+    value: [
+      ["Subscribers", "Subscribers (EST)"],
+      ["Goal", `Subscribers to ${abbreviateNumber(getGoalText(subCount))}`],
+      ["Subscribers", "Subscribers (API)"],
+      ["Views", "Views (EST)"],
+      ["Views", "Views (API)"],
+      ["Videos", "Videos (API)"]
+    ]
+  };
+
+  if (studioData !== null) {
+    result.studio = studioData;
+  }
+
+  return result;
 }
 
 async function fetchyoutubevideo(videoId) {
