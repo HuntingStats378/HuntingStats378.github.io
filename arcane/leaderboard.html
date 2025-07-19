@@ -389,7 +389,7 @@
 
     async function fetchAndUpdate() {
         try {
-            const response = await fetch(`https://huntingstats378.onrender.com/api/discord/statistics/top100/${server}`);
+            const response = await fetch(`https://huntingstats378.onrender.com/api/discord/arcane/top100/${server}`);
             const users = await response.json();
 
             users.slice(0, 50).forEach((user, index) => {
