@@ -229,9 +229,9 @@ async function fetchyoutubelatest(channelId) {
     const latestdata = await fetch(`https://latestvid.stats100.xyz/get/${channelId}?type=any&maxresults=1`);
     const latestresponse = await latestdata.json();
     const [data, dat2a, dat3a] = await Promise.all([
-      fetch(`https://mixerno.space/api/youtube-video-counter/user/${latestresponse.videoId}`),
-      fetch(`https://mixerno.space/api/youtube-stream-counter/user/${latestresponse.videoId}`),
-      fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${latestresponse.videoId}`)
+      fetch(`https://mixerno.space/api/youtube-video-counter/user/${latestresponse[0].videoId}`),
+      fetch(`https://mixerno.space/api/youtube-stream-counter/user/${latestresponse[0].videoId}`),
+      fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${latestresponse[0].videoId}`)
     ]);
 
     const response = await data.json();
@@ -259,9 +259,9 @@ async function fetchyoutubelatestlong(channelId) {
     const latestdata = await fetch(`https://latestvid.stats100.xyz/get/${channelId}?type=long&maxresults=1`);
     const latestresponse = await latestdata.json();
     const [data, dat2a, dat3a] = await Promise.all([
-      fetch(`https://mixerno.space/api/youtube-video-counter/user/${latestresponse.videoId}`),
-      fetch(`https://mixerno.space/api/youtube-stream-counter/user/${latestresponse.videoId}`),
-      fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${latestresponse.videoId}`)
+      fetch(`https://mixerno.space/api/youtube-video-counter/user/${latestresponse[0].videoId}`),
+      fetch(`https://mixerno.space/api/youtube-stream-counter/user/${latestresponse[0].videoId}`),
+      fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${latestresponse[0].videoId}`)
     ]);
 
     const response = await data.json();
@@ -289,9 +289,9 @@ async function fetchyoutubelatestshort(channelId) {
     const latestdata = await fetch(`https://latestvid.stats100.xyz/get/${channelId}?type=short&maxresults=1`);
     const latestresponse = await latestdata.json();
     const [data, dat2a, dat3a] = await Promise.all([
-      fetch(`https://mixerno.space/api/youtube-video-counter/user/${latestresponse.videoId}`),
-      fetch(`https://mixerno.space/api/youtube-stream-counter/user/${latestresponse.videoId}`),
-      fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${latestresponse.videoId}`)
+      fetch(`https://mixerno.space/api/youtube-video-counter/user/${latestresponse[0].videoId}`),
+      fetch(`https://mixerno.space/api/youtube-stream-counter/user/${latestresponse[0].videoId}`),
+      fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${latestresponse[0].videoId}`)
     ]);
 
     const response = await data.json();
@@ -319,9 +319,9 @@ async function fetchyoutubelatestlive(channelId) {
     const latestdata = await fetch(`https://latestvid.stats100.xyz/get/${channelId}?type=live&maxresults=1`);
     const latestresponse = await latestdata.json();
     const [data, dat2a, dat3a] = await Promise.all([
-      fetch(`https://mixerno.space/api/youtube-video-counter/user/${latestresponse.videoId}`),
-      fetch(`https://mixerno.space/api/youtube-stream-counter/user/${latestresponse.videoId}`),
-      fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${latestresponse.videoId}`)
+      fetch(`https://mixerno.space/api/youtube-video-counter/user/${latestresponse[0].videoId}`),
+      fetch(`https://mixerno.space/api/youtube-stream-counter/user/${latestresponse[0].videoId}`),
+      fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${latestresponse[0].videoId}`)
     ]);
 
     const response = await data.json();
