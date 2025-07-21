@@ -135,7 +135,7 @@ async function fetchyoutubevideo(videoId) {
     const channelBanner = response.user[2].count;
     const goalCount = getGoal(subCount);
 
-    return { "t": new Date(), counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos], user: [channelName, channelLogo, channelBanner, videoId, videoId] };
+    return { "t": new Date(), counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos], user: [channelName, channelLogo, channelBanner, videoId, dat3a.dateCreated] };
   } catch (error) {
     console.error(error);
     return { error: "Failed to fetch counts" };
@@ -164,7 +164,7 @@ async function fetchyoutubestream(videoId) {
     const channelBanner = response.user[2].count;
     const goalCount = getGoal(subCount);
 
-    return { "t": new Date(), counts: [liveCount, goalCount, subCount, apiSubCount, totalViews, apiViews, videos], user: [channelName, channelLogo, channelBanner, videoId, videoId] };
+    return { "t": new Date(), counts: [liveCount, goalCount, subCount, apiSubCount, totalViews, apiViews, videos], user: [channelName, channelLogo, channelBanner, videoId, dat3a.dateCreated] };
   } catch (error) {
     console.error(error);
     return { error: "Failed to fetch counts" };
@@ -194,7 +194,7 @@ async function fetchyoutubelatest(channelId) {
     const channelBanner = response.user[2].count;
     const goalCount = getGoal(subCount);
 
-    return { "t": new Date(), counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos], user: [channelName, channelLogo, channelBanner, latestresponse[0].videoId, latestresponse[0].videoId] };
+    return { "t": new Date(), counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos], user: [channelName, channelLogo, channelBanner, latestresponse[0].videoId, dat3a.dateCreated] };
   } catch (error) {
     console.error(error);
     return { error: "Failed to fetch counts" };
@@ -224,7 +224,7 @@ async function fetchyoutubelatestlong(channelId) {
     const channelBanner = response.user[2].count;
     const goalCount = getGoal(subCount);
 
-    return { "t": new Date(), counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos], user: [channelName, channelLogo, channelBanner, latestresponse[0].videoId, latestresponse[0].videoId] };
+    return { "t": new Date(), counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos], user: [channelName, channelLogo, channelBanner, latestresponse[0].videoId, dat3a.dateCreated] };
   } catch (error) {
     console.error(error);
     return { error: "Failed to fetch counts" };
@@ -254,7 +254,7 @@ async function fetchyoutubelatestshort(channelId) {
     const channelBanner = response.user[2].count;
     const goalCount = getGoal(subCount);
 
-    return { "t": new Date(), counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos], user: [channelName, channelLogo, channelBanner, latestresponse[0].videoId, latestresponse[0].videoId] };
+    return { "t": new Date(), counts: [subCount, goalCount, apiSubCount, totalViews, apiViews, videos], user: [channelName, channelLogo, channelBanner, latestresponse[0].videoId, dat3a.dateCreated] };
   } catch (error) {
     console.error(error);
     return { error: "Failed to fetch counts" };
@@ -285,7 +285,7 @@ async function fetchyoutubelatestlive(channelId) {
     const channelBanner = response.user[2].count;
     const goalCount = getGoal(subCount);
 
-    return { "t": new Date(), counts: [liveCount, goalCount, subCount, apiSubCount, totalViews, apiViews, videos], user: [channelName, channelLogo, channelBanner, latestresponse[0].videoId, latestresponse[0].videoId] };
+    return { "t": new Date(), counts: [liveCount, goalCount, subCount, apiSubCount, totalViews, apiViews, videos], user: [channelName, channelLogo, channelBanner, latestresponse[0].videoId, dat3a.dateCreated] };
   } catch (error) {
     console.error(error);
     return { error: "Failed to fetch counts" };
