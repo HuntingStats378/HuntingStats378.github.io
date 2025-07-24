@@ -403,7 +403,7 @@
                             imageEl.src = "./default.png";
                         };
                     }
-                }, 200 * index); // <-- This is the key change
+                }, 100 * index); // <-- This is the key change
             });
         } catch (err) {
             console.error("Failed to fetch Lurkr data:", err);
@@ -411,5 +411,5 @@
     }
 
     fetchAndUpdate();
-    setInterval(fetchAndUpdate, 10000);
+    setInterval(fetchAndUpdate, 5000);
 </script>
