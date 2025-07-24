@@ -387,12 +387,12 @@
                     const nameEl = document.getElementById(`name_${index}`);
                     const countEl = document.getElementById(`count_${index}`);
                     const imageEl = document.getElementById(`image_${index}`);
-    
+
                     const username = userData.user.username;
                     const xp = userData.xp;
                     const avatar = userData.user.avatar;
                     const userId = userData.userId;
-    
+
                     if (nameEl) nameEl.textContent = username;
                     if (countEl) countEl.innerHTML = xp;
                     if (imageEl) {
@@ -403,7 +403,7 @@
                             imageEl.src = "./default.png";
                         };
                     }
-                }, 200);
+                }, 200 * index); // <-- This is the key change
             });
         } catch (err) {
             console.error("Failed to fetch Lurkr data:", err);
