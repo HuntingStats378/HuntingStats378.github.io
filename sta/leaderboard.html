@@ -383,25 +383,27 @@
             const users = data.levels;
 
             users.slice(0, 50).forEach((userData, index) => {
-                const nameEl = document.getElementById(`name_${index}`);
-                const countEl = document.getElementById(`count_${index}`);
-                const imageEl = document.getElementById(`image_${index}`);
-
-                const username = userData.user.username;
-                const xp = userData.xp;
-                const avatar = userData.user.avatar;
-                const userId = userData.userId;
-
-                if (nameEl) nameEl.textContent = username;
-                if (countEl) countEl.innerHTML = xp;
-                if (imageEl) {
-                    const avatarURL = getAvatarURL(userId, avatar);
-                    imageEl.src = avatarURL;
-                    imageEl.onerror = () => {
-                        imageEl.onerror = null;
-                        imageEl.src = "./default.png";
-                    };
-                }
+                setTimeout(() => {
+                    const nameEl = document.getElementById(`name_${index}`);
+                    const countEl = document.getElementById(`count_${index}`);
+                    const imageEl = document.getElementById(`image_${index}`);
+    
+                    const username = userData.user.username;
+                    const xp = userData.xp;
+                    const avatar = userData.user.avatar;
+                    const userId = userData.userId;
+    
+                    if (nameEl) nameEl.textContent = username;
+                    if (countEl) countEl.innerHTML = xp;
+                    if (imageEl) {
+                        const avatarURL = getAvatarURL(userId, avatar);
+                        imageEl.src = avatarURL;
+                        imageEl.onerror = () => {
+                            imageEl.onerror = null;
+                            imageEl.src = "./default.png";
+                        };
+                    }
+                }, 200);
             });
         } catch (err) {
             console.error("Failed to fetch Lurkr data:", err);
