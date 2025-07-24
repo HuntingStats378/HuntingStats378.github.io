@@ -393,20 +393,22 @@
             const users = await response.json();
 
             users.slice(0, 50).forEach((user, index) => {
-                const nameEl = document.getElementById(`name_${index}`);
-                const countEl = document.getElementById(`count_${index}`);
-                const imageEl = document.getElementById(`image_${index}`);
-
-                if (nameEl) nameEl.textContent = user.username;
-                if (countEl) countEl.innerHTML = getTotalXP(user.level, user.xp);
-                if (imageEl) {
-                    const avatarURL = getAvatarURL(user);
-                    imageEl.src = avatarURL;
-                    imageEl.onerror = () => {
-                        imageEl.onerror = null; // prevent infinite loop
-                        imageEl.src = "./default.png";
-                    };
-                }
+                setTimeout(() => {
+                    const nameEl = document.getElementById(`name_${index}`);
+                    const countEl = document.getElementById(`count_${index}`);
+                    const imageEl = document.getElementById(`image_${index}`);
+    
+                    if (nameEl) nameEl.textContent = user.username;
+                    if (countEl) countEl.innerHTML = getTotalXP(user.level, user.xp);
+                    if (imageEl) {
+                        const avatarURL = getAvatarURL(user);
+                        imageEl.src = avatarURL;
+                        imageEl.onerror = () => {
+                            imageEl.onerror = null; // prevent infinite loop
+                            imageEl.src = "./default.png";
+                        };
+                    }
+                }, 200 * index); // <-- This is the key change
             });
         } catch (err) {
             console.error("Failed to fetch data:", err);
