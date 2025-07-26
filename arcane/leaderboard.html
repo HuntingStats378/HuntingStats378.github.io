@@ -390,8 +390,9 @@
     async function fetchAndUpdate() {
         try {
             const response = await fetch(`https://huntingstats378.onrender.com/api/discord/arcane/top100/${server}`);
-            const levels = await response.json();
-            const users = levels.levels
+            const data = await response.json();
+            const users = data.levels;
+            const xpOptions = data.xpOptions;
 
             users.slice(0, 50).forEach((user, index) => {
                 setTimeout(() => {
