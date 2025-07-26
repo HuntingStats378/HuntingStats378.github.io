@@ -369,54 +369,81 @@
     </div>
 </body>
 <script>
-    const searchParams = new URLSearchParams(window.location.search);
-    const server = searchParams.get("server") || "1245449302851977298";
-  
-    function totalXPToLevel(level) {
-        return (level * (2 * 75 + (level - 1) * 100)) / 2;
+const searchParams = new URLSearchParams(window.location.search);
+const server = searchParams.get("server") || "1245449302851977298";
+
+// Accurate Arcane XP logic using xpOptions from the API
+function requiredXPToNextLevel(level, xpOptions) {
+    const multiplier = xpOptions?.multiplier ?? 1;
+    const curve = xpOptions?.curve ?? "normal";
+
+    switch (curve.toLowerCase()) {
+        case "exponential":
+            return multiplier * (5 * level * level + 50 * level + 75);
+        case "normal":
+            return multiplier * (75 + (level - 1) * 100);
+        case "slow":
+            return multiplier * (60 + (level - 1) * 60);
+        case "fast":
+            return multiplier * (100 + (level - 1) * 40);
+        case "flat":
+            return multiplier * 1000;
+        default:
+            throw new Error(`Unsupported XP curve: ${curve}`);
     }
+}
 
-    function getTotalXP(level, currentXP) {
-        return Math.round(totalXPToLevel(level) + currentXP);
+function totalXPToLevel(level, xpOptions) {
+    if (level === 0) return 75;
+    let total = 0;
+    for (let i = 1; i < level; i++) {
+        total += requiredXPToNextLevel(i, xpOptions);
     }
+    return total + 75;
+}
 
-    function getAvatarURL(user) {
-        if (!user.avatar || !user.id) return "./default.png"; // fallback
-        const isGif = user.avatar.startsWith("a_");
-        const extension = isGif ? "gif" : "png";
-        return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${extension}`;
+function getTotalXP(level, currentXP, xpOptions) {
+    if (level === 0) currentXP = 0;
+    return Math.round(totalXPToLevel(level, xpOptions) + currentXP);
+}
+
+function getAvatarURL(user) {
+    if (!user.avatar || !user.id) return "./default.png"; // fallback
+    const isGif = user.avatar.startsWith("a_");
+    const extension = isGif ? "gif" : "png";
+    return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${extension}`;
+}
+
+async function fetchAndUpdate() {
+    try {
+        const response = await fetch(`https://huntingstats378.onrender.com/api/discord/arcane/top100/${server}`);
+        const data = await response.json();
+        const users = data.levels;
+        const xpOptions = data.xpOptions;
+
+        users.slice(0, 50).forEach((user, index) => {
+            setTimeout(() => {
+                const nameEl = document.getElementById(`name_${index}`);
+                const countEl = document.getElementById(`count_${index}`);
+                const imageEl = document.getElementById(`image_${index}`);
+
+                if (nameEl) nameEl.textContent = user.username;
+                if (countEl) countEl.textContent = getTotalXP(user.level, user.xp, xpOptions).toLocaleString();
+                if (imageEl) {
+                    const avatarURL = getAvatarURL(user);
+                    imageEl.src = avatarURL;
+                    imageEl.onerror = () => {
+                        imageEl.onerror = null;
+                        imageEl.src = "./default.png";
+                    };
+                }
+            }, 200 * index);
+        });
+    } catch (err) {
+        console.error("Failed to fetch data:", err);
     }
+}
 
-    async function fetchAndUpdate() {
-        try {
-            const response = await fetch(`https://huntingstats378.onrender.com/api/discord/arcane/top100/${server}`);
-            const data = await response.json();
-            const users = data.levels;
-            const xpOptions = data.xpOptions;
-
-            users.slice(0, 50).forEach((user, index) => {
-                setTimeout(() => {
-                    const nameEl = document.getElementById(`name_${index}`);
-                    const countEl = document.getElementById(`count_${index}`);
-                    const imageEl = document.getElementById(`image_${index}`);
-    
-                    if (nameEl) nameEl.textContent = user.username;
-                    if (countEl) countEl.innerHTML = getTotalXP(user.level, user.xp);
-                    if (imageEl) {
-                        const avatarURL = getAvatarURL(user);
-                        imageEl.src = avatarURL;
-                        imageEl.onerror = () => {
-                            imageEl.onerror = null; // prevent infinite loop
-                            imageEl.src = "./default.png";
-                        };
-                    }
-                }, 200 * index); // <-- This is the key change
-            });
-        } catch (err) {
-            console.error("Failed to fetch data:", err);
-        }
-    }
-
-    fetchAndUpdate();
-    setInterval(fetchAndUpdate, 60000);
+fetchAndUpdate();
+setInterval(fetchAndUpdate, 60000);
 </script>
