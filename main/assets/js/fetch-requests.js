@@ -411,68 +411,73 @@ async function fetch50statesfundraiser(userId) {
   }
 }
 
-// const fetchteamwaterfundraiser = (function () {
-//   let latestCount = 0;
-//   let socket = null;
-//   let connected = false;
-//   let firstMessageReceived = false;
-//   let readyPromise;
+const fetchteamwaterfundraiser = (async function () {
+  let latestCount = 0;
+  let socket = null;
+  let connected = false;
+  let firstMessageReceived = false;
+  let readyPromise;
 
-//   function connectWebSocket() {
-//     socket = new WebSocket("wss://huntingstats378.onrender.com/websocket/teamwater");
+  const channelId = "UCXGITFpSIGWPTr8ekn9qjMw";
+  const response = await fetch(`https://ests.sctools.org/api/get/${channelId}`);
+  const json = await response.json();
+  const channelLogo = json.info.avatar;
+  const channelName = json.info.name;
+  const channelBanner = `https://banner.yt/${channelId}`;
+  const userId = channelId; // Use channelId as userId if you meant to reuse it
 
-//     readyPromise = new Promise((resolve, reject) => {
-//       socket.addEventListener("open", () => {
-//         console.log("✅ TeamWater WebSocket connected");
-//         connected = true;
-//       });
+  function connectWebSocket() {
+    socket = new WebSocket("wss://huntingstats378.onrender.com/websocket/teamwater");
 
-//       socket.addEventListener("message", (event) => {
-//         try {
-//           const data = JSON.parse(event.data);
-//           if (data.type === "counter" && data.data?.value) {
-//             latestCount = parseInt(data.data.value.replace(/,/g, '')) || 0;
+    readyPromise = new Promise((resolve, reject) => {
+      socket.addEventListener("open", () => {
+        console.log("✅ TeamWater WebSocket connected");
+        connected = true;
+      });
 
-//             if (!firstMessageReceived) {
-//               firstMessageReceived = true;
-//               resolve(); // Only resolves the first time a valid message is received
-//             }
-//           }
-//         } catch (err) {
-//           console.error("🔴 WebSocket parse error:", err);
-//         }
-//       });
+      socket.addEventListener("message", (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          if (data.type === "counter" && data.data?.value) {
+            latestCount = parseInt(data.data.value.replace(/,/g, '')) || 0;
 
-//       socket.addEventListener("error", (err) => {
-//         console.error("❌ WebSocket error:", err);
-//         reject(err);
-//       });
+            if (!firstMessageReceived) {
+              firstMessageReceived = true;
+              resolve(); // Resolve once on first valid message
+            }
+          }
+        } catch (err) {
+          console.error("🔴 WebSocket parse error:", err);
+        }
+      });
 
-//       socket.addEventListener("close", () => {
-//         console.warn("🔌 WebSocket closed");
-//         connected = false;
-//       });
-//     });
-//   }
+      socket.addEventListener("error", (err) => {
+        console.error("❌ WebSocket error:", err);
+        reject(err);
+      });
 
-//   const channelId = "UCXGITFpSIGWPTr8ekn9qjMw";
-//   const data = await fetch(`https://ests.sctools.org/api/get/${channelId}`);
-//   const response = await data.json();
-//   const channelLogo = response.info.avatar;
-//   const channelName = response.info.name;
-//   const channelBanner = `https://banner.yt/${channelId}`;
+      socket.addEventListener("close", () => {
+        console.warn("🔌 WebSocket closed");
+        connected = false;
+      });
+    });
+  }
 
-//   return async function () {
-//     if (!connected) {
-//       connectWebSocket();
-//     }
+  return async function () {
+    if (!connected) {
+      connectWebSocket();
+    }
 
-//     // Wait until first message is received
-//     if (!firstMessageReceived) {
-//       await readyPromise;
-//     }
+    if (!firstMessageReceived) {
+      await readyPromise;
+    }
 
-//     return { "t": new Date(), counts: [latestCount, getGoal(latestCount)], user: [channelName, channelLogo, channelBanner, userId, userId] };
-//   };
-// })();
+    return {
+      t: new Date(),
+      counts: [latestCount, getGoal(latestCount)],
+      user: [channelName, channelLogo, channelBanner, channelId, channelId]
+    };
+  };
+})();
+
 
