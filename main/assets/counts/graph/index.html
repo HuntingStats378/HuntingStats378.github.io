@@ -100,32 +100,7 @@ function padZero(number) {
 }
 
 setInterval(async () => {
-// if (studio == true) {
-//     fetch(`https://corsproxy.io/?https://studio.nia-statistics.com/api/channel/${id}`)
-//         .then((res) => res.json())
-//         .then((data) => {
-//             document.getElementById("count").innerHTML = data.channels.counts[counter].count;
-//         });
-// }
-// if (est === 0) {
-//     fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
-//         .then((res) => res.json())
-//         .then((data) => {
-//             if (chart.series[0].points.length == 1500) chart.series[0].data[0].remove();
-//                 chart.series[0].addPoint([Date.now(), data.counts[counter].count])
-//         });
-// }
-// if (est === 1) {
-//     fetch(`https://mixerno.space/api/youtube-channel-counter/user/${id}`)
-//         .then((res) => res.json())
-//         .then((data) => {
-//             if (chart.series[0].points.length == 1500) chart.series[0].data[0].remove();
-//                 chart.series[0].addPoint([Date.now(), data.counts[counter].count])
-//             });
-// }
-
     let str = "fetch" + platform + type;
-        
         try {
             let data = await window[str](id); // Ensure async fetch
             
@@ -141,7 +116,6 @@ setInterval(async () => {
             console.log("Calculated Count:", count);
             if (chart.series[0].points.length == 1500) chart.series[0].data[0].remove();
                 chart.series[0].addPoint([Date.now(), Math.floor(Math.abs(count))])
-            });
 
         } catch (error) {
             console.error("Error fetching data:", error);
