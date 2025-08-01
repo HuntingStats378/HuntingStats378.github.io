@@ -414,16 +414,11 @@ async function fetch50statesfundraiser(userId) {
 async function fetchteamwaterfundraiser(userId) {
   try {
     const userId = "UCXGITFpSIGWPTr8ekn9qjMw";
-    const [data, dat2a] = await Promise.all([
-      fetch(`https://api.communitrics.com/teamwater`),
-      fetch(`https://ests.sctools.org/api/get/${userId}`)
-    ]);
-
+    const data = await fetch(`https://api.communitrics.com/teamwater`);
     const response = await data.json();
-    const response2 = await dat2a.json();
     const subCount = response.count;
-    const channelLogo = response2.info.avatar;
-    const channelName = response2.info.name;
+    const channelLogo = "https://yt3.googleusercontent.com/QO0KsIb3UjlnBrqnCCC1dn3KwKVLMZQgCJBKFu2v0pFiNDdLQTUh-iEavOXkQhlOaLTBrVvY=s1080-c-k-c0x00ffffff-no-rj";
+    const channelName = "#TeamWater";
     const channelBanner = `https://banner.yt/${userId}`;
     const goalCount = getGoal(subCount);
 
