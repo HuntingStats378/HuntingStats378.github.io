@@ -411,73 +411,26 @@ async function fetch50statesfundraiser(userId) {
   }
 }
 
-const fetchteamwaterfundraiser = (async function () {
-  let latestCount = 0;
-  let socket = null;
-  let connected = false;
-  let firstMessageReceived = false;
-  let readyPromise;
+async function fetchteamwaterfundraiser(userId) {
+  try {
+    const userId = "UCXGITFpSIGWPTr8ekn9qjMw";
+    const [data, dat2a] = await Promise.all([
+      fetch(`https://api.communitrics.com/teamwater`),
+      fetch(`https://ests.sctools.org/api/get/${userId}`)
+    ]);
 
-  const channelId = "UCXGITFpSIGWPTr8ekn9qjMw";
-  const response = await fetch(`https://ests.sctools.org/api/get/${channelId}`);
-  const json = await response.json();
-  const channelLogo = json.info.avatar;
-  const channelName = json.info.name;
-  const channelBanner = `https://banner.yt/${channelId}`;
-  const userId = channelId; // Use channelId as userId if you meant to reuse it
+    const response = await data.json();
+    const response2 = await dat2a.json();
+    const subCount = response.count;
+    const channelLogo = response2.info.avatar;
+    const channelName = response2.info.name;
+    const channelBanner = `https://banner.yt/${userId}`;
+    const goalCount = getGoal(subCount);
 
-  function connectWebSocket() {
-    socket = new WebSocket("wss://huntingstats378.onrender.com/websocket/teamwater");
-
-    readyPromise = new Promise((resolve, reject) => {
-      socket.addEventListener("open", () => {
-        console.log("✅ TeamWater WebSocket connected");
-        connected = true;
-      });
-
-      socket.addEventListener("message", (event) => {
-        try {
-          const data = JSON.parse(event.data);
-          if (data.type === "counter" && data.data?.value) {
-            latestCount = parseInt(data.data.value.replace(/,/g, '')) || 0;
-
-            if (!firstMessageReceived) {
-              firstMessageReceived = true;
-              resolve(); // Resolve once on first valid message
-            }
-          }
-        } catch (err) {
-          console.error("🔴 WebSocket parse error:", err);
-        }
-      });
-
-      socket.addEventListener("error", (err) => {
-        console.error("❌ WebSocket error:", err);
-        reject(err);
-      });
-
-      socket.addEventListener("close", () => {
-        console.warn("🔌 WebSocket closed");
-        connected = false;
-      });
-    });
+    return { "t": new Date(), counts: [subCount, goalCount], user: [channelName, channelLogo, channelBanner, userId, userId] };
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to fetch counts" };
   }
-
-  return async function () {
-    if (!connected) {
-      connectWebSocket();
-    }
-
-    if (!firstMessageReceived) {
-      await readyPromise;
-    }
-
-    return {
-      t: new Date(),
-      counts: [latestCount, getGoal(latestCount)],
-      user: [channelName, channelLogo, channelBanner, channelId, channelId]
-    };
-  };
-})();
-
+}
 
