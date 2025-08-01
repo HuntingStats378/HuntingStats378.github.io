@@ -43,7 +43,7 @@ async function fetchyoutubechannel(channelId) {
   try {
     // Fetch from Mixerno API
     const data = await fetch(
-      `https://ests.sctools.org/api/get/${channelId}`
+      `https://mixerno.space/api/youtube-channel-counter/user/${channelId}`
     );
     const response = await data.json();
 
@@ -66,13 +66,13 @@ async function fetchyoutubechannel(channelId) {
       console.warn("nextcounts API failed:", e);
     }
 
-    const subCount = response.stats.estCount;
-    const totalViews = response.stats.viewCount;
-    const apiViews = response.stats.viewCount;
-    const apiSubCount = response.stats.apiCount;
-    const videos = response.stats.videoCount;
-    const channelLogo = response.info.avatar;
-    const channelName = response.info.name;
+    const subCount = response.counts[0].count;
+    const totalViews = response.counts[3].count;
+    const apiViews = response.counts[4].count;
+    const apiSubCount = response.counts[1].count;
+    const videos = response.counts[5].count;
+    const channelLogo = response.user[1].count;
+    const channelName = response.user[0].count;
     const channelBanner = `https://banner.yt/${channelId}`;
     const goalCount = getGoal(subCount);
 
