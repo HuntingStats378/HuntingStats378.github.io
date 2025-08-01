@@ -455,6 +455,13 @@ const fetchteamwaterfundraiser = (function () {
     });
   }
 
+  const channelId = "UCXGITFpSIGWPTr8ekn9qjMw";
+  const data = await fetch(`https://ests.sctools.org/api/get/${channelId}`);
+  const response = await data.json();
+  const channelLogo = response.info.avatar;
+  const channelName = response.info.name;
+  const channelBanner = `https://banner.yt/${channelId}`;
+
   return async function () {
     if (!connected) {
       connectWebSocket();
@@ -465,11 +472,7 @@ const fetchteamwaterfundraiser = (function () {
       await readyPromise;
     }
 
-    return {
-      t: new Date(),
-      counts: [latestCount],
-      source: "teamwater"
-    };
+    return { "t": new Date(), counts: [latestCount, getGoal(latestCount)], user: [channelName, channelLogo, channelBanner, userId, userId] };
   };
 })();
 
