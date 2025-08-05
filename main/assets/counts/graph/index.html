@@ -69,6 +69,7 @@ var down = urlParams.get("down") || fc;
 var format = urlParams.get("format") || 0;
 var clock = urlParams.get("clock") || false;
 var duration = urlParams.get("duration") || 2;
+var update = urlParams.get("update") || 2;
 var est = urlParams.get("est") || 0;
 var goal = urlParams.get("goal") || 0;
 
@@ -120,7 +121,7 @@ setInterval(async () => {
         } catch (error) {
             console.error("Error fetching data:", error);
         }
-    }, 2000);
+    }, (durationNumber(update) * 1000));
  
     if (axis === false) {
     var textBright = 'transparent'
