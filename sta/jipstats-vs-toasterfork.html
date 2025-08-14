@@ -43,7 +43,7 @@ function getAvatarURL(user, userId) {
 }
 
 setInterval(() => {
-    fetch("https://huntingstats378.onrender.com/corsproxy?https://api.lurkr.gg/v2/levels/1150096734576451614?page=1")
+    fetch("https://huntingstats378.onrender.com/corsproxy/?https://api.lurkr.gg/v2/levels/1150096734576451614?page=1")
         .then(res => res.json())
         .then(data => {
             const top1 = data.levels[0];
