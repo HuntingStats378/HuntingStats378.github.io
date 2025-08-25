@@ -320,7 +320,7 @@ async function fetchinstagramuser(userId) {
   try {
     const [data, dat2a] = await Promise.all([
       fetch(`https://livecounts.xyz/api/instagram-live-follower-count/live/${userId}`),
-      fetch(`https://api-v2.nextcounts.com/api/instagram/user/${userId}`)
+      fetch(`https://huntigstats378.onrender.com/corsproxy?url=https://api-v2.nextcounts.com/api/instagram/user/${userId}`)
     ]);
 
     const response = await data.json();
