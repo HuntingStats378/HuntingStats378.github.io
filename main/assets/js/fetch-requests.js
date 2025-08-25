@@ -54,7 +54,7 @@ async function fetchyoutubechannel(channelId) {
     try {
       // Attempt fetch from nextcounts
       const dat2a = await fetch(
-        `https://api-v2.nextcounts.com/api/youtube/channel/${channelId}`
+        `https://huntingstats378.onrender.com/corsproxy?url=https://api-v2.nextcounts.com/api/youtube/channel/${channelId}`
       );
       const respons2e = await dat2a.json();
 
