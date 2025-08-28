@@ -372,7 +372,7 @@
     const searchParams = new URLSearchParams(window.location.search);
     const server = searchParams.get("id") || "1150096734576451614";
     const peg = searchParams.get("page") || 1;
-    const page = Math.ceiling(peg * 0.5);
+    const page = Math.ceil(peg * 0.5);
     
     function getAvatarURL(userId, avatarHash) {
         if (!avatarHash || !userId) return "./default.png";
