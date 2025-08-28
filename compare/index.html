@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HuntingStats378 - Compare</title>
+    <link href="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.css" rel="stylesheet">
+    <link rel="icon" href="https://huntingstats378.github.io/HuntingStats378/main/images/logo.png">
+    <meta charSet="utf-8" />
+    <meta name="description" content="HuntingStats378 - Compare" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+</head>
+<body style="font-family: Roboto; color: var(--fg-color, #fff); background-color: var(--bg-color, #E7541E);">
+    <div style="height: auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+        <div style="padding: 0px 4px; text-align: center; background-color: var(--counter-bg-color, black);">
+            <img id="banner1" style="filter: blur(4px); border-radius: 15px; object-fit: cover; width: 100%; height: 150px; position: relative;" src="https://huntingstats378.github.io/HuntingStats378/main/images/default_banner.png">
+            <img id="image1" style="width: 125px; height: 125px; border-radius: 50%; margin-top: -5em; position: relative;" src="https://huntingstats378.github.io/HuntingStats378/main/images/default.png">
+            <h2 id="name1" onclick="search1()" style="margin-top: 1px; font-size: var(--title-font-size, 4.5vh)">Loading</h2>
+            <h2 id="subs1" style="margin-top: -20px; font-size: var(--counter-font-size, 8vh)" class="odometer">0</h2>
+            <h5 id="footer1" style="margin-top: -40px;">XP (STA)</h5>
+        </div>
+        <div style="height: auto; padding: 0px 4px; text-align: center; background-color: var(--counter-bg-color, black);">
+            <img id="banner2" style="filter: blur(4px); border-radius: 15px; object-fit: cover; width: 100%; height: 150px; position: relative;" src="https://huntingstats378.github.io/HuntingStats378/main/images/default_banner.png">
+            <img id="image2" style="width: 125px; height: 125px; border-radius: 50%; margin-top: -5em; position: relative;" src="https://huntingstats378.github.io/HuntingStats378/main/images/default.png">
+            <h2 id="name2" onclick="search2()" style="margin-top: 1px; font-size: var(--title-font-size, 4.5vh)">Loading</h2>
+            <h2 id="subs2" style="margin-top: -20px; font-size: var(--counter-font-size, 8vh)" class="odometer">0</h2>
+            <h5 id="footer2" style="margin-top: -40px;">XP (STA)</h5>
+        </div>
+    </div>
+    <center>
+        <div style="width: 100%; height: 100px; background-color: var(--counter-bg-color, black); border-radius: 20px;">
+            <h1>Gap:</h1>
+            <h1 id="gap" class="odometer" style="margin-top: -15px">0</h1>
+        </div>
+    </center>
+
+<script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/odometer.js"></script>
+<script>
+const BASE_URL = "https://huntingstats378.onrender.com/corsproxy?url=https://api.lurkr.gg/v2/levels/1150096734576451614";
+
+// Get URL parameters
+function getIDsFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    id1: params.get("id1"),
+    id2: params.get("id2"),
+  };
+}
+
+// Build avatar URL
+function getAvatarURL(user) {
+  if (!user.user.avatar || !user.userId) return "./default.png";
+  const isGif = user.user.avatar.startsWith("a_");
+  const ext = isGif ? "gif" : "png";
+  return `https://cdn.discordapp.com/avatars/${user.userId}/${user.user.avatar}.${ext}`;
+}
+
+// Fetch leaderboard page and search for specific user ID
+async function fetchUser(userId) {
+  for (let page = 1; page <= 10; page++) {
+    const res = await fetch(`${BASE_URL}?page=${page}`);
+    const data = await res.json();
+    const found = data.levels.find(u => u.userId === userId);
+    if (found) return found;
+  }
+  return null;
+}
+
+// Update UI for a user
+function updateUserUI(index, user) {
+  document.getElementById(`name${index}`).textContent = user.user.globalName || user.user.username || "Unknown";
+  document.getElementById(`subs${index}`).innerHTML = user.xp.toLocaleString();
+  const img = document.getElementById(`image${index}`);
+  img.src = getAvatarURL(user);
+  img.onerror = () => {
+    img.src = "./default.png";
+  };
+}
+
+// Fetch and compare both users
+async function fetchAndCompare() {
+  const { id1, id2 } = getIDsFromURL();
+  if (!id1 || !id2) {
+    alert("Missing one or both user IDs in the URL (?id1=...&id2=...)");
+    return;
+  }
+
+  try {
+    const [user1, user2] = await Promise.all([fetchUser(id1), fetchUser(id2)]);
+    if (user1) updateUserUI(1, user1);
+    if (user2) updateUserUI(2, user2);
+
+    const gap = user1 && user2 ? Math.abs(user1.xp - user2.xp) : 0;
+    document.getElementById("gap").innerHTML = gap.toLocaleString();
+  } catch (err) {
+    console.error("Failed to fetch users:", err);
+  }
+}
+
+// Initial fetch + repeat every 60s
+fetchAndCompare();
+setInterval(fetchAndCompare, 2000);
+</script>
+
+</body>
+</html>
