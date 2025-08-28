@@ -382,7 +382,7 @@
 
     async function fetchAndUpdate() {
         try {
-            const response = await fetch(`https://huntingstats378.onrender.com/corsproxy?url=https://api.lurkr.gg/v2/levels/${id}?page=${page}`);
+            const response = await fetch(`https://huntingstats378.onrender.com/corsproxy?url=https://api.lurkr.gg/v2/levels/${server}?page=${page}`);
             const data = await response.json();
             const users = data.levels;
 
@@ -417,5 +417,6 @@
     fetchAndUpdate();
     setInterval(fetchAndUpdate, 10000);
 </script>
+
 
 
