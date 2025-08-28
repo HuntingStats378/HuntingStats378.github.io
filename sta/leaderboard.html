@@ -369,6 +369,10 @@
     </div>
 </body>
 <script>
+    const searchParams = new URLSearchParams(window.location.search);
+    const server = searchParams.get("id") || "1150096734576451614";
+    const page = searchParams.get("page") || "1";
+    
     function getAvatarURL(userId, avatarHash) {
         if (!avatarHash || !userId) return "./default.png";
         const isGif = avatarHash.startsWith("a_");
@@ -378,7 +382,7 @@
 
     async function fetchAndUpdate() {
         try {
-            const response = await fetch("https://huntingstats378.onrender.com/corsproxy?url=https://api.lurkr.gg/v2/levels/1150096734576451614?page=1");
+            const response = await fetch(`https://huntingstats378.onrender.com/corsproxy?url=https://api.lurkr.gg/v2/levels/${id}?page=${page}`);
             const data = await response.json();
             const users = data.levels;
 
@@ -413,4 +417,5 @@
     fetchAndUpdate();
     setInterval(fetchAndUpdate, 10000);
 </script>
+
 
