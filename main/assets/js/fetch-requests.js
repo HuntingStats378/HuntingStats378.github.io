@@ -425,7 +425,7 @@ async function fetchteamwaterfundraiser(userId) {
     const userId = "UCXGITFpSIGWPTr8ekn9qjMw";
     const data = await fetch(`https://teamwater.socialstats.app/total/neat`);
     const response = await data.json();
-    const subCount = response.count;
+    const subCount = response.amount;
     const channelLogo = "https://yt3.googleusercontent.com/QO0KsIb3UjlnBrqnCCC1dn3KwKVLMZQgCJBKFu2v0pFiNDdLQTUh-iEavOXkQhlOaLTBrVvY=s1080-c-k-c0x00ffffff-no-rj";
     const channelName = "#TeamWater";
     const channelBanner = `https://banner.yt/${userId}`;
