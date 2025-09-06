@@ -454,4 +454,6 @@ async function fetchyoutubemrbeast(channelId) {
   if (studioData !== null) {
     result.studio = studioData;
   }
+
+  return result;
 }
