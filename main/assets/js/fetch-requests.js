@@ -443,3 +443,15 @@ async function fetchteamwaterfundraiser(userId) {
   }
 }
 
+async function fetchyoutubemrbeast(channelId) {
+  const dat3a = await fetch(`https://mrbeast.subscribercount.app/data`);
+  const mrbeast = await dat3a.json();
+  studioData = mrbeast.mrbeast;
+
+  // Return object with or without studio data
+  const result = {};
+
+  if (studioData !== null) {
+    result.studio = studioData;
+  }
+}
