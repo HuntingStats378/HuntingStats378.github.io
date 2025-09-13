@@ -8,7 +8,7 @@
     <div class="main" id="main" style="margin-top: 7.5px; display: grid; grid-template-columns: repeat(5, 1fr);"></div>
     <script>
         const searchParams = new URLSearchParams(window.location.search);
-        const server = searchParams.get("id") || "1245449302851977298";
+        const server = searchParams.get("id") || "1415768949651669024";
         const peg = parseInt(searchParams.get("page") || 1, 10);
         const page = Math.ceil(peg * 0.5); // API page (100 users)
         const padRanks = searchParams.get("pad") === "true"; // toggle via ?pad=true
