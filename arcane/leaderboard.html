@@ -73,26 +73,30 @@
         createCards();
 
         // Accurate Arcane XP logic using xpOptions from the API
-        function requiredXPToNextLevel(level, xpOptions) {
+        function requiredXPToNextLevel(level, xpOptions = {}) {
             const multiplier = xpOptions?.multiplier ?? 1;
-            const curve = xpOptions?.curve ?? "normal";
+            const curve = (xpOptions?.curve ?? "linear").toLowerCase();
+            const lvl = Math.max(0, Math.floor(level));
 
-            switch (curve.toLowerCase()) {
+            switch (curve) {
                 case "exponential":
-                    return multiplier * (5 * level * level + 50 * level + 75);
-                case "normal":
-                    return multiplier * (75 + (level - 1) * 100);
-                case "slow":
-                    return multiplier * (60 + (level - 1) * 60);
-                case "fast":
-                    return multiplier * (100 + (level - 1) * 40);
-                case "flat":
-                    return multiplier * 1000;
+                    // Arcane: 5*level^2 + 50*level + 75
+                    return Math.round(multiplier * (5 * lvl * lvl + 50 * lvl + 75));
+
+                case "linear":
+                case "none": // alias
+                    // Arcane: (level * 100) + 75
+                    return Math.round(multiplier * (lvl * 100 + 75));
+
+                case "constant":
+                    // Arcane flat/constant = 1000
+                    return Math.round(multiplier * 1000);
+
                 default:
                     throw new Error(`Unsupported XP curve: ${curve}`);
             }
         }
-
+        
         function totalXPToLevel(level, xpOptions) {
             if (level === 0) return 75;
             let total = 0;
