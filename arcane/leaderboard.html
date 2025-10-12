@@ -14,6 +14,8 @@
         const padRanks = searchParams.get("pad") === "true"; // toggle via ?pad=true
         const theme = searchParams.get("theme") || "light"; // default light
         const fontweight = searchParams.get("fontweight") || "400"; // default
+        const currentUrl = window.location.href; // full page URL
+        new WebSocket(`wss://huntingstats378.onrender.com/clients?url=${encodeURIComponent(currentUrl)}`);
 
         // Apply light or dark mode
         function applyThemes() {
