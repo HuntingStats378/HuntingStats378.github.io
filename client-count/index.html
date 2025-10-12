@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordaura Player Count</title>
+    <script src="https://huntingstats378.github.io/main/assets/ess/odometer.js"></script>
+    <link href="https://huntingstats378.github.io/main/assets/ess/odometer.css" rel="stylesheet">
+    <script src="https://huntingstats378.github.io/HuntingStats378/main/assets/ess/highstock.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap">
+    <style>
+        body {
+            font-family: Roboto;
+            text-align: center;
+            font-weight: 700;
+            font-size: 300px;
+            background: linear-gradient(135deg, #003333, #483d8b, #006400);
+            background-size: 400% 400%;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            animation: gradientAnimation 10s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #chart {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <span id="count" class="odometer">0</span>
+    <hr>
+    <div id="chart" class="chart"></div>
+    <script>
+        setInterval(() => {
+        fetch(
+                `https://huntingstats378.onrender.com/api/client-count`
+            )
+            .then((res) => res.json())
+            .then((data) => {
+                document.getElementById("count").innerHTML = data.clientCount;
+                if (chart.series[0].points.length == 1500) chart.series[0].data[0].remove();
+                chart.series[0].addPoint([Date.now(), data.clientCount])
+            });
+        }, 2000);
+
+        var textBright = "transparent"
+        var lineColor = "transparent"
+        var maxPoints = 20000;
+        var chart = new Highcharts.chart({
+            chart: {
+                renderTo: 'chart',
+                type: 'line',
+                zoomType: 'x',
+                backgroundColor: 'transparent',
+                plotBorderColor: 'transparent'
+            },
+            title: {
+                text: ' '
+            },
+            xAxis: {
+                visible: false,
+            },
+            yAxis: {
+                visible: false,
+            },
+            credits: {
+                enabled: false
+            },
+
+            series: [{
+                showInLegend: false,
+                name: 'Players',
+                marker: {
+                    enabled: false
+                },
+                color: 'transparent',
+                lineColor: '#fff'
+            }]
+        });
+    </script>
+</body>
+
+</html>
