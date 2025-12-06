@@ -396,6 +396,49 @@ async function fetchtwitteruser(userId) {
   }
 }
 
+async function lastfmglobal(userId) {
+  try {
+    const data = await fetch(`https://kerve.last.fm/kerve/scrobblecount?format=json`);
+    const response = await data.json();
+    const subCount = response.data.global_scrobbles;
+    const channelLogo = "https://www.last.fm/static/images/lastfm_avatar_twitter.52a5d69a85ac.png";
+    const channelName = "Last.fm";
+    const channelBanner = "https://www.last.fm/static/images/lastfm_logo_facebook.15d8133be114.png";
+    const goalCount = getGoal(subCount);
+
+    return { "t": new Date(),
+            counts: [subCount, goalCount],
+            user: [channelName, channelLogo, channelBanner],
+            value: [["Scrobbles", "Scrobbles (GLOBAL)"], ["Goal", `Scrobbles to ${abbreviateNumber(getGoalText(subCount))}`]]
+           };
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to fetch counts" };
+  }
+}
+
+async function lastfmrandom(userId) {
+  try {
+    const data = await fetch(`https://kerve.last.fm/kerve/scrobblecount?format=json`);
+    const response = await data.json();
+    const subCount = response.data.scrobbles;
+    const url = response.data.image;
+    const channelLogo = url.replace(/(\/i\/u\/)\d+(s\/)/, '$11080$2');
+    const channelName = `${response.data.track} - ${response.data.artist}`;
+    const channelBanner = url.replace(/(\/i\/u\/)\d+(s\/)/, '$11080$2');
+    const goalCount = getGoal(subCount);
+
+    return { "t": new Date(),
+            counts: [subCount, goalCount],
+            user: [channelName, channelLogo, channelBanner],
+            value: [["Scrobbles", "Scrobbles (RANDOM)"], ["Goal", `Scrobbles to ${abbreviateNumber(getGoalText(subCount))}`]]
+           };
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to fetch counts" };
+  }
+}
+
 async function fetch50statesfundraiser(userId) {
   try {
     const data = await fetch(`https://corsproxy.io/?https://gshso0nx9d.execute-api.us-east-1.amazonaws.com/api/public/campaigns/13135e7f-7d66-422e-ac00-0197067d5c8a`);
