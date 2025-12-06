@@ -400,7 +400,7 @@ async function fetchlastfmglobal(userId) {
   try {
     const data = await fetch(`https://kerve.last.fm/kerve/scrobblecount?format=json`);
     const response = await data.json();
-    const subCount = response.data.global_scrobbles;
+    const subCount = response.global_scrobbles;
     const channelLogo = "https://www.last.fm/static/images/lastfm_avatar_twitter.52a5d69a85ac.png";
     const channelName = "Last.fm";
     const channelBanner = "https://www.last.fm/static/images/lastfm_logo_facebook.15d8133be114.png";
@@ -421,10 +421,10 @@ async function fetchlastfmrandom(userId) {
   try {
     const data = await fetch(`https://kerve.last.fm/kerve/scrobblecount?format=json`);
     const response = await data.json();
-    const subCount = response.data.scrobbles;
-    const url = response.data.image;
+    const subCount = response.scrobbles;
+    const url = response.image;
     const channelLogo = url.replace(/(\/i\/u\/)\d+(s\/)/, '$11080$2');
-    const channelName = `${response.data.track} - ${response.data.artist}`;
+    const channelName = `${response.track} - ${response.artist}`;
     const channelBanner = url.replace(/(\/i\/u\/)\d+(s\/)/, '$11080$2');
     const goalCount = getGoal(subCount);
 
