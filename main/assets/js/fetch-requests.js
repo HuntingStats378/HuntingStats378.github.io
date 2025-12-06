@@ -396,7 +396,7 @@ async function fetchtwitteruser(userId) {
   }
 }
 
-async function lastfmglobal(userId) {
+async function fetchlastfmglobal(userId) {
   try {
     const data = await fetch(`https://kerve.last.fm/kerve/scrobblecount?format=json`);
     const response = await data.json();
@@ -417,7 +417,7 @@ async function lastfmglobal(userId) {
   }
 }
 
-async function lastfmrandom(userId) {
+async function fetchlastfmrandom(userId) {
   try {
     const data = await fetch(`https://kerve.last.fm/kerve/scrobblecount?format=json`);
     const response = await data.json();
