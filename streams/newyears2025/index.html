@@ -311,128 +311,124 @@
         }
     }
 
-function padZero(number) {
-    return String(number).padStart(2, '0');
+// ---------- CONFIG ----------
+const TARGET_UTC_DATE = new Date("2026-01-01T00:00:00Z");
+const MAX_RENDER = 40;
+
+// ---------- STATE ----------
+let rawTimezones = [];
+let initialisedTimezones = [];
+
+// ---------- UTIL ----------
+function padZero(num) {
+    return String(Math.abs(num)).padStart(2, "0");
 }
 
-    setInterval(() => {
-        fetch(`./timezones.json`)
-            .then((res) => res.json())
-            .then((data) => {
-                let timezones = [];
-                const currentDate = new Date();
-                console.log("Current Date: ", currentDate);
+// ---------- FETCH & INIT ----------
+fetch("./timezones.json")
+    .then(res => res.json())
+    .then(data => {
+        rawTimezones = data.timezones;
+        initialiseTimezones();
+        startCountdown();
+    })
+    .catch(err => console.error("Error fetching timezones:", err));
 
-                // Calculate the count for each timezone and the time until 2025
-                for (let i = 0; i < data.timezones.length; i++) {
-                    let timezone = data.timezones[i];
+// ---------- INITIALISE TIMEZONES (RUNS ONCE) ----------
+function initialiseTimezones() {
+    initialisedTimezones = [];
 
-                    if (!timezone || !timezone.timezone || !timezone.flags || !Array.isArray(timezone.flags)) {
-                        console.warn(`Skipping invalid timezone at index ${i}:`, timezone);
-                        continue; // Skip invalid entries
-                    }
+    for (let i = 0; i < rawTimezones.length; i++) {
+        const tz = rawTimezones[i];
 
-                    // Parse the timezone offset (e.g., "UTC+05:30")
-                    let offsetStr = timezone.timezone; // Full timezone string like "UTC+05:30" or "UTC-03:00"
-                    let sign = offsetStr.charAt(3) === '-' ? -1 : 1; // Determine if it's positive or negative offset
-                    let offsetParts = offsetStr.slice(4).split(":"); // Get the hour and minute parts
-                    let offsetHours = parseInt(offsetParts[0]) || 0; // Default to 0 if not provided
-                    let offsetMinutes = parseInt(offsetParts[1]) || 0; // Default to 0 if not provided
+        if (!tz || !tz.timezone || !Array.isArray(tz.flags)) {
+            console.warn(`Skipping invalid timezone at index ${i}`, tz);
+            continue;
+        }
 
-                    let totalOffsetMinutes = sign * (offsetHours * 60 + offsetMinutes); // Convert to total minutes
+        // Parse offset (UTC±HH:MM)
+        const offsetStr = tz.timezone;
+        const sign = offsetStr.charAt(3) === "-" ? -1 : 1;
+        const parts = offsetStr.slice(4).split(":");
 
-                    if (isNaN(totalOffsetMinutes)) {
-                        console.warn(`Invalid offset at index ${i}:`, timezone.timezone);
-                        continue;
-                    }
+        const hours = parseInt(parts[0], 10) || 0;
+        const minutes = parseInt(parts[1], 10) || 0;
 
-                    // Target date in UTC
-                    let targetDate = new Date("2026-01-01T00:00:00Z"); // Set target date to Jan 1, 2026 in UTC
-                    targetDate.setMinutes(targetDate.getMinutes() - totalOffsetMinutes); // Adjust the target date by the offset in minutes
+        const totalOffsetMinutes = sign * (hours * 60 + minutes);
 
-                    // Log the calculation of target date and offset
-                    console.log(`Timezone: ${timezone.timezone}, Offset in minutes: ${totalOffsetMinutes}, Target Date Adjusted: ${targetDate}`);
+        if (isNaN(totalOffsetMinutes)) {
+            console.warn(`Invalid offset: ${offsetStr}`);
+            continue;
+        }
 
-                    // Calculate the time difference in milliseconds
-                    let timeDiff = targetDate - currentDate;
+        initialisedTimezones.push({
+            offset: tz.timezone,
+            flags: tz.flags.map(f => f.flag_url),
+            offsetMinutes: totalOffsetMinutes
+        });
+    }
+}
 
-                    // Log the time difference for debugging
-                    console.log(`Time Diff for ${timezone.timezone}: ${timeDiff} milliseconds`);
+// ---------- START INTERVAL ----------
+function startCountdown() {
+    updateCountdowns(); // initial paint
+    setInterval(updateCountdowns, 1000);
+}
 
-                    // Ensure timeDiff is valid
-                    if (isNaN(timeDiff)) {
-                        console.warn(`Invalid time difference for timezone ${timezone.timezone}`);
-                        continue;
-                    }
+// ---------- UPDATE EVERY SECOND ----------
+function updateCountdowns() {
+    const now = new Date();
 
-                    // Manually calculate the days, hours, minutes, and seconds
-                    let daysUntil2025 = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-                    let hoursUntil2025 = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    let minutesUntil2025 = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                    let secondsUntil2025 = Math.floor((timeDiff % (1000 * 60)) / 1000);
+    let computed = initialisedTimezones.map(tz => {
+        const targetDate = new Date(TARGET_UTC_DATE);
+        targetDate.setMinutes(targetDate.getMinutes() - tz.offsetMinutes);
 
-                    // Log the calculated breakdown
-                    console.log(`Days: ${daysUntil2025}, Hours: ${hoursUntil2025}, Minutes: ${minutesUntil2025}, Seconds: ${secondsUntil2025}`);
+        const timeDiff = targetDate - now;
 
-                    // Format the countdown as "DDHHMMSS" (Days, Hours, Minutes, Seconds)
-                    let timeLeft = `${padZero(daysUntil2025)}${padZero(hoursUntil2025)}${padZero(minutesUntil2025)}${padZero(secondsUntil2025)}`;
-                    console.log(`Formatted Countdown for ${timezone.timezone}: ${timeLeft}`);
+        let days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+        let hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
-                    // Store the valid data for each timezone
-                    timezones[i] = {
-                        offset: timezone.timezone,  // Store the offset in "UTC+X" format
-                        flags: timezone.flags.map(flag => flag.flag_url), // Assuming flags contains URLs
-                        count: totalOffsetMinutes,
-                        timeUntil2025: timeLeft,  // Time remaining until 2025 in the "DDHHMMSS" format
-                        timeDiff: timeDiff  // Save the time difference to categorize passed/not passed
-                    };
-                }
+        return {
+            ...tz,
+            timeDiff,
+            timeUntil2025:
+                timeDiff >= 0
+                    ? `${padZero(days)}${padZero(hours)}${padZero(minutes)}${padZero(seconds)}`
+                    : "0"
+        };
+    });
 
-                // Filter out invalid entries
-                timezones = timezones.filter(tz => tz && tz.timeDiff !== undefined);
-                console.log("Valid Timezones: ", timezones);
+    // Sort by earliest time
+    computed.sort((a, b) => a.timeDiff - b.timeDiff);
 
-                // Sort timezones by timeDiff (earliest time first)
-                timezones.sort((a, b) => a.timeDiff - b.timeDiff);  // Fix sorting by time difference
-                console.log("Sorted Timezones: ", timezones);
+    renderUI(computed);
+}
 
-                // Categorize timezones into passed and not passed
-                let passedTimezones = timezones.filter(tz => tz.timeDiff < 0); // Timezones that have already passed
-                let notPassedTimezones = timezones.filter(tz => tz.timeDiff >= 0); // Timezones that haven't passed yet
-                console.log("Passed Timezones: ", passedTimezones);
-                console.log("Not Passed Timezones: ", notPassedTimezones);
+// ---------- RENDER ----------
+function renderUI(timezones) {
+    for (let i = 0; i < MAX_RENDER; i++) {
+        const tz = timezones[i];
+        if (!tz) continue;
 
-                let variable1 = notPassedTimezones.length; // Timezones with time remaining until 2025
-                let variable2 = passedTimezones.length;    // Timezones that have already passed
+        const image = document.getElementById(`image_${i}`);
+        const name = document.getElementById(`name_${i}`);
+        const count = document.getElementById(`count_${i}`);
 
-                // Update UI with sorted timezones and alternating flags
-                for (let i = 0; i < 40; i++) {
-                    let timezone = timezones[i];
-                    if (timezone) {  // Check if timezone is valid
-                        if (timezone.timeDiff >= 0) {
-                            // Timezone hasn't passed yet, update the first set of images
-                            let imageElement = document.getElementById(`image_${i}`);
-                            let nameElement = document.getElementById(`name_${i}`);
-                            let countElement = document.getElementById(`count_${i}`);
-                            if (imageElement) imageElement.src = timezone.flags[i % timezone.flags.length];
-                            if (nameElement) nameElement.textContent = timezone.offset;  // Show the offset (e.g., "UTC+08:00")
-                            if (countElement) countElement.innerHTML = timezone.timeUntil2025;  // Show the formatted countdown
-                        } else {
-                            // Timezone has already passed, update the second set of images
-                            let imageElement = document.getElementById(`image_${i}`);
-                            let nameElement = document.getElementById(`name_${i}`);
-                            let countElement = document.getElementById(`count_${i}`);
-                            if (imageElement) imageElement.src = timezone.flags[i % timezone.flags.length];
-                            if (nameElement) nameElement.textContent = timezone.offset;  // Show the offset (e.g., "UTC+08:00")
-                            if (countElement) countElement.innerHTML = 0;  // Show the formatted countdown
-                        }
-                    }
-                }
-            })
-            .catch((error) => {
-                console.error("Error fetching or parsing timezones:", error);
-            });
-    }, 1000);
+        if (image && tz.flags.length) {
+            image.src = tz.flags[i % tz.flags.length];
+        }
+
+        if (name) {
+            name.textContent = tz.offset;
+        }
+
+        if (count) {
+            count.textContent = tz.timeUntil2025;
+        }
+    }
+}
 
 </script>
 
