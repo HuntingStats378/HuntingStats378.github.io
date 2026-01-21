@@ -72,6 +72,7 @@ var duration = urlParams.get("duration") || 2;
 var update = urlParams.get("update") || 2;
 var est = urlParams.get("est") || 0;
 var goal = urlParams.get("goal") || 0;
+var adjust = urlParams.get("adjust") || 0;
 
 // Validate and handle font size
 function validateSize(input) {
@@ -140,7 +141,7 @@ setInterval(async () => {
                 return;
             }
 
-            let count = studio === true ? goal - data.studio : goal - data.counts[counter];
+            let count = adjust + studio === true ? goal - data.studio : goal - data.counts[counter];
 
             console.log("Calculated Count:", count);
             document.getElementById("count").innerHTML = Math.floor(Math.abs(count));
