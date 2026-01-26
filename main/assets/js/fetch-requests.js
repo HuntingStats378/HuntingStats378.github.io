@@ -181,7 +181,7 @@ async function fetchyoutubestream(videoId) {
 
 async function fetchyoutubelatest(channelId) {
   try {
-    const latestdata = await fetch(`https://latestvid.stats100.xyz/get/${channelId}?type=any&maxresults=1`);
+    const latestdata = await fetch(`https://latestvid.imgalvin.me/get/${channelId}?type=any&maxresults=1`);
     const latestresponse = await latestdata.json();
     const [data, dat2a, dat3a] = await Promise.all([
       fetch(`https://mixerno.space/api/youtube-video-counter/user/${latestresponse[0].videoId}`),
@@ -215,7 +215,7 @@ async function fetchyoutubelatest(channelId) {
 
 async function fetchyoutubelatestlong(channelId) {
   try {
-    const latestdata = await fetch(`https://latestvid.stats100.xyz/get/${channelId}?type=long&maxresults=1`);
+    const latestdata = await fetch(`https://latestvid.imgalvin.me/get/${channelId}?type=long&maxresults=1`);
     const latestresponse = await latestdata.json();
     const [data, dat2a, dat3a] = await Promise.all([
       fetch(`https://mixerno.space/api/youtube-video-counter/user/${latestresponse[0].videoId}`),
@@ -249,7 +249,7 @@ async function fetchyoutubelatestlong(channelId) {
 
 async function fetchyoutubelatestshort(channelId) {
   try {
-    const latestdata = await fetch(`https://latestvid.stats100.xyz/get/${channelId}?type=short&maxresults=1`);
+    const latestdata = await fetch(`https://latestvid.imgalvin.me/get/${channelId}?type=short&maxresults=1`);
     const latestresponse = await latestdata.json();
     const [data, dat2a, dat3a] = await Promise.all([
       fetch(`https://mixerno.space/api/youtube-video-counter/user/${latestresponse[0].videoId}`),
@@ -283,7 +283,7 @@ async function fetchyoutubelatestshort(channelId) {
 
 async function fetchyoutubelatestlive(channelId) {
   try {
-    const latestdata = await fetch(`https://latestvid.stats100.xyz/get/${channelId}?type=live&maxresults=1`);
+    const latestdata = await fetch(`https://latestvid.imgalvin.me/get/${channelId}?type=live&maxresults=1`);
     const latestresponse = await latestdata.json();
     const [data, dat2a, dat3a] = await Promise.all([
       fetch(`https://mixerno.space/api/youtube-video-counter/user/${latestresponse[0].videoId}`),
