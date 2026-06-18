@@ -59,7 +59,7 @@ async function fetchyoutubechannel(channelId) {
       const respons2e = await dat2a.json();
 
       if (!respons2e.error) {
-        studioData = respons2e.subscribers;
+        studioData = respons2e.stats.subscribers;
         nextcountsOK = true;
       }
     } catch (e) {
