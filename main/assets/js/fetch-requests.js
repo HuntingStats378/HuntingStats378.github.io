@@ -54,12 +54,12 @@ async function fetchyoutubechannel(channelId) {
     try {
       // Attempt fetch from nextcounts
       const dat2a = await fetch(
-        `https://huntingstats378.onrender.com/corsproxy?url=https://api-v2.nextcounts.com/api/youtube/channel/${channelId}`
+        `https://studio.sctools.org/api/channels/${channelId}`
       );
       const respons2e = await dat2a.json();
 
-      if (respons2e.verifiedSubCount === true) {
-        studioData = respons2e.subcount;
+      if (respons2e.error != "Channel not found") {
+        studioData = respons2e.subscribers;
         nextcountsOK = true;
       }
     } catch (e) {
