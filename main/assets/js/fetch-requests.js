@@ -58,7 +58,7 @@ async function fetchyoutubechannel(channelId) {
       );
       const respons2e = await dat2a.json();
 
-      if (respons2e.error !== "Channel not found") {
+      if (!respons2e.error) {
         studioData = respons2e.subscribers;
         nextcountsOK = true;
       }
