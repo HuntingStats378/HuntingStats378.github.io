@@ -43,7 +43,7 @@ async function fetchyoutubechannel(channelId) {
   try {
     // Fetch from Mixerno API
     const data = await fetch(
-      `https://mixerno.space/api/youtube-channel-counter/user/${channelId}`
+      `https://ests.sctools.org/api/get/${channelId}`
     );
     const response = await data.json();
 
@@ -66,26 +66,19 @@ async function fetchyoutubechannel(channelId) {
       console.warn("nextcounts API failed:", e);
     }
 
-    const subCount = response.counts[0].count;
-    const totalViews = response.counts[3].count;
-    const apiViews = response.counts[4].count;
-    const apiSubCount = response.counts[2].count;
-    const videos = response.counts[5].count;
-    const channelLogo = response.user[1].count;
-    const channelName = response.user[0].count;
+    const subCount = response.stats.estCount;
+    const totalViews = response.stats.viewCount;
+    const apiViews = response.stats.viewCount;
+    const apiSubCount = response.stats.apiCount;
+    const videos = response.stats.videoCount;
+    const channelLogo = `https://banner.yt/${channelId}/avatar`;
+    const channelName = response.info.avatar;
     const channelBanner = `https://banner.yt/${channelId}`;
     const goalCount = getGoal(subCount);
 
-    // Special case for MrBeast fallback
-    if (!nextcountsOK && channelId === "UCX6OQ3DkcsbYNE6H8uQQuVA") {
-      try {
-        const dat3a = await fetch(`https://mrbeast.subscribercount.app/data`);
-        const mrbeast = await dat3a.json();
-        studioData = mrbeast.mrbeast;
-      } catch (e) {
-        console.warn("MrBeast fallback fetch failed:", e);
-      }
-    }
+    if (response.stats.streamCount != null) {
+        studioData = response.stats.streamCount;
+    }    
 
     // Return object with or without studio data
     const result = {
