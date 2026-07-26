@@ -3,14 +3,14 @@ YT.live = {
   vs2: "",
   update: function () {
     $.getJSON(
-      "https://nia-statistics.com/api/get?platform=youtube&type=channel&id=" +
+      "https://ests.sctools.org/api/get/" +
         YT.live.vs1,
       function (f) {
         $.getJSON(
-          "https://nia-statistics.com/api/get?platform=youtube&type=channel&id=" +
+          "https://ests.sctools.org/api/get/" +
             YT.live.vs2,
           function (g) {
-            YT.updateManager.updateSubscribers(f.estSubCount, g.estSubCount);
+            YT.updateManager.updateSubscribers(f.stats.estCount, g.stats.estCount);
           }
         );
       }
