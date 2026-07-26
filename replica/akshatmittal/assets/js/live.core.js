@@ -2,44 +2,44 @@ YT.live = {
   channelID: "",
   update: function () {
     $.getJSON(
-      "https://nia-statistics.com/api/get?platform=youtube&type=channel&id=" +
+      "https://ests.sctools.org/api/get/" +
         this.channelID,
       function (e) {
         if (e) {
-          YT.updateManager.updateSubscribers(e.estSubCount);
-          YT.updateManager.updateVideos(e.apiVideoCount);
+          YT.updateManager.updateSubscribers(e.stats.estCount);
+          YT.updateManager.updateVideos(e.stats.videoCount);
         } else {
           YT.query.newSearch(YT.live.channelID);
         }
       }
     );
     if (this.channelID === "UCX6OQ3DkcsbYNE6H8uQQuVA") {
-      $.getJSON("https://nia-statistics.com/api/get?platform=youtube&type=channel&id=" +
+      $.getJSON("https://ests.sctools.org/api/get/" +
                   this.channelID,
                 function (e) {
         if (e) {
-          YT.updateManager.updateViews(e.estViewCount);
+          YT.updateManager.updateViews(e.stats.viewCount);
         } else {
           YT.query.newSearch(YT.live.channelID);
         }
       });
     } else if (this.channelID === "UC-lHJZR3Gqxm24_Vd_AJ5Yw") {
-      $.getJSON("https://nia-statistics.com/api/get?platform=youtube&type=channel&id=" +
+      $.getJSON("https://ests.sctools.org/api/get/" +
                   this.channelID,
                 function (e) {
         if (e) {
-          YT.updateManager.updateViews(e.estViewCount);
+          YT.updateManager.updateViews(e.stats.viewCount);
         } else {
           YT.query.newSearch(YT.live.channelID);
         }
       });
     } else {
       $.getJSON(
-        "https://nia-statistics.com/api/get?platform=youtube&type=channel&id=" +
+        "https://ests.sctools.org/api/get/" +
           this.channelID,
         function (e) {
           if (e) {
-            YT.updateManager.updateViews(e.estViewCount);
+            YT.updateManager.updateViews(e.stats.viewCount);
           } else {
             YT.query.newSearch(YT.live.channelID);
           }
