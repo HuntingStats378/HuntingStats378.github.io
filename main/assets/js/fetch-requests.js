@@ -72,7 +72,7 @@ async function fetchyoutubechannel(channelId) {
     const apiSubCount = response.stats.apiCount;
     const videos = response.stats.videoCount;
     const channelLogo = `https://banner.yt/${channelId}/avatar`;
-    const channelName = response.info.avatar;
+    const channelName = response.info.name;
     const channelBanner = `https://banner.yt/${channelId}`;
     const goalCount = getGoal(subCount);
 
