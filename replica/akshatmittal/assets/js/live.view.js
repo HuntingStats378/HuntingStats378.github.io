@@ -2,12 +2,12 @@ YT.live = {
   channelID: "",
   update: function () {
     $.getJSON(
-      "https://nia-statistics.com/api/get?platform=youtube&type=video&id=" + this.channelID,
+      "https://mixerno.space/api/youtube-video-counter/user/" + this.channelID,
       function (e) {
         if (e) {
-          YT.updateManager.updateViews(e.estViewCount);
-          YT.updateManager.updateLikes(e.apiLikeCount);
-          YT.updateManager.updateComments(e.apiCommentCount);
+          YT.updateManager.updateViews(e.counts[0].count);
+          YT.updateManager.updateLikes(e.counts[3].count);
+          YT.updateManager.updateComments(e.counts[5].count);
         } else {
           YT.query.newSearch(YT.live.channelID);
         }
