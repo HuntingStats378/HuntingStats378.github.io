@@ -4,7 +4,7 @@ YT.query = {
             return;
         }
         YT.live.stop();
-        $.getJSON("https://axern.space/api/search?platform=youtube&type=video&query=" + encodeURIComponent(e), function (e) {
+        $.getJSON("https://mixerno.space/api/youtube-channel-counter/user/" + encodeURIComponent(e), function (e) {
             if (!e.data || e.data.length === 0) {
                 alert("No results found!");
                 return;
