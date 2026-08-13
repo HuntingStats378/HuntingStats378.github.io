@@ -309,7 +309,7 @@ async function fetchyoutubelatestlive(channelId) {
   }
 }
 
-async function fetchInstagramUser(userId) {
+async function fetchinstagramuser(userId) {
   try {
     // Fetch data from the first API
     const res1 = await fetch(`https://api.basepoint.live/instagram/user/${userId}`);
