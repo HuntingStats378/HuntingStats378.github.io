@@ -311,19 +311,23 @@ async function fetchyoutubelatestlive(channelId) {
 
 async function fetchinstagramuser(userId) {
   try {
-    const [data, dat2a] = await Promise.all([
-      fetch(`https://livecounts.xyz/api/instagram-live-follower-count/live/${userId}`),
-      fetch(`https://api-v2.nextcounts.com/api/instagram/user/${userId}`)
+    const [data] = await Promise.all([
+      fetch(`https://api.basepoint.live/instagram/user/${userId}`)
     ]);
 
     const response = await data.json();
+
+    const [dat2a] = await Promise.all([
+      fetch(`https://api-v2.nextcounts.com/api/instagram/user/${response.info.username}`)
+    ]);
+    
     const response2 = await dat2a.json();
-    const subCount = response2.followers;
-    const totalViews = response2.following;
-    const apiSubCount = response2.posts;
-    const channelLogo = response2.avatar || null;
-    const channelName = response2.nickname || null;
-    const channelBanner = response2.userBanner || null;
+    const subCount = response.stats.followerCount;
+    const totalViews = response.stats.followingCount;
+    const apiSubCount = if(response2.posts) return response2.posts else return 0;
+    const channelLogo = response.info.avatar || null;
+    const channelName = response.info.name || null;
+    const channelBanner = response.avatar || null;
     const goalCount = getGoal(subCount);
 
     return { "t": new Date(),
