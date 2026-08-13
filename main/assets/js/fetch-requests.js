@@ -309,32 +309,44 @@ async function fetchyoutubelatestlive(channelId) {
   }
 }
 
-async function fetchinstagramuser(userId) {
+async function fetchInstagramUser(userId) {
   try {
-    const [data] = await Promise.all([
-      fetch(`https://api.basepoint.live/instagram/user/${userId}`)
-    ]);
+    // Fetch data from the first API
+    const res1 = await fetch(`https://api.basepoint.live/instagram/user/${userId}`);
+    if (!res1.ok) throw new Error('First API request failed');
+    const response = await res1.json();
 
-    const response = await data.json();
+    // Fetch data from the second API using username from the first response
+    const username = response?.info?.username;
+    if (!username) throw new Error('Username not found in first API response');
 
-    const [dat2a] = await Promise.all([
-      fetch(`https://api-v2.nextcounts.com/api/instagram/user/${response.info.username}`)
-    ]);
+    const res2 = await fetch(`https://api-v2.nextcounts.com/api/instagram/user/${username}`);
+    if (!res2.ok) throw new Error('Second API request failed');
+    const response2 = await res2.json();
+
+    // Extract and fall back safely
+    const subCount = response?.stats?.followerCount || 0;
+    const totalViews = response?.stats?.followingCount || 0;
     
-    const response2 = await dat2a.json();
-    const subCount = response.stats.followerCount;
-    const totalViews = response.stats.followingCount;
-    const apiSubCount = if(response2.posts) return response2.posts else return 0;
-    const channelLogo = response.info.avatar || null;
-    const channelName = response.info.name || null;
-    const channelBanner = response.avatar || null;
-    const goalCount = getGoal(subCount);
+    // Fixed the syntax error here using a ternary operator
+    const apiSubCount = response2?.posts ? response2.posts : 0;
+    
+    const channelLogo = response?.info?.avatar || null;
+    const channelName = response?.info?.name || null;
+    const channelBanner = response?.avatar || null;
+    const goalCount = typeof getGoal === 'function' ? getGoal(subCount) : 0;
 
-    return { "t": new Date(),
-            counts: [subCount, goalCount, apiSubCount, totalViews],
-            user: [channelName, channelLogo, channelBanner, userId, userId],
-            value: [["Followers", "Followers (Instagram)"],["Goal", `Followers to ${abbreviateNumber(getGoalText(subCount))}`],["Following", "Following (Instagram)"],["Posts", "Posts (Instagram)"]]
-           };
+    return { 
+      "t": new Date(),
+      counts: [subCount, goalCount, apiSubCount, totalViews],
+      user: [channelName, channelLogo, channelBanner, userId, userId],
+      value: [
+        ["Followers", "Followers (Instagram)"],
+        ["Goal", `Followers to ${typeof abbreviateNumber === 'function' ? abbreviateNumber(getGoalText(subCount)) : ''}`],
+        ["Following", "Following (Instagram)"],
+        ["Posts", "Posts (Instagram)"]
+      ]
+    };
   } catch (error) {
     console.error(error);
     return { error: "Failed to fetch counts" };
