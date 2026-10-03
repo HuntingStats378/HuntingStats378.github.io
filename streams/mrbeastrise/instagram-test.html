@@ -115,13 +115,8 @@
     </div>
 
     <div class="stats-line">
-      <div class="stat"><iconify-icon icon="bi:eye-fill"></iconify-icon> <span id="views" class="odometer">0</span>
-      </div>
+      <div class="stat"><iconify-icon icon="bi:eye-fill"></iconify-icon> <span id="views" class="odometer">0</span></div>
       <div class="stat"><iconify-icon icon="bxs:like"></iconify-icon> <span id="likes" class="odometer">0</span></div>
-      <div class="stat"><iconify-icon icon="fa-solid:comment-dots"></iconify-icon> <span id="comments"
-          class="odometer">0</span></div>
-      <div class="stat"><iconify-icon icon="mdi:upload-box"></iconify-icon> <span id="videos" class="odometer">0</span>
-      </div>
     </div>
 
     <div class="growth">
@@ -270,8 +265,6 @@
 
       views.innerHTML = Math.floor(baseViews + rateViews * elapsed);
       likes.innerHTML = Math.floor(baseLikes + rateLikes * elapsed);
-      comments.innerHTML = Math.floor(baseComments + rateComments * elapsed);
-      videos.innerHTML = Math.floor(baseUploads);
 
       setTimeout(updateDisplay, 2000);
     }
