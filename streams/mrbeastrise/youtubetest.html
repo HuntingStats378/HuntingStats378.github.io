@@ -271,12 +271,7 @@ var id = urlParams.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
 }
 
     // Init
-    fetchInitialHistory().finally(() => {
-      fetchCombinedHistory(true);
-      setInterval(() => fetchCombinedHistory(false), 60000); // check every 1 min for HH:01
-      updateDisplay();
       setInterval(pollSubscribers, 2000);
-    });
   </script>
 </body>
 
