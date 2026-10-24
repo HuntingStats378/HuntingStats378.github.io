@@ -139,130 +139,145 @@
   const urlParams = new URLSearchParams(window.location.search);
   const params = {};
 
-// Convert URL parameters to the `params` object with number and boolean parsing
-for (const [key, value] of urlParams.entries()) {
+  for (const [key, value] of urlParams.entries()) {
     if (value.toLowerCase() === "true") {
-        params[key] = true;  // Convert "true" string to boolean true
+        params[key] = true;  
     } else if (value.toLowerCase() === "false") {
-        params[key] = false;  // Convert "false" string to boolean false
+        params[key] = false;  
     } else if (!isNaN(value) && value.trim() !== '') {
-        params[key] = parseFloat(value);  // Convert numeric values
+        params[key] = parseFloat(value);  
     } else {
-        params[key] = value;  // Keep other string values as they are
+        params[key] = value;  
     }
-}
-
-var id = urlParams.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA";    
-
-    // Odometer Script
-    odometers = Odometer.init();
-    for (let i = 0; i < odometers.length; i++) {
-      odometers[i].options = {
-        animation: ['default', 'byDigit', 'count', 'minimal'][0],
-        duration: 2 * 1000,
-        removeLeadingZeros: true,
-        reverseAnimation: false,
-        format: ",ddd",
-      }
-    }
-
-    function numberWithCommas(x) {
-      return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-    }
-
-    function calcGain(arr, seconds) {
-      const now = Date.now();
-      const cutoff = now - seconds * 1000;
-      const validPoints = arr.map((v, i) => ({ t: new Date(statsHistory.time[i]).getTime(), v }))
-        .filter(p => p.t >= cutoff);
-      if (validPoints.length >= 2) {
-        return validPoints.at(-1).v - validPoints[0].v;
-      } else {
-        return 0;
-      }
-    }
-
-    function calPrefixOfCount(x, gain = "lime", lose = "red", none = "white") {
-      const count = parseFloat(x);
-      if (count > 0) return ["+", gain];
-      if (count === 0) return ["+", none];
-      return ["", lose];
-    }
-
-    const trace = {
-      x: dataX,
-      y: dataY,
-      mode: 'lines',
-      line: {
-        color: '#70c8ff',
-        width: 3,
-        shape: 'linear'
-      },
-      hoverinfo: 'skip'
-    };
-
-    const layout = {
-      autosize: true,
-      paper_bgcolor: 'rgba(0,0,0,0)',
-      plot_bgcolor: 'rgba(0,0,0,0)',
-      margin: { l: 0, r: 0, t: 0, b: 0 },
-      xaxis: { type: 'date', visible: false },
-      yaxis: { visible: false }
-    };
-
-    async function pollSubscribers() {
-  try {
-    const data = await fetchyoutubechannel(id);
-    const subs = parseInt(data.counts[0]);
-    const now = new Date();
-    if (!startTime) return;
-
-    document.getElementById("subscribers").innerHTML = numberWithCommas(subs);
-    document.getElementById("views").innerHTML = numberWithCommas(data.counts[3]);
-    document.getElementById("videos").innerHTML = numberWithCommas(data.counts[5]);    
-
-    dataX.push(now);
-    dataY.push(subs);
-
-    if (Date.now() - lastSavedTime >= 5000) {
-      statsHistory.time.push(now.toISOString());
-      statsHistory.count.push(subs);
-      lastSavedTime = Date.now();
-    }
-
-    const cutoff = Date.now() - 24 * 60 * 60 * 1000;
-    while (dataX.length && dataX[0].getTime() < cutoff) dataX.shift();
-    while (dataY.length > dataX.length) dataY.shift();
-    while (statsHistory.time.length && new Date(statsHistory.time[0]).getTime() < cutoff)
-      statsHistory.time.shift(), statsHistory.count.shift();
-
-    startTime = dataX[0];
-    const futureBuffer = new Date(now.getTime() + 2000);
-    Plotly.update('curve', { x: [dataX], y: [dataY] }, {
-      'xaxis.range': [startTime, futureBuffer]
-    });
-
-    const min = calcGain(statsHistory.count, 60);
-    const hour = calcGain(statsHistory.count, 3600);
-    const day = calcGain(statsHistory.count, 86400);
-
-    const updateStat = (id, value) => {
-      const [prefix, color] = calPrefixOfCount(value);
-      const el = document.getElementById(id);
-      el.textContent = prefix + numberWithCommas(value);
-      el.style.color = color;
-    };
-
-    updateStat('min', min);
-    updateStat('hour', hour);
-    updateStat('day', day);
-  } catch (err) {
-    console.warn("fetch error:", err);
   }
-}
 
-    // Init
-      setInterval(pollSubscribers, 2000);
+  var id = urlParams.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA";    
+
+  // Initialize tracking variables & history arrays
+  let dataX = [];
+  let dataY = [];
+  let statsHistory = { time: [], count: [] };
+  let startTime = null;
+  let lastSavedTime = 0;
+
+  // Odometer Setup
+  const odometers = Odometer.init();
+  for (let i = 0; i < odometers.length; i++) {
+    odometers[i].options = {
+      animation: ['default', 'byDigit', 'count', 'minimal'][0],
+      duration: 2 * 1000,
+      removeLeadingZeros: true,
+      reverseAnimation: false,
+      format: ",ddd",
+    }
+  }
+
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  function calcGain(arr, seconds) {
+    const now = Date.now();
+    const cutoff = now - seconds * 1000;
+    const validPoints = arr.map((v, i) => ({ t: new Date(statsHistory.time[i]).getTime(), v }))
+      .filter(p => p.t >= cutoff);
+    if (validPoints.length >= 2) {
+      return validPoints.at(-1).v - validPoints[0].v;
+    } else {
+      return 0;
+    }
+  }
+
+  function calPrefixOfCount(x, gain = "lime", lose = "red", none = "white") {
+    const count = parseFloat(x);
+    if (count > 0) return ["+", gain];
+    if (count === 0) return ["+", none];
+    return ["", lose];
+  }
+
+  // Initial Plotly setup
+  const trace = {
+    x: dataX,
+    y: dataY,
+    mode: 'lines',
+    line: {
+      color: '#70c8ff',
+      width: 3,
+      shape: 'linear'
+    },
+    hoverinfo: 'skip'
+  };
+
+  const layout = {
+    autosize: true,
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)',
+    margin: { l: 0, r: 0, t: 0, b: 0 },
+    xaxis: { type: 'date', visible: false },
+    yaxis: { visible: false }
+  };
+
+  // Render the empty chart container on load
+  Plotly.newPlot('curve', [trace], layout);
+
+  async function pollSubscribers() {
+    try {
+      if (typeof fetchyoutubechannel !== 'function') return;
+      const data = await fetchyoutubechannel(id);
+      const subs = parseInt(data.counts[0]);
+      const now = new Date();
+      
+      if (!startTime) startTime = now;
+
+      document.getElementById("subscribers").innerHTML = numberWithCommas(subs);
+      document.getElementById("views").innerHTML = numberWithCommas(data.counts[3]);
+      document.getElementById("videos").innerHTML = numberWithCommas(data.counts[5]);    
+
+      dataX.push(now);
+      dataY.push(subs);
+
+      if (Date.now() - lastSavedTime >= 5000) {
+        statsHistory.time.push(now.toISOString());
+        statsHistory.count.push(subs);
+        lastSavedTime = Date.now();
+      }
+
+      const cutoff = Date.now() - 24 * 60 * 60 * 1000;
+      while (dataX.length && dataX[0].getTime() < cutoff) dataX.shift();
+      while (dataY.length > dataX.length) dataY.shift();
+      while (statsHistory.time.length && new Date(statsHistory.time[0]).getTime() < cutoff) {
+        statsHistory.time.shift();
+        statsHistory.count.shift();
+      }
+
+      startTime = dataX[0];
+      const futureBuffer = new Date(now.getTime() + 2000);
+      Plotly.update('curve', { x: [dataX], y: [dataY] }, {
+        'xaxis.range': [startTime, futureBuffer]
+      });
+
+      const min = calcGain(statsHistory.count, 60);
+      const hour = calcGain(statsHistory.count, 3600);
+      const day = calcGain(statsHistory.count, 86400);
+
+      const updateStat = (id, value) => {
+        const [prefix, color] = calPrefixOfCount(value);
+        const el = document.getElementById(id);
+        el.textContent = prefix + numberWithCommas(value);
+        el.style.color = color;
+      };
+
+      updateStat('min', min);
+      updateStat('hour', hour);
+      updateStat('day', day);
+    } catch (err) {
+      console.warn("fetch error:", err);
+    }
+  }
+
+  // Run immediately once, then interval
+  pollSubscribers();
+  setInterval(pollSubscribers, 2000);
   </script>
 </body>
 
