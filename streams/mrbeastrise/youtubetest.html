@@ -110,17 +110,16 @@
   <!-- Foreground Content -->
   <div class="container">
     <div class="channel-info">
-      <img src="https://banner.yt/UCX6OQ3DkcsbYNE6H8uQQuVA/avatar" alt="MrBeast Logo">
-      <a>MrBeast • #1</a>
+      <img src="https://banner.yt/UCbp9MyKCTEww4CxEzc_Tp0Q/avatar" alt="Stokes Twins Logo">
+      <a>Stokes Twins • #6</a>
     </div>
 
     <div class="stats-line">
-      <div class="stat"><iconify-icon icon="bi:eye-fill"></iconify-icon> <span id="views" class="odometer">0</span>
+      <div class="stat">
+        <iconify-icon icon="bi:eye-fill"></iconify-icon> <span id="views" class="odometer">0</span>
       </div>
-      <div class="stat"><iconify-icon icon="bxs:like"></iconify-icon> <span id="likes" class="odometer">0</span></div>
-      <div class="stat"><iconify-icon icon="fa-solid:comment-dots"></iconify-icon> <span id="comments"
-          class="odometer">0</span></div>
-      <div class="stat"><iconify-icon icon="mdi:upload-box"></iconify-icon> <span id="videos" class="odometer">0</span>
+      <div class="stat">
+        <iconify-icon icon="mdi:upload-box"></iconify-icon> <span id="videos" class="odometer">0</span>
       </div>
     </div>
 
@@ -220,80 +219,6 @@ var id = urlParams.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
       yaxis: { visible: false }
     };
 
-    async function fetchInitialHistory() {
-      try {
-        const res = await fetch('https://api.communitrics.com/mrbeast?minutelyPastDay=true');
-        const history = await res.json();
-        const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
-
-        history.forEach(entry => {
-          const time = new Date(entry.currentTime);
-          if (time.getTime() >= oneDayAgo) {
-            dataX.push(time);
-            dataY.push(entry.count);
-            statsHistory.time.push(time.toISOString());
-            statsHistory.count.push(entry.count);
-          }
-        });
-
-        startTime = dataX[0] || new Date();
-      } catch (err) {
-        console.warn("Failed to load /mrbeast history:", err);
-        startTime = new Date();
-      } finally {
-        Plotly.newPlot('curve', [trace], layout, {
-          staticPlot: true,
-          displayModeBar: false
-        });
-      }
-    }
-
-    async function fetchCombinedHistory(force = false) {
-      const now = new Date();
-      const hour = now.getHours(), minute = now.getMinutes();
-
-      if (force || (minute === 1 && hour !== lastCombinedFetchHour)) {
-        try {
-          const res = await fetch('https://api.communitrics.com/combined-history?recent=true');
-          if (!res.ok) throw new Error("Failed to fetch combined-history");
-
-          const data = await res.json();
-          const last = data.at(-1), prev = data.at(-2);
-          const t1 = new Date(prev.time).getTime() / 1000;
-          const t2 = new Date(last.time).getTime() / 1000;
-          const delta = t2 - t1;
-
-          if (delta > 0) {
-            baseTime = t2;
-            baseViews = last.views;
-            baseLikes = last.likes;
-            baseComments = last.comments;
-            baseUploads = last.uploadCount;
-
-            rateViews = (last.views - prev.views) / delta;
-            rateLikes = (last.likes - prev.likes) / delta;
-            rateComments = (last.comments - prev.comments) / delta;
-          }
-
-          lastCombinedFetchHour = hour;
-        } catch (err) {
-          console.warn("Combined data fetch failed:", err);
-        }
-      }
-    }
-
-    function updateDisplay() {
-      const now = Date.now() / 1000;
-      const elapsed = now - baseTime;
-
-      views.innerHTML = Math.floor(baseViews + rateViews * elapsed);
-      likes.innerHTML = Math.floor(baseLikes + rateLikes * elapsed);
-      comments.innerHTML = Math.floor(baseComments + rateComments * elapsed);
-      videos.innerHTML = Math.floor(baseUploads);
-
-      setTimeout(updateDisplay, 2000);
-    }
-
     async function pollSubscribers() {
   try {
     const data = await fetchyoutubechannel(id);
@@ -302,6 +227,8 @@ var id = urlParams.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
     if (!startTime) return;
 
     document.getElementById("subscribers").innerHTML = numberWithCommas(subs);
+    document.getElementById("views").innerHTML = numberWithCommas(data.counts[3]);
+    document.getElementById("videos").innerHTML = numberWithCommas(data.counts[5]);    
 
     dataX.push(now);
     dataY.push(subs);
