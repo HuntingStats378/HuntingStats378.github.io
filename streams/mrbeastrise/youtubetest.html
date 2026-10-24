@@ -166,15 +166,6 @@ var id = urlParams.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
       }
     }
 
-    let baseTime = Date.now() / 1000;
-    let baseViews = 0, baseLikes = 0, baseComments = 0, baseUploads = 0;
-    let rateViews = 0, rateLikes = 0, rateComments = 0;
-    let lastCombinedFetchHour = -1;
-
-    const dataX = [], dataY = [];
-    const statsHistory = { time: [], count: [] };
-    let startTime = null, lastSavedTime = 0;
-
     function numberWithCommas(x) {
       return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
     }
