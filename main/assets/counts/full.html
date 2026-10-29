@@ -73,13 +73,13 @@ for (const [key, value] of urlParams.entries()) {
 }
 
 // Fetch the values directly from `urlParams` using `.get()`
+var studio = params["studio"] === true;    
 var bg = urlParams.get("background") || "black";
 var fc = urlParams.get("fontcolor") || "white";
 var fa = urlParams.get("fontalign") || "center";
 var id = urlParams.get("id") || "UClOyuxZvQkoHoIn15kNbkUw";
 var platform = urlParams.get("platform") || "youtube";
 var type = urlParams.get("type") || "channel";
-var studio = urlParams.get("studio") || false;
 var font = urlParams.get("font") || "Roboto";
 var sizee = urlParams.get("size") || "50";
 var fw = urlParams.get("fontweight") || "400";
