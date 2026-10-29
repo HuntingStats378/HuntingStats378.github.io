@@ -61,7 +61,7 @@ async function fetchyoutubechannel(channelId) {
       if (respons2e.success == true) {
         studioData = respons2e.data.subscribers;
         studioViews = respons2e.data.views;
-        studioLikes] = respons2e.data.likes;
+        studioLikes = respons2e.data.likes;
         studioDislikes = respons2e.data.dislikes;
         studioComments = respons2e.data.comments;
         nextcountsOK = true;
