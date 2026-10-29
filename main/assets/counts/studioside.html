@@ -122,9 +122,6 @@
       uploads.innerHTML = parseInt(data.counts[5]);
   }
 
-  // Fetch data initially and set the increment amount, then start the intervals
-  fetchDataAndUpdateIncrement().then(() => {
       // Increment the variable every 2 seconds
       setInterval(incrementVariable, 2000);
-  });
 </script>
