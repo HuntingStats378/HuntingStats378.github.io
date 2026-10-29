@@ -113,14 +113,22 @@
     odometers[4].options = opts;
 
   // Function to increment the variable
-  function incrementVariable() {
-      const data = fetchyoutubechannel(id);
-      views.innerHTML = parseInt(data.studioViews);
-      likes.innerHTML = parseInt(data.studioLikes);
-      dislikes.innerHTML = parseInt(data.studioDislikes);
-      comments.innerHTML = parseInt(data.studioComments);
-      uploads.innerHTML = parseInt(data.counts[5]); 
+  async function incrementVariable({
+  try {
+    // Wait for the asynchronous function to resolve and return the data
+    const data = await fetchyoutubechannel(id);
+
+    if (data) {
+      views.innerHTML = parseInt(data.studioViews ?? 0);
+      likes.innerHTML = parseInt(data.studioLikes ?? 0);
+      dislikes.innerHTML = parseInt(data.studioDislikes ?? 0);
+      comments.innerHTML = parseInt(data.studioComments ?? 0);
+      uploads.innerHTML = parseInt(data.counts?.[5] ?? 0);
+    }
+  } catch (error) {
+    console.error("Failed to fetch channel data:", error);
   }
+}
 
       // Increment the variable every 2 seconds
       setInterval(incrementVariable, 2000);
