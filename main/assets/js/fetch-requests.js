@@ -54,12 +54,16 @@ async function fetchyoutubechannel(channelId) {
     try {
       // Attempt fetch from nextcounts
       const dat2a = await fetch(
-        `https://studio.sctools.org/api/channels/${channelId}`
+        `https://api.nextcounts.com/api/youtube/studio/channel/${channelId}/realtime`
       );
       const respons2e = await dat2a.json();
 
-      if (!respons2e.error) {
-        studioData = respons2e.stats.subscribers;
+      if (respons2e.success == true) {
+        studioData = respons2e.data.subscribers;
+        studioViews = respons2e.data.views;
+        studioLikes] = respons2e.data.likes;
+        studioDislikes = respons2e.data.dislikes;
+        studioComments = respons2e.data.comments;
         nextcountsOK = true;
       }
     } catch (e) {
@@ -97,6 +101,10 @@ async function fetchyoutubechannel(channelId) {
 
     if (studioData !== null) {
       result.studio = studioData;
+      result.studioViews = studioViews;
+      result.studioLikes = studioLikes;
+      result.studioDislikes = studioDislikes;
+      result.studioComments = studioComments;
     }
 
     return result;
