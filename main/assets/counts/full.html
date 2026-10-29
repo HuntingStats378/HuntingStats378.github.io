@@ -73,7 +73,7 @@ for (const [key, value] of urlParams.entries()) {
 }
 
 // Fetch the values directly from `urlParams` using `.get()`
-var studio = params["studio"] === true;    
+var studio = urlParams.get("studio") === "true";
 var bg = urlParams.get("background") || "black";
 var fc = urlParams.get("fontcolor") || "white";
 var fa = urlParams.get("fontalign") || "center";
