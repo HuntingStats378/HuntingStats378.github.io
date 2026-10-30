@@ -144,11 +144,6 @@
       }
     }
 
-    let baseTime = Date.now() / 1000;
-    let baseViews = 0, baseLikes = 0, baseComments = 0, baseUploads = 0;
-    let rateViews = 0, rateLikes = 0, rateComments = 0;
-    let lastCombinedFetchHour = -1;
-
     const dataX = [], dataY = [];
     const statsHistory = { time: [], count: [] };
     let startTime = null, lastSavedTime = 0;
@@ -225,50 +220,6 @@
       }
     }
 
-    async function fetchCombinedHistory(force = false) {
-      const now = new Date();
-      const hour = now.getHours(), minute = now.getMinutes();
-
-      if (force || (minute === 1 && hour !== lastCombinedFetchHour)) {
-        try {
-          const res = await fetch('https://api.communitrics.com/combined-history?recent=true');
-          if (!res.ok) throw new Error("Failed to fetch combined-history");
-
-          const data = await res.json();
-          const last = data.at(-1), prev = data.at(-2);
-          const t1 = new Date(prev.time).getTime() / 1000;
-          const t2 = new Date(last.time).getTime() / 1000;
-          const delta = t2 - t1;
-
-          if (delta > 0) {
-            baseTime = t2;
-            baseViews = last.views;
-            baseLikes = last.likes;
-            baseComments = last.comments;
-            baseUploads = last.uploadCount;
-
-            rateViews = (last.views - prev.views) / delta;
-            rateLikes = (last.likes - prev.likes) / delta;
-            rateComments = (last.comments - prev.comments) / delta;
-          }
-
-          lastCombinedFetchHour = hour;
-        } catch (err) {
-          console.warn("Combined data fetch failed:", err);
-        }
-      }
-    }
-
-    function updateDisplay() {
-      const now = Date.now() / 1000;
-      const elapsed = now - baseTime;
-
-      views.innerHTML = Math.floor(baseViews + rateViews * elapsed);
-      likes.innerHTML = Math.floor(baseLikes + rateLikes * elapsed);
-
-      setTimeout(updateDisplay, 2000);
-    }
-
     async function pollSubscribers() {
   try {
     const data = await fetchinstagramuser("173560420");
@@ -276,7 +227,9 @@
     const now = new Date();
     if (!startTime) return;
 
-    document.getElementById("subscribers").innerHTML = numberWithCommas(subs);
+    document.getElementById("subscribers").innerHTML = numberWithCommas(data.counts[0]);
+    document.getElementById("views").innerHTML = numberWithCommas(data.counts[2]);
+    document.getElementById("likes").innerHTML = numberWithCommas(data.counts[3]);
     document.getElementById("avatar").src = data.user[1];
 
     dataX.push(now);
